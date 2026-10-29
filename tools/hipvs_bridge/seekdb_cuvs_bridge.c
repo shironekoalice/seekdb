@@ -41,17 +41,20 @@
 /* 可调参数                                                            */
 /*                                                                     */
 /* 在 W7900 / ROCm 7.2.4 上扫参的结果：                                 */
-/*   graph_degree / intermediate_graph_degree 是 recall 的命门。        */
-/*   ideg 从 256 降到 192，200K x 768 的簇重叠数据 recall 从 1.0000     */
-/*   掉到 0.81，且降 niter 救不回来。所以这两个保持 V5 基线值不动。      */
-/*   nn_descent_niter 决定建图耗时，默认交给建图自验证去定              */
-/*   （见 sk_measure_recall），不在这里猜。                             */
+/*   graph_degree 保持 V5 的 128 不动——它决定最终图的出边数，直接换      */
+/*   recall，没有降的必要。                                             */
+/*   intermediate_graph_degree 和 nn_descent_niter 是一对权衡：          */
+/*   ideg 小 → 中间图剪枝便宜（固定开销，大 n 下占大头），但候选池小；   */
+/*   多迭代几轮能把质量补回来。实测 1M x 128 上 (192, 24) 是 37.2s 且    */
+/*   recall 与基线持平，(256, 16) 要 42.6s，而 (192, 6) 只要 18s 但      */
+/*   recall 掉到 0.81。所以按组合而不是单个参数来选，且由                */
+/*   sk_measure_recall 实测把关。                                       */
 /* ------------------------------------------------------------------ */
 
 typedef struct {
   size_t graph_degree;              /* V5: 128 */
-  size_t intermediate_graph_degree; /* V5: 256 */
-  int    niter_forced;              /* >0 = 显式指定迭代数，跳过自验证 */
+  size_t intermediate_graph_degree; /* 见 SK_LADDER */
+  int    niter_forced;              /* >0 = 显式指定迭代数，跳过阶梯 */
   int    selfcheck;                 /* 1 = 建完图测一次 recall */
   size_t itopk_size;                /* 搜索中间结果数 */
   size_t search_width;              /* V5: 4 */
@@ -114,8 +117,19 @@ typedef struct {
 #define SK_SC_TARGET    0.999   /* 到这就认为图已经建出来了 */
 #define SK_SC_GAIN_EPS  0.002   /* 加一档收益小于这个，说明收敛了 */
 
-static const size_t SK_NITER_LADDER[] = {8, 24, 100};
-#define SK_LADDER_LEN (sizeof(SK_NITER_LADDER) / sizeof(SK_NITER_LADDER[0]))
+/* 阶梯：(ideg, niter) 组合，最后一级是 V5 原配置。
+ *
+ * 第一级选 (192, 24) 而不是从更便宜的点起步，是因为重建一档的代价是整张图
+ * 重来（固定开销再付一次）。实测 1M x 128：从 8 轮起步要 34.2s + 37.2s 两次
+ * 重建，而直接用 (192, 24) 一次 37.2s 就够；200K x 768 上用 (192, 24) 是
+ * 12.5s、用 (256, 8) 是 9.3s，差 3 秒但两者都远超 3x 封顶线。
+ * 换句话说：省一次重建比省那 3 秒值钱。 */
+typedef struct { size_t ideg; size_t niter; } sk_rung;
+static const sk_rung SK_LADDER[] = {
+  {192, 24},
+  {256, 100},   /* V5 基线本身：自检不过就退到这里，保证不比基线差 */
+};
+#define SK_LADDER_LEN (sizeof(SK_LADDER) / sizeof(SK_LADDER[0]))
 
 static unsigned long long sk_rand(unsigned long long *s) {
   *s = *s * 6364136223846793005ULL + 1442695040888963407ULL;
@@ -274,29 +288,31 @@ void* seekdb_cuvs_build(const float* base, long n, long dim)
     if (cuvsCagraIndexCreate(&h->idx) != CUVS_SUCCESS) goto fail_ip;
     if (cuvsCagraBuild(h->res, h->ip, &dset, h->idx) != CUVS_SUCCESS) goto fail_idx;
   } else {
-    /* 自验证阶梯：建完就测，测不过再加一轮 */
+    /* 自验证阶梯：建完就测，测不过退到下一级 */
     double prev = -1.0, final_r = -1.0;
-    size_t rung, used = SK_NITER_LADDER[0];
+    size_t rung, used_ideg = SK_LADDER[0].ideg, used_niter = SK_LADDER[0].niter;
     for (rung = 0; rung < SK_LADDER_LEN; rung++) {
       double r;
-      h->ip->nn_descent_niter = SK_NITER_LADDER[rung];
-      used = SK_NITER_LADDER[rung];
+      used_ideg = SK_LADDER[rung].ideg;
+      used_niter = SK_LADDER[rung].niter;
+      h->ip->intermediate_graph_degree = used_ideg;
+      h->ip->nn_descent_niter = used_niter;
       if (cuvsCagraIndexCreate(&h->idx) != CUVS_SUCCESS) goto fail_ip;
       if (cuvsCagraBuild(h->res, h->ip, &dset, h->idx) != CUVS_SUCCESS) goto fail_idx;
-      if (rung + 1 == SK_LADDER_LEN) break;      /* 已经是基线档，无路可升 */
+      if (rung + 1 == SK_LADDER_LEN) break;      /* 已经是基线档，无路可退 */
       if (!p.selfcheck) break;
       r = sk_measure_recall(h->res, h->idx, h->ip->metric,
                             base, n, dim, SK_SC_SAMPLES, SK_SC_TOPK);
       final_r = r;
       if (r < 0.0) break;                        /* 测不了就停在这一档 */
       if (r >= SK_SC_TARGET) break;              /* 图已经建出来了 */
-      if (prev >= 0.0 && r - prev < SK_SC_GAIN_EPS) break;  /* 收敛了，加也没用 */
+      if (prev >= 0.0 && r - prev < SK_SC_GAIN_EPS) break;  /* 收敛了，退也没用 */
       prev = r;
       cuvsCagraIndexDestroy(h->idx);
       h->idx = NULL;
     }
-    fprintf(stderr, "[seekdb_cuvs] build n=%ld dim=%ld iters=%zu selfcheck_recall=%.4f\n",
-            n, dim, used, final_r);
+    fprintf(stderr, "[seekdb_cuvs] build n=%ld dim=%ld ideg=%zu iters=%zu selfcheck_recall=%.4f\n",
+            n, dim, used_ideg, used_niter, final_r);
   }
   h->n = n; h->dim = dim;
   return h;
