@@ -437,7 +437,12 @@ static bool ob_cuvs_serialize(void *key, std::ostream &out, int &ret) {
   // ent->buf_vecs_ again would duplicate 244 MB (250K x 256 FP32) inside the
   // timed build window; the vectors are recovered from the index on load
   // instead (see ob_cuvs_deserialize).
-  std::vector<char> chunk(65536);
+  //
+  // The payload is 256 MB - 1 GB, and it has to travel tmpfile -> user buffer
+  // -> out_stream because cuVS only serializes to a path. A 64 KB staging
+  // buffer made that 4096 read/write round trips through the stream buffer
+  // chain; 4 MB cuts it to 64 and is still small enough to stay in cache.
+  std::vector<char> chunk(4UL * 1024 * 1024);
   uint64_t remaining = graph_bytes;
   while (remaining > 0) {
     const size_t bytes = std::min<uint64_t>(remaining, chunk.size());
@@ -482,7 +487,9 @@ static int ob_cuvs_deserialize(void *key, int expected_dim, std::istream &in) {
       LOG_WARN("[OBVSAG][cuVS] truncated snapshot payload", K(ret), KP(key), K(n64));
     } else {
       ObCuvsSnapshotFile graph;
-      std::vector<char> chunk(65536);
+      // Same staging-buffer reasoning as the serialize side: 4 MB keeps the
+      // tmpfile -> stream hop down to a few dozen round trips.
+      std::vector<char> chunk(4UL * 1024 * 1024);
       uint64_t remaining = graph_bytes;
       while (graph.file_ != nullptr && remaining > 0) {
         const size_t bytes = std::min<uint64_t>(remaining, chunk.size());
