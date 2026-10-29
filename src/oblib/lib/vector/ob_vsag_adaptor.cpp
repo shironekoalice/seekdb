@@ -55,6 +55,7 @@ extern "C" int   seekdb_cuvs_search(void *handle, const float *query, long nq, l
 extern "C" void  seekdb_cuvs_free(void *handle);
 extern "C" int seekdb_cuvs_serialize(void *handle, const char *filename);
 extern "C" void *seekdb_cuvs_deserialize(const char *filename, long n, long dim);
+extern "C" int seekdb_cuvs_export_dataset(void *handle, float *out, long n, long dim);
 #else
 // GPU backend not compiled in (OB_BUILD_CUVS=OFF): inert stubs so oblib links
 // without libseekdb_cuvs_bridge.so. ob_cuvs_enabled() is false, so these are
@@ -65,6 +66,7 @@ static int   seekdb_cuvs_search(void *, const float *, long, long, unsigned int 
 static void  seekdb_cuvs_free(void *) {}
 static int seekdb_cuvs_serialize(void *, const char *) { return -1; }
 static void *seekdb_cuvs_deserialize(const char *, long, long) { return nullptr; }
+static int seekdb_cuvs_export_dataset(void *, float *, long, long) { return -1; }
 #endif
 
 namespace oceanbase {
@@ -320,7 +322,9 @@ static bool ob_cuvs_try_search(void *key, vsag::Allocator *alloc,
   return true;
 }
 
-static const char OB_CUVS_SNAPSHOT_MAGIC[8] = {'O', 'B', 'C', 'U', 'V', 'S', '0', '2'};
+// OBCUVS03: the raw vectors are no longer duplicated in the snapshot stream;
+// they are recovered from the deserialized index instead.
+static const char OB_CUVS_SNAPSHOT_MAGIC[8] = {'O', 'B', 'C', 'U', 'V', 'S', '0', '3'};
 struct ObCuvsSnapshotFile {
   FILE *file_ = ::tmpfile();
   char path_[64] = {};
@@ -423,12 +427,16 @@ static bool ob_cuvs_serialize(void *key, std::ostream &out, int &ret) {
       !ob_cuvs_write(out, &dim32, sizeof(dim32)) ||
       !ob_cuvs_write(out, &reserved, sizeof(reserved)) ||
       !ob_cuvs_write(out, &n64, sizeof(n64)) ||
-      !ob_cuvs_write(out, ent->buf_ids_.data(), n * sizeof(int64_t)) ||
-      !ob_cuvs_write(out, ent->buf_vecs_.data(), ent->buf_vecs_.size() * sizeof(float))) {
+      !ob_cuvs_write(out, ent->buf_ids_.data(), n * sizeof(int64_t))) {
     ret = OB_ERR_UNEXPECTED;
     LOG_WARN("[OBVSAG][cuVS] failed to write snapshot stream", K(ret), KP(key), K(n));
     return true;
   }
+  // The CAGRA graph was serialized with include_dataset=true, so the raw vectors
+  // are already embedded in the graph payload that follows. Writing
+  // ent->buf_vecs_ again would duplicate 244 MB (250K x 256 FP32) inside the
+  // timed build window; the vectors are recovered from the index on load
+  // instead (see ob_cuvs_deserialize).
   std::vector<char> chunk(65536);
   uint64_t remaining = graph_bytes;
   while (remaining > 0) {
@@ -468,8 +476,7 @@ static int ob_cuvs_deserialize(void *key, int expected_dim, std::istream &in) {
     ent->dim_ = dim32;
     ent->buf_ids_.resize(n);
     ent->buf_vecs_.resize(n * static_cast<size_t>(dim32));
-    if (!ob_cuvs_read(in, ent->buf_ids_.data(), n * sizeof(int64_t)) ||
-        !ob_cuvs_read(in, ent->buf_vecs_.data(), ent->buf_vecs_.size() * sizeof(float))) {
+    if (!ob_cuvs_read(in, ent->buf_ids_.data(), n * sizeof(int64_t))) {
       delete ent;
       ret = OB_ERR_UNEXPECTED;
       LOG_WARN("[OBVSAG][cuVS] truncated snapshot payload", K(ret), KP(key), K(n64));
@@ -495,6 +502,17 @@ static int ob_cuvs_deserialize(void *key, int expected_dim, std::istream &in) {
       ent->bridge_ = ob_cuvs_wrap(job.handle_);
       ent->built_n_ = n;
       ent->ids_ = ent->buf_ids_;
+      // Recover the raw vectors from the deserialized index: the CAGRA graph was
+      // serialized with include_dataset=true, so the vectors live inside the
+      // graph payload and no second copy is kept in the snapshot stream.
+      if (seekdb_cuvs_export_dataset(job.handle_, ent->buf_vecs_.data(),
+                                      static_cast<long>(n), dim32) != 0) {
+        delete ent;
+        ret = OB_ERR_VSAG_RETURN_ERROR;
+        LOG_WARN("[OBVSAG][cuVS] failed to recover vectors from index dataset",
+                 K(ret), KP(key), K(n), K(dim32));
+        return ret;
+      }
       {
         std::lock_guard<std::mutex> guard(g_ob_cuvs_mu);
         ObCuvsEntry *&slot = g_ob_cuvs_reg[key];

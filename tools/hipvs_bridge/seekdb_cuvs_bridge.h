@@ -25,6 +25,9 @@ int   seekdb_cuvs_search(void* handle, const float* query, long nq, long topk,
 void  seekdb_cuvs_free(void* handle);
 int seekdb_cuvs_serialize(void* handle, const char* filename);
 void* seekdb_cuvs_deserialize(const char* filename, long n, long dim);
+
+/* Export the dataset attached to the CAGRA index back to host memory. */
+int seekdb_cuvs_export_dataset(void* handle, float* out, long n, long dim);
 #ifdef __cplusplus
 }
 #endif
