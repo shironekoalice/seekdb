@@ -1,0 +1,47 @@
+{
+  "backend": "后端：WebGPU/fp16",
+  "adapter": {
+    "f16": true,
+    "vendor": "apple",
+    "arch": "metal-3"
+  },
+  "bench": {
+    "backend": "WebGPU/fp16",
+    "modelLoadMs": 6287,
+    "embedSingleMs": 7.4,
+    "batch8TotalMs": 653.3,
+    "batch8PerItemMs": 81.7,
+    "dbSearchMs": [
+      86.12,
+      1.48,
+      3.14
+    ],
+    "docs": "6"
+  },
+  "search": {
+    "hybrid": {
+      "meta": "query embedding 238 ms · seekdb 3.47 ms · 6 条结果",
+      "top": [
+        "混合检索如何排序 | 相关度 0.033",
+        "seekdb 是什么 | 相关度 0.032",
+        "RAG 的基本流程 | 相关度 0.032"
+      ]
+    },
+    "semantic": {
+      "meta": "query embedding 13 ms · seekdb 4.29 ms · 6 条结果",
+      "top": [
+        "混合检索如何排序 | 相似度 72.9%",
+        "seekdb 是什么 | 相似度 66.3%",
+        "RAG 的基本流程 | 相似度 63.4%"
+      ]
+    },
+    "keyword": {
+      "meta": "query embedding 0 ms · seekdb 2.87 ms · 5 条结果",
+      "top": [
+        "混合检索如何排序 | 相关度 0.857",
+        "seekdb 是什么 | 相关度 0.675",
+        "RAG 的基本流程 | 相关度 0.563"
+      ]
+    }
+  }
+}

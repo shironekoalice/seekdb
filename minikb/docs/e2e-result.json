@@ -1,0 +1,54 @@
+{
+  "backend": "后端：WASM/int8",
+  "searches": {
+    "hybrid": {
+      "cards": [
+        "混合检索如何排序 | 相关度 0.033",
+        "seekdb 是什么 | 相关度 0.032",
+        "RAG 的基本流程 | 相关度 0.032",
+        "hipVS 是什么 | 相关度 0.031",
+        "HNSW 索引 | 相关度 0.031",
+        "浏览器端向量化 | 相关度 0.015"
+      ],
+      "meta": "query embedding 10 ms · seekdb 7.42 ms · 6 条结果",
+      "wall": 63
+    },
+    "semantic": {
+      "cards": [
+        "混合检索如何排序 | 相似度 74.0%",
+        "seekdb 是什么 | 相似度 67.3%",
+        "RAG 的基本流程 | 相似度 64.0%",
+        "hipVS 是什么 | 相似度 54.5%",
+        "HNSW 索引 | 相似度 53.7%",
+        "浏览器端向量化 | 相似度 43.2%"
+      ],
+      "meta": "query embedding 10 ms · seekdb 2.16 ms · 6 条结果",
+      "wall": 63
+    },
+    "keyword": {
+      "cards": [
+        "混合检索如何排序 | 相关度 0.857",
+        "seekdb 是什么 | 相关度 0.675",
+        "RAG 的基本流程 | 相关度 0.563",
+        "hipVS 是什么 | 相关度 0.258",
+        "HNSW 索引 | 相关度 0.186"
+      ],
+      "meta": "query embedding 0 ms · seekdb 1.74 ms · 5 条结果",
+      "wall": 64
+    }
+  },
+  "bench": {
+    "backend": "WASM/int8",
+    "modelLoadMs": 412,
+    "embedSingleMs": 18.3,
+    "batch8TotalMs": 140.9,
+    "batch8PerItemMs": 17.6,
+    "dbSearchMs": [
+      4.24,
+      1.88,
+      1.28
+    ],
+    "docs": "6"
+  },
+  "logs": []
+}

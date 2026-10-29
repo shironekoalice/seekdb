@@ -1,0 +1,10 @@
+import { chromium } from 'playwright-core';
+const EXE = '/Users/a/Documents/deepseek-harness/default-workspace/.tools/Google Chrome.app/Contents/MacOS/Google Chrome';
+const browser = await chromium.launch({ executablePath: EXE, headless: true });
+const page = await browser.newPage();
+await page.goto('chrome://gpu', { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(3000);
+const text = await page.evaluate(() => document.body.innerText.slice(0, 3000));
+const lines = text.split('\n').filter((l) => /WebGPU|GPU process|Graphics|Metal|ANGLE|Sandbox|Disabled|Software/i.test(l)).slice(0, 25);
+console.log(lines.join('\n'));
+await browser.close();

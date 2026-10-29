@@ -1,0 +1,17 @@
+{
+  "name": "minikb",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "浏览器端向量化 + seekdb 混合检索的迷你知识库",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.mjs",
+    "e2e": "playwright-core --version >/dev/null && node scripts/e2e.mjs",
+    "bench:quality": "../kb/.venv/bin/python scripts/bench_quality.py"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "seekdb": "^1.4.0"
+  }
+}

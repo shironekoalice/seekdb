@@ -1,0 +1,11 @@
+const tab = await (await fetch('http://127.0.0.1:9222/json/new?chrome://gpu', { method: 'PUT' })).json();
+const ws = new WebSocket(tab.webSocketDebuggerUrl);
+await new Promise((r) => (ws.onopen = r));
+const send = (id, method, params) => ws.send(JSON.stringify({ id, method, params }));
+await new Promise((r) => setTimeout(r, 4000));
+send(1, 'Runtime.evaluate', { expression: 'document.body.innerText', returnByValue: true });
+const msg = await new Promise((resolve) => { ws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id === 1) resolve(m); }; });
+const text = msg.result?.result?.value || '';
+const lines = text.split('\n').map((l) => l.trim()).filter((l) => /WebGPU|GPU process|Sandbox|Metal|ANGLE|Disabled|enabled|Problems|Driver/i.test(l));
+console.log(lines.slice(0, 30).join('\n'));
+ws.close();

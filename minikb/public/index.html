@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mini-kb · 端侧向量化 + seekdb 混合检索</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">mini<span>kb</span></div>
+  <p class="tagline">浏览器端向量化 · seekdb 语义 + 全文混合检索</p>
+  <div class="badges">
+    <span class="badge" id="backend-badge" title="推理后端">后端：检测中…</span>
+    <span class="badge" id="model-badge" title="embedding 模型">模型：—</span>
+    <span class="badge ok" id="db-badge" title="seekdb 状态">seekdb：连接中…</span>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>知识库</h2>
+      <div class="kb-row">
+        <select id="collection" title="切换知识库"></select>
+        <button id="new-collection" class="ghost sm" title="新建知识库">＋</button>
+      </div>
+    </div>
+    <div class="kb-new" id="kb-new" hidden>
+      <input id="kb-name" type="text" placeholder="新知识库名（字母/数字/下划线）" autocomplete="off">
+      <button id="kb-create" class="primary sm">创建</button>
+      <button id="kb-cancel" class="ghost sm">取消</button>
+    </div>
+
+    <input id="title" type="text" placeholder="标题（可留空）" autocomplete="off">
+    <textarea id="text" rows="4" placeholder="粘贴文本…"></textarea>
+    <div class="row">
+      <button id="add" class="primary" disabled>向量化并入库</button>
+      <button id="seed" class="ghost" disabled>载入示例</button>
+    </div>
+    <p class="hint" id="add-hint">文本在浏览器里编码，服务端只收向量与原文。</p>
+
+    <h2 class="mt">文档 <span class="pill" id="count">0</span></h2>
+    <ul class="docs" id="docs"></ul>
+    <p class="empty" id="docs-empty">还是空的。</p>
+
+    <details class="bench" id="bench-box">
+      <summary>性能面板</summary>
+      <div id="bench-body" class="bench-body">
+        <p class="hint">点「测量」跑一次本机基准：模型加载、单条/批量 embedding、检索延迟。</p>
+        <button id="bench-run" class="ghost sm" disabled>测量</button>
+        <pre id="bench-out" class="bench-out"></pre>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <h2>检索</h2>
+    <div class="search-row">
+      <input id="q" type="text" placeholder="问点什么，例如：seekdb 的混合检索怎么排序？" autocomplete="off">
+      <button id="search" class="primary" disabled>搜索</button>
+    </div>
+    <div class="modes" id="modes">
+      <button data-mode="hybrid" class="active">混合</button>
+      <button data-mode="semantic">语义</button>
+      <button data-mode="keyword">关键词</button>
+    </div>
+    <p class="hint" id="mode-hint">混合 = 向量召回 + 全文召回，RRF 融合在 seekdb 内部完成。</p>
+    <p class="hint" id="search-meta"></p>
+    <div class="results" id="results"></div>
+    <p class="empty" id="results-empty">还没有结果。</p>
+  </section>
+</main>
+
+<footer>transformers.js 端侧推理 · seekdb 嵌入式 · 无云端推理调用</footer>
+<script type="module" src="/app.js"></script>
+</body>
+</html>
