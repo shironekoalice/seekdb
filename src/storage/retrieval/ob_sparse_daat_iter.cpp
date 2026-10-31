@@ -213,9 +213,46 @@ int ObSRDaaTIterImpl::get_next_row()
   return ret;
 }
 
+// Rows-only is a shortcut for a scan that only needs "how many rows matched". It may never
+// stand in for a path that still has to evaluate a filter or project a value: if any of those
+// is attached, the legacy chain below is used instead (fail-open), even when the code
+// generator asked for rows-only. This is the backstop the enumeration guards cannot give.
+static bool is_rows_only_effective(const ObSparseRetrievalMergeParam *param)
+{
+  return nullptr != param
+         && param->need_count_only()
+         && nullptr == param->filter_expr_
+         && nullptr == param->relevance_proj_expr_;
+}
+
+// Fail-open must never be silent: if the backstop fires on most requests, the shortcut is a
+// no-op in practice and the gate above is wrong. Count requests and fallbacks, log the first
+// one and then every 64th, so the report can state a real fallback rate.
+static int64_t g_rows_only_req_cnt = 0;
+static int64_t g_rows_only_fallback_cnt = 0;
+
+static void note_rows_only_usage(const ObSparseRetrievalMergeParam *param)
+{
+  int ret = OB_SUCCESS;  // LOG_WARN/LOG_INFO expand to a form that references ret
+  if (nullptr == param || !param->need_count_only()) {
+    return;
+  }
+  const int64_t req = __sync_fetch_and_add(&g_rows_only_req_cnt, 1) + 1;
+  if (!is_rows_only_effective(param)) {
+    const int64_t fb = __sync_fetch_and_add(&g_rows_only_fallback_cnt, 1) + 1;
+    if (fb <= 16 || 0 == (fb % 64)) {
+      LOG_WARN("ROWS_ONLY_FALLBACK", K(fb), K(req), KP(param->filter_expr_),
+               KP(param->relevance_proj_expr_), KP(param->id_proj_expr_));
+    }
+  } else if (req <= 16 || 0 == (req % 256)) {
+    LOG_INFO("ROWS_ONLY_ACTIVE", K(req), K(g_rows_only_fallback_cnt));
+  }
+}
+
 int ObSRDaaTIterImpl::get_next_rows(const int64_t capacity, int64_t &count)
 {
   int ret = OB_SUCCESS;
+  note_rows_only_usage(iter_param_);
   if (IS_NOT_INIT) {
     ret = OB_NOT_INIT;
   } else if (OB_UNLIKELY(0 == capacity)) {
@@ -240,7 +277,7 @@ int ObSRDaaTIterImpl::get_next_rows(const int64_t capacity, int64_t &count)
     }
 
     if (OB_SUCC(ret) || OB_ITER_END == ret) {
-      if (count > 0 && OB_FAIL(project_results(count))) {
+      if (!is_rows_only_effective(iter_param_) && count > 0 && OB_FAIL(project_results(count))) {
       }
     }
 
@@ -259,11 +296,23 @@ int ObSRDaaTIterImpl::do_one_merge_round(int64_t &count)
   bool need_project = true;
   double relevance = 0.0;
   const ObDatum *id_datum = nullptr;
+  // When a filter or a relevance projection is still attached the legacy chain below runs:
+  // that is the fail-open backstop. It is counted (rate limited) in note_rows_only_usage()
+  // instead of here, because this function runs once per produced row.
   if (OB_FAIL(fill_merge_heap())) {
     if (OB_UNLIKELY(OB_ITER_END != ret)) {
     }
   } else if (OB_FAIL(collect_dims_by_id(id_datum, relevance, need_project))) {
-  } else if (need_project && OB_FAIL(filter_on_demand(count, relevance, need_project))) {
+  } else if (!need_project) {
+    // the dimension iterators of this round are exhausted, nothing is produced
+  } else if (is_rows_only_effective(iter_param_)) {
+    // rows-only mode: every row reaching this point matched at least one dimension, which is
+    // exactly the boolean semantics encoded by the pushdown match filter (the collected score
+    // is matched_cnt >= 1 > 0 when no score expression is projected), and neither the document
+    // id nor the relevance score is materialized.
+    if (OB_FAIL(cache_count_result(count))) {
+    }
+  } else if (OB_FAIL(filter_on_demand(count, relevance, need_project))) {
   } else if (need_project && OB_FAIL(cache_result(count, *id_datum, relevance))) {
     if (OB_ITER_END != ret) {
     }
@@ -401,6 +450,23 @@ int ObSRDaaTIterImpl::cache_result(int64_t &count, const ObDatum &id_datum, cons
     ++count;
     ++output_row_cnt_;
     if (limit_param->is_valid() && output_row_cnt_ >= limit) {
+      ret = OB_ITER_END;
+    }
+  }
+  return ret;
+}
+
+int ObSRDaaTIterImpl::cache_count_result(int64_t &count)
+{
+  int ret = OB_SUCCESS;
+  const common::ObLimitParam *limit_param = iter_param_->limit_param_;
+  ++input_row_cnt_;
+  if (limit_param->is_valid() && input_row_cnt_ <= limit_param->offset_) {
+    // rows inside the offset window are skipped without being materialized
+  } else {
+    ++count;
+    ++output_row_cnt_;
+    if (limit_param->is_valid() && output_row_cnt_ >= limit_param->limit_) {
       ret = OB_ITER_END;
     }
   }

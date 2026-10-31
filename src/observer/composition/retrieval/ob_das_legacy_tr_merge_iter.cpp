@@ -383,6 +383,24 @@ int ObDASLegacyTRMergeIter::create_sparse_retrieval_iter()
   sr_iter_param_.relevance_proj_expr_ = ir_ctdef_->relevance_proj_col_;
   sr_iter_param_.filter_expr_ = ir_ctdef_->match_filter_;
   sr_iter_param_.topk_limit_ = topk_limit_;
+  // rows-only fast path: enabled only when the produced rows are consumed as a row count and
+  // the match semantics are fully carried by the dimension iterators themselves, i.e. the
+  // relevance score cannot be referenced (no relevance projection), no score filter is
+  // attached, no topk pushdown is requested and the boolean semantics reduces to
+  // "at least one dimension matched".
+  sr_iter_param_.count_only_ = false;
+  if (ir_ctdef_->count_only()) {
+    if (OB_UNLIKELY(nullptr == ir_ctdef_ || nullptr == ir_rtdef_)) {
+      ret = OB_ERR_UNEXPECTED;
+    } else if (NATURAL_LANGUAGE_MODE == ir_ctdef_->mode_flag_
+               && ir_rtdef_->minimum_should_match_ <= 1
+               && nullptr == ir_ctdef_->relevance_proj_col_
+               && nullptr == ir_ctdef_->match_filter_
+               && nullptr == ir_ctdef_->topk_limit_expr_
+               && query_tokens_.count() > 0) {
+      sr_iter_param_.count_only_ = true;
+    }
+  }
   if (OB_NOT_NULL(ir_ctdef_->field_boost_expr_)) {
     ObDatum *boost_datum = nullptr;
     if (OB_FAIL(ir_ctdef_->field_boost_expr_->eval(*ir_rtdef_->eval_ctx_, boost_datum))) {
