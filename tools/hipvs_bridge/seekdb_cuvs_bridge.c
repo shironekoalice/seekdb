@@ -42,8 +42,10 @@
 /* 可调参数                                                            */
 /*                                                                     */
 /* 在 W7900 / ROCm 7.2.4 上扫参的结果：                                 */
-/*   graph_degree 保持 V5 的 128 不动——它决定最终图的出边数，直接换      */
-/*   recall，没有降的必要。                                             */
+/*   graph_degree 是建图成本的头号开关。V5 用 128；实测降到 64 后        */
+/*   250K x 256 的建图由 3.46s 降到 1.37s（窗口 8.61s -> 6.47s），        */
+/*   而 recall@10（ef_search=64）仍为 1.0000；再降到 32 会掉到 0.992，    */
+/*   逼近「相对基线降幅 ≤0.005」这条硬门槛，所以停在 64。                */
 /*   intermediate_graph_degree 和 nn_descent_niter 是一对权衡：          */
 /*   ideg 小 → 中间图剪枝便宜（固定开销，大 n 下占大头），但候选池小；   */
 /*   多迭代几轮能把质量补回来。实测 1M x 128 上 (192, 24) 是 37.2s 且    */
@@ -53,7 +55,7 @@
 /* ------------------------------------------------------------------ */
 
 typedef struct {
-  size_t graph_degree;              /* V5: 128 */
+  size_t graph_degree;              /* 64（V5: 128） */
   size_t intermediate_graph_degree; /* 见 SK_LADDER */
   int    niter_forced;              /* >0 = 显式指定迭代数，跳过阶梯 */
   int    selfcheck;                 /* 1 = 建完图测一次 recall */
@@ -63,6 +65,7 @@ typedef struct {
   size_t itopk_size;                /* 搜索中间结果数 */
   size_t search_width;              /* V5: 4 */
   int    multi_cta_single_query;    /* nq==1 时用 MULTI_CTA */
+  int    graph_degree_explicit;     /* 1 = 环境变量显式指定了 graph_degree */
 } sk_params;
 
 static size_t env_size(const char *name, size_t dflt) {
@@ -91,7 +94,8 @@ static double sk_now(void) {
 
 static void sk_params_load(sk_params *p, long n) {
   (void)n;
-  p->graph_degree = env_size("SEEKDB_CAGRA_GRAPH_DEGREE", 128);
+  p->graph_degree = env_size("SEEKDB_CAGRA_GRAPH_DEGREE", 64);
+  p->graph_degree_explicit = (getenv("SEEKDB_CAGRA_GRAPH_DEGREE") != NULL) ? 1 : 0;
   p->intermediate_graph_degree = env_size("SEEKDB_CAGRA_INTERMEDIATE_DEGREE", 256);
 
   p->itopk_size = env_size("SEEKDB_CAGRA_ITOPK_SIZE", 0); /* 0 = 按 topk 自适应 */
@@ -137,16 +141,17 @@ typedef struct {
 #define SK_SC_TARGET    0.999   /* 到这就认为图已经建出来了 */
 #define SK_SC_GAIN_EPS  0.002   /* 加一档收益小于这个，说明收敛了 */
 
-/* 阶梯：(ideg, niter) 组合，最后一级是 V5 原配置。
+/* 阶梯：(ideg, niter) 组合，最后一级是 V5 原配置（连 graph_degree 也回到 128）。
  *
- * 第一级选 (192, 24) 而不是从更便宜的点起步，是因为重建一档的代价是整张图
- * 重来（固定开销再付一次）。实测 1M x 128：从 8 轮起步要 34.2s + 37.2s 两次
- * 重建，而直接用 (192, 24) 一次 37.2s 就够；200K x 768 上用 (192, 24) 是
- * 12.5s、用 (256, 8) 是 9.3s，差 3 秒但两者都远超 3x 封顶线。
- * 换句话说：省一次重建比省那 3 秒值钱。 */
+ * 250K x 256 + graph_degree=64 上的实测（24 核、ef_search=64、recall@10 对暴力真值）：
+ *   (32, 2) 0.83s / (32, 4) 1.06s / (48, 4) 1.20s / (64, 4) 1.37s / (96, 6) 1.87s
+ * 第一级取 (48, 4)：比 (64, 4) 快 0.17s，而 recall 仍是 1.0000——把质量留给
+ * 自检把关，一旦掉点就逐级升档，最后一级退回 V5 参数，保证不劣于基线。 */
 typedef struct { size_t ideg; size_t niter; } sk_rung;
 static const sk_rung SK_LADDER[] = {
-  {160, 8},
+  {48, 4},
+  {64, 6},
+  {96, 12},
   {192, 24},
   {256, 100},   /* V5 基线本身：自检不过就退到这里，保证不比基线差 */
 };
@@ -373,6 +378,9 @@ void* seekdb_cuvs_build(const float* base, long n, long dim)
       double r;
       used_ideg = (rung == 0 && p.rung0_ideg) ? p.rung0_ideg : SK_LADDER[rung].ideg;
       used_niter = (rung == 0 && p.rung0_niter) ? p.rung0_niter : SK_LADDER[rung].niter;
+      /* 最后一档就是 V5：graph_degree 也回到 128（除非外部显式指定了） */
+      h->ip->graph_degree = (rung + 1 == SK_LADDER_LEN && !p.graph_degree_explicit)
+                            ? 128 : p.graph_degree;
       h->ip->intermediate_graph_degree = used_ideg;
       h->ip->nn_descent_niter = used_niter;
       { double ti0 = sk_now();
@@ -401,8 +409,8 @@ void* seekdb_cuvs_build(const float* base, long n, long dim)
       h->res = 0;
       if (cuvsResourcesCreate(&h->res) != CUVS_SUCCESS) goto fail_ip;
     }
-    fprintf(stderr, "[seekdb_cuvs] build n=%ld dim=%ld ideg=%zu iters=%zu selfcheck_recall=%.4f\n",
-            n, dim, used_ideg, used_niter, final_r);
+    fprintf(stderr, "[seekdb_cuvs] build n=%ld dim=%ld gd=%zu ideg=%zu iters=%zu selfcheck_recall=%.4f\n",
+            n, dim, (size_t)h->ip->graph_degree, used_ideg, used_niter, final_r);
   }
   fprintf(stderr, "[seekdb_cuvs][TIMING] build_total_wall=%.3f\n", sk_now() - tw0);
   h->n = n; h->dim = dim;

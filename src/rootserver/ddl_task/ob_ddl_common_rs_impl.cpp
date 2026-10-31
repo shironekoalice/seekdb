@@ -1196,8 +1196,20 @@ int ObDDLTaskUtil::check_table_empty(
 
 int64_t ObDDLTaskUtil::get_real_parallelism(const int64_t parallelism)
 {
-  return std::min(oceanbase::ObMacroDataSeq::MAX_PARALLEL_IDX + 1,
-                  std::max(static_cast<int64_t>(1), parallelism));
+  // GPU 建图：DDL 的 INSERT ... SELECT（向量索引 aux 表 / snapshot 表构建）默认以
+  // parallel(1) 执行，25 万行的扫描与写入被压在单线程上，是 CREATE VECTOR INDEX
+  // 窗口里最大的一段固定开销。这里给并行度设一个下限（SEEKDB_DDL_MIN_DOP，默认 4），
+  // 让这类构建用 PX 并行扫描；显式指定了更大并行度的任务不受影响。
+  int64_t min_dop = 4;
+  const char *env_min_dop = getenv("SEEKDB_DDL_MIN_DOP");
+  if (NULL != env_min_dop) {
+    const int64_t env_val = static_cast<int64_t>(atoi(env_min_dop));
+    if (env_val > 0) {
+      min_dop = env_val;
+    }
+  }
+  const int64_t wanted = std::max(std::max(static_cast<int64_t>(1), parallelism), min_dop);
+  return std::min(oceanbase::ObMacroDataSeq::MAX_PARALLEL_IDX + 1, wanted);
 }
 
 } // namespace rootserver
