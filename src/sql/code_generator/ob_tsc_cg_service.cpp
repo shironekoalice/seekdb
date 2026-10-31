@@ -1938,12 +1938,6 @@ int ObTscCgService::generate_text_ir_ctdef(const ObLogTableScan &op,
                             && no_residual_scan_filter
                             && stmt_cond_is_bare_match
                             && no_index_back_lookup;
-    LOG_INFO("[TSC_CG] text ir scan rows-only decision", K(count_only),
-             K(match_filter_is_bare_match), K(no_residual_scan_filter),
-             K(stmt_cond_is_bare_match), K(no_index_back_lookup),
-             K(tr_info.need_calc_relevance_), K(tr_info.need_sort()),
-             "output_cnt", op.get_output_exprs().count(), K(tr_info.pushdown_match_filter_),
-             K(tr_info.match_expr_));
     if (OB_FAIL(generate_text_ir_spec_exprs(tr_info, *ir_scan_ctdef, count_only))) {
     } else {
       const ObCostTableScanInfo *est_cost_info = op.get_est_cost_info();

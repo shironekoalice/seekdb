@@ -225,34 +225,9 @@ static bool is_rows_only_effective(const ObSparseRetrievalMergeParam *param)
          && nullptr == param->relevance_proj_expr_;
 }
 
-// Fail-open must never be silent: if the backstop fires on most requests, the shortcut is a
-// no-op in practice and the gate above is wrong. Count requests and fallbacks, log the first
-// one and then every 64th, so the report can state a real fallback rate.
-static int64_t g_rows_only_req_cnt = 0;
-static int64_t g_rows_only_fallback_cnt = 0;
-
-static void note_rows_only_usage(const ObSparseRetrievalMergeParam *param)
-{
-  int ret = OB_SUCCESS;  // LOG_WARN/LOG_INFO expand to a form that references ret
-  if (nullptr == param || !param->need_count_only()) {
-    return;
-  }
-  const int64_t req = __sync_fetch_and_add(&g_rows_only_req_cnt, 1) + 1;
-  if (!is_rows_only_effective(param)) {
-    const int64_t fb = __sync_fetch_and_add(&g_rows_only_fallback_cnt, 1) + 1;
-    if (fb <= 16 || 0 == (fb % 64)) {
-      LOG_WARN("ROWS_ONLY_FALLBACK", K(fb), K(req), KP(param->filter_expr_),
-               KP(param->relevance_proj_expr_), KP(param->id_proj_expr_));
-    }
-  } else if (req <= 16 || 0 == (req % 256)) {
-    LOG_INFO("ROWS_ONLY_ACTIVE", K(req), K(g_rows_only_fallback_cnt));
-  }
-}
-
 int ObSRDaaTIterImpl::get_next_rows(const int64_t capacity, int64_t &count)
 {
   int ret = OB_SUCCESS;
-  note_rows_only_usage(iter_param_);
   if (IS_NOT_INIT) {
     ret = OB_NOT_INIT;
   } else if (OB_UNLIKELY(0 == capacity)) {
@@ -296,9 +271,8 @@ int ObSRDaaTIterImpl::do_one_merge_round(int64_t &count)
   bool need_project = true;
   double relevance = 0.0;
   const ObDatum *id_datum = nullptr;
-  // When a filter or a relevance projection is still attached the legacy chain below runs:
-  // that is the fail-open backstop. It is counted (rate limited) in note_rows_only_usage()
-  // instead of here, because this function runs once per produced row.
+  // When a filter or a relevance projection is still attached, the legacy chain below runs:
+  // that is the fail-open backstop (is_rows_only_effective()).
   if (OB_FAIL(fill_merge_heap())) {
     if (OB_UNLIKELY(OB_ITER_END != ret)) {
     }
