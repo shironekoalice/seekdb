@@ -16,6 +16,7 @@
 
 #define USING_LOG_PREFIX STORAGE
 #include "ob_ddl_pipeline.h"
+#include "lib/utility/alloc_assist.h"
 #include "share/rc/ob_server_runtime.h"
 #include "storage/api/storage/vector/ob_i_vector_index_runtime.h"
 #include "storage/ddl/ob_ddl_tablet_context.h"
@@ -53,6 +54,7 @@ int read_full_lob_string(
   }
   return ret;
 }
+
 }
 
 int ObIDDLPipeline::init(
@@ -959,6 +961,112 @@ int ObHNSWIndexAppendBufferOperator::append_row(
   return ret;
 }
 
+int ObHNSWIndexAppendBufferOperator::append_rows_batch(
+    const common::ObIArray<common::ObIVector *> &vectors,
+    const int64_t total_row_count,
+    ObDDLTabletContext *tablet_context)
+{
+  int ret = OB_SUCCESS;
+  // The batch path covers dense vectors; extra columns are encoded per row in
+  // exactly the same way the row-by-row path encodes them.
+  if (vec_dim_ <= 0) {
+    return OB_NOT_SUPPORTED;
+  }
+  if (vectors.count() <= vector_vid_col_idx_ || vectors.count() <= vector_col_idx_) {
+    return OB_NOT_SUPPORTED;
+  }
+  const int64_t extra_column_count = extra_column_idx_types_.count();
+  for (int64_t j = 0; j < extra_column_count; ++j) {
+    if (vectors.count() <= extra_column_idx_types_.at(j).idx_) {
+      return OB_NOT_SUPPORTED;
+    }
+  }
+  const int64_t row_bytes = vec_dim_ * static_cast<int64_t>(sizeof(float));
+  ObIVectorIndexRuntime *vec_index_service = ::oceanbase::share::server_service<::oceanbase::storage::ObIVectorIndexRuntime>();
+  ObPluginVectorIndexAdapterGuard adaptor_guard;
+  int64_t extra_info_actual_size = 0;
+  row_allocator_.reuse();
+  float *vec_buf = nullptr;
+  int64_t *vid_buf = nullptr;
+  ObVecExtraInfoObj *extra_objs = nullptr;
+  int64_t valid_rows = 0;
+  if (OB_ISNULL(vec_index_service)) {
+    ret = OB_ERR_UNEXPECTED;
+    LOG_WARN("error unexpected, vector index service is nullptr", K(ret));
+  } else if (OB_FAIL(vec_index_service->acquire_adapter_guard(tablet_id_,
+                 ObIndexType::INDEX_TYPE_VEC_INDEX_SNAPSHOT_DATA_LOCAL, adaptor_guard,
+                 &tablet_context->vector_index_ctx_->vec_idx_param_, tablet_context->vector_index_ctx_->vec_dim_))) {
+  } else if (OB_NOT_NULL(adaptor_guard.get_adatper()) &&
+             OB_FAIL(adaptor_guard.get_adatper()->get_extra_info_actual_size(extra_info_actual_size))) {
+    LOG_WARN("failed to get extra info actual size.", K(ret));
+  }
+  if (OB_FAIL(ret)) {
+  } else if (OB_ISNULL(vec_buf = static_cast<float *>(row_allocator_.alloc(row_bytes * total_row_count)))
+             || OB_ISNULL(vid_buf = static_cast<int64_t *>(row_allocator_.alloc(sizeof(int64_t) * total_row_count)))) {
+    ret = OB_ALLOCATE_MEMORY_FAILED;
+    LOG_WARN("allocate memory failed", K(ret), K(total_row_count));
+  } else if (extra_column_count > 0 && extra_info_actual_size > 0) {
+    char *extra_buf = static_cast<char *>(row_allocator_.alloc(
+        sizeof(ObVecExtraInfoObj) * extra_column_count * total_row_count));
+    if (OB_ISNULL(extra_buf)) {
+      ret = OB_ALLOCATE_MEMORY_FAILED;
+      LOG_WARN("allocate extra info memory failed", K(ret), K(extra_column_count), K(total_row_count));
+    } else {
+      extra_objs = new (extra_buf) ObVecExtraInfoObj[extra_column_count * total_row_count];
+    }
+  }
+  for (int64_t i = 0; OB_SUCC(ret) && i < total_row_count; ++i) {
+    common::ObIVector *vec_col = vectors.at(vector_col_idx_);
+    if (OB_ISNULL(vec_col) || vec_col->is_null(i)) {
+      continue;
+    }
+    ObString vec_str;
+    if (FALSE_IT(vec_str = vec_col->get_string(i))) {
+      continue;
+    }
+    if (OB_FAIL(read_full_lob_string(
+                   row_allocator_, ObLongTextType, CS_TYPE_BINARY, true, vec_str))) {
+      break;
+    }
+    if (vec_str.length() == 0) {
+      // do nothing
+      continue;
+    }
+    if (vec_str.length() != row_bytes) {
+      // unexpected vector size: let the caller fall back to the row-by-row path
+      ret = OB_NOT_SUPPORTED;
+      break;
+    }
+    int64_t vec_vid = 0;
+    if (FALSE_IT(vec_vid = vectors.at(vector_vid_col_idx_)->get_int(i))) {
+      continue;
+    }
+    MEMCPY(vec_buf + valid_rows * vec_dim_, vec_str.ptr(), row_bytes);
+    vid_buf[valid_rows] = vec_vid;
+    if (extra_column_count > 0 && OB_NOT_NULL(extra_objs)) {
+      for (int64_t j = 0; OB_SUCC(ret) && j < extra_column_count; ++j) {
+        const common::ObIVector &extra_vector = *vectors.at(extra_column_idx_types_.at(j).idx_);
+        if (OB_FAIL(extra_objs[valid_rows * extra_column_count + j].from_vector(
+                        extra_vector,
+                        static_cast<int>(i),
+                        extra_column_idx_types_.at(j).type_,
+                        &row_allocator_))) {
+        }
+      }
+    }
+    ++valid_rows;
+  }
+  if (OB_SUCC(ret) && valid_rows > 0 && OB_NOT_NULL(adaptor_guard.get_adatper())) {
+    ret = adaptor_guard.get_adatper()->add_snap_index(vec_buf,
+                                                      vid_buf,
+                                                      extra_objs,
+                                                      extra_column_count,
+                                                      static_cast<int>(valid_rows),
+                                                      nullptr);
+  }
+  return ret;
+}
+
 int ObHNSWIndexAppendBufferOperator::append_row_file(ObDDLRowFile *row_file, ObDDLTabletContext *tablet_context)
 {
   int ret = OB_SUCCESS;
@@ -978,9 +1086,15 @@ int ObHNSWIndexAppendBufferOperator::append_row_file(ObDDLRowFile *row_file, ObD
     } else {
       const ObArray<common::ObIVector *> &vectors = datum_rows->vectors_;
       const int64_t total_row_count = datum_rows->row_count_;
-      for (int64_t i = 0; OB_SUCC(ret) && i < total_row_count; ++i) {
-        if (OB_FAIL(append_row(i, vectors, tablet_context))) {
+      // One adaptor call for the whole batch instead of one per row.
+      int batch_ret = append_rows_batch(vectors, total_row_count, tablet_context);
+      if (OB_NOT_SUPPORTED == batch_ret) {
+        for (int64_t i = 0; OB_SUCC(ret) && i < total_row_count; ++i) {
+          if (OB_FAIL(append_row(i, vectors, tablet_context))) {
+          }
         }
+      } else if (OB_FAIL(batch_ret)) {
+        ret = batch_ret;
       }
     }
   }
