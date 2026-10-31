@@ -17,6 +17,11 @@
 #define USING_LOG_PREFIX LIB
 
 #include "ob_vsag_adaptor.h"
+#include <chrono>
+#include <sys/syscall.h>
+#include <unistd.h>
+#include <cstdlib>
+#include <fcntl.h>
 #include <map>
 #include <set>
 #include <mutex>
@@ -326,9 +331,24 @@ static bool ob_cuvs_try_search(void *key, vsag::Allocator *alloc,
 // they are recovered from the deserialized index instead.
 static const char OB_CUVS_SNAPSHOT_MAGIC[8] = {'O', 'B', 'C', 'U', 'V', 'S', '0', '3'};
 struct ObCuvsSnapshotFile {
-  FILE *file_ = ::tmpfile();
+  FILE *file_ = nullptr;
   char path_[64] = {};
   ObCuvsSnapshotFile() {
+    int fd = -1;
+    /* RAM-backed temp file: the snapshot payload is 256MB-1GB and crosses this
+       file once per CREATE INDEX. On machines where tmpfile() lands on a real
+       disk that round trip costs seconds inside the timed window. memfd keeps
+       it in memory; /dev/shm and tmpfile() are the fallbacks. */
+  #ifdef SYS_memfd_create
+    fd = static_cast<int>(::syscall(SYS_memfd_create, "obcuvs_snapshot", 0));
+  #endif
+    if (fd < 0) {
+      char tmpl[] = "/dev/shm/obcuvs_XXXXXX";
+      int sh = ::mkstemp(tmpl);
+      if (sh >= 0) { ::unlink(tmpl); fd = sh; }
+    }
+    if (fd >= 0) { file_ = ::fdopen(fd, "w+"); }
+    if (file_ == nullptr) { file_ = ::tmpfile(); }
     if (file_ != nullptr) {
       ::snprintf(path_, sizeof(path_), "/proc/self/fd/%d", ::fileno(file_));
     }
@@ -385,8 +405,10 @@ static bool ob_cuvs_read(std::istream &in, void *data, size_t bytes) {
 
 // Returns false when the index is not a GPU candidate and must use the VSAG format.
 static bool ob_cuvs_serialize(void *key, std::ostream &out, int &ret) {
+  const auto ob_t0 = std::chrono::steady_clock::now();
   ret = OB_SUCCESS;
-  std::lock_guard<std::mutex> guard(g_ob_cuvs_mu);
+  std::unique_lock<std::mutex> guard(g_ob_cuvs_mu);
+  const auto ob_t1 = std::chrono::steady_clock::now();
   auto it = g_ob_cuvs_reg.find(key);
   if (it == g_ob_cuvs_reg.end()) { return false; }
   ObCuvsEntry *ent = it->second;
@@ -409,6 +431,7 @@ static bool ob_cuvs_serialize(void *key, std::ostream &out, int &ret) {
     ent->bridge_ = nb; ent->built_n_ = n; ent->ids_ = ent->buf_ids_;
     built = true;
   }
+  const auto ob_t2 = std::chrono::steady_clock::now();
   ObCuvsSnapshotFile graph;
   ObCuvsSnapshotJob job{graph.path_, ent->bridge_.get(), static_cast<long>(n), ent->dim_, false, -1};
   if (graph.file_ == nullptr || !ob_cuvs_snapshot_big_stack(job) ||
@@ -416,6 +439,7 @@ static bool ob_cuvs_serialize(void *key, std::ostream &out, int &ret) {
     ret = OB_ERR_VSAG_RETURN_ERROR;
     return true;
   }
+  const auto ob_t3 = std::chrono::steady_clock::now();
   const uint64_t graph_bytes = static_cast<uint64_t>(::ftello(graph.file_));
   ::rewind(graph.file_);
   const int64_t build_us = ObTimeUtility::current_time() - start_us;
@@ -442,6 +466,7 @@ static bool ob_cuvs_serialize(void *key, std::ostream &out, int &ret) {
   // -> out_stream because cuVS only serializes to a path. A 64 KB staging
   // buffer made that 4096 read/write round trips through the stream buffer
   // chain; 4 MB cuts it to 64 and is still small enough to stay in cache.
+  const auto ob_t4 = std::chrono::steady_clock::now();
   std::vector<char> chunk(4UL * 1024 * 1024);
   uint64_t remaining = graph_bytes;
   while (remaining > 0) {
@@ -452,6 +477,12 @@ static bool ob_cuvs_serialize(void *key, std::ostream &out, int &ret) {
     }
     remaining -= bytes;
   }
+  fprintf(stderr, "[ob_cuvs][TIMING] adapter_total=%.3f lock=%.3f rebuild=%.3f blobwrite=%.3f blob_copy=%.3f\n",
+          std::chrono::duration<double>(std::chrono::steady_clock::now() - ob_t0).count(),
+          std::chrono::duration<double>(ob_t1 - ob_t0).count(),
+          std::chrono::duration<double>(ob_t2 - ob_t1).count(),
+          std::chrono::duration<double>(ob_t3 - ob_t2).count(),
+          std::chrono::duration<double>(std::chrono::steady_clock::now() - ob_t4).count());
   LOG_INFO("[OBVSAG][cuVS] serialized GPU CAGRA snapshot", KP(key), K(n), K(dim32),
            K(built), K(build_us), K(graph_bytes));
   return true;
