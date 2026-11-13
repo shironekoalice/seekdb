@@ -1,0 +1,42 @@
+{
+  "baseline-current": {
+    "image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+    "seed": 20261113,
+    "write_median_s": 2.5761912329980987,
+    "query_median_s": 10.31628132500191,
+    "write_median_B": 35348480,
+    "query_median_B": 40644608,
+    "write_median_M": 14221312,
+    "query_median_M": 22007808
+  },
+  "p07-benchmark": {
+    "image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+    "seed": 20261113,
+    "write_median_s": 2.6493481259967666,
+    "query_median_s": 3.3669700660029775,
+    "write_median_B": 35348480,
+    "query_median_B": 40644608,
+    "write_median_M": 13299712,
+    "query_median_M": 22749184
+  },
+  "baseline-seed2": {
+    "image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+    "seed": 20261114,
+    "write_median_s": 2.8359301069940557,
+    "query_median_s": 11.082507651000924,
+    "write_median_B": 35348480,
+    "query_median_B": 40644608,
+    "write_median_M": 13938688,
+    "query_median_M": 22257664
+  },
+  "p07-seed2": {
+    "image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+    "seed": 20261114,
+    "write_median_s": 2.716086455999175,
+    "query_median_s": 3.71744928300177,
+    "write_median_B": 35348480,
+    "query_median_B": 40644608,
+    "write_median_M": 14213120,
+    "query_median_M": 22818816
+  }
+}

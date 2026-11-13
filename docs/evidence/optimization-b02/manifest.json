@@ -1,0 +1,227 @@
+[
+  {
+    "file": "p07-native-public.json",
+    "source": "artifacts/optimization-b02-20261114/p07-native/public/result.json",
+    "sha256": "f2e782f8fdc9cb308bad3c7fe60e2a11b239bd4447fd26939c2c0be9e672d84e"
+  },
+  {
+    "file": "p07-native-extended.json",
+    "source": "artifacts/optimization-b02-20261114/p07-native/extended/result.json",
+    "sha256": "a06bb351a379e5a39d575e985ee50dc209f85d36c4980030b8e6bc6f5a22cb23"
+  },
+  {
+    "file": "p07-native-identity.json",
+    "source": "artifacts/optimization-b02-20261114/p07-native/result.json",
+    "sha256": "3db08ed1d555e376aec616847c063166fb767d3b74cb495f9508c1d4320103fb"
+  },
+  {
+    "file": "p07-docker-public.json",
+    "source": "artifacts/optimization-b02-20261114/p07-docker/public/result.json",
+    "sha256": "1159c1a7a6639b94c3b00a50a20c72cf96930aac8dc619acb30cb7128cc0b870"
+  },
+  {
+    "file": "p07-docker-extended.json",
+    "source": "artifacts/optimization-b02-20261114/p07-docker/extended/result.json",
+    "sha256": "57c495797310c029953e9248da087b550cd24f0f591fb1fc342ec769c975d2aa"
+  },
+  {
+    "file": "p07-docker-identity.json",
+    "source": "artifacts/optimization-b02-20261114/p07-docker/result.json",
+    "sha256": "2546953ada8a8067b7f5cf428a7d0fb3046ac0f1458af11aa1d41e455c4184e7"
+  },
+  {
+    "file": "p07-asan-public.json",
+    "source": "artifacts/optimization-b02-20261114/p07-asan/public/result.json",
+    "sha256": "f0c4ad95ba7d5fd0ae861f41abc31f3c488c213b3ed900721d34dd5ce9578a65"
+  },
+  {
+    "file": "p07-asan-extended.json",
+    "source": "artifacts/optimization-b02-20261114/p07-asan/extended/result.json",
+    "sha256": "435964ceb8be6e338a20bd5c143ca1db3823b5d4b87bcb4fca5ba32b9ce7246b"
+  },
+  {
+    "file": "p07-asan-identity.json",
+    "source": "artifacts/optimization-b02-20261114/p07-asan/result.json",
+    "sha256": "830052453ecdf083bf93bb54b7271d9a9f65e4e316b7f33291fd7848b16b5d71"
+  },
+  {
+    "file": "p07-query-oracle.json",
+    "source": "artifacts/optimization-b02-20261114/p07-query-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p07-docker-oracle.json",
+    "source": "artifacts/optimization-b02-20261114/p07-docker-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p07-asan-oracle.json",
+    "source": "artifacts/optimization-b02-20261114/p07-asan-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p07-collisions.json",
+    "source": "artifacts/optimization-b02-20261114/p07-collisions/result.json",
+    "sha256": "da0b76e73731845d784710da9d3d4bc01f14bdf95da309968082b4df8ed84f3d"
+  },
+  {
+    "file": "p07-asan-collisions.json",
+    "source": "artifacts/optimization-b02-20261114/p07-asan-collisions/result.json",
+    "sha256": "da0b76e73731845d784710da9d3d4bc01f14bdf95da309968082b4df8ed84f3d"
+  },
+  {
+    "file": "eviction-baseline.json",
+    "source": "artifacts/optimization-b02-20261114/eviction-baseline/result.json",
+    "sha256": "253a6ed8e76a234129a2ab3c962da9dbb0b7a301d0a2491d0a9e0bc39da70eb7"
+  },
+  {
+    "file": "p07-eviction.json",
+    "source": "artifacts/optimization-b02-20261114/p07-eviction/result.json",
+    "sha256": "253a6ed8e76a234129a2ab3c962da9dbb0b7a301d0a2491d0a9e0bc39da70eb7"
+  },
+  {
+    "file": "p07-docker-eviction.json",
+    "source": "artifacts/optimization-b02-20261114/p07-docker-eviction/result.json",
+    "sha256": "253a6ed8e76a234129a2ab3c962da9dbb0b7a301d0a2491d0a9e0bc39da70eb7"
+  },
+  {
+    "file": "p07-asan-eviction.json",
+    "source": "artifacts/optimization-b02-20261114/p07-asan-eviction/result.json",
+    "sha256": "253a6ed8e76a234129a2ab3c962da9dbb0b7a301d0a2491d0a9e0bc39da70eb7"
+  },
+  {
+    "file": "p07-out-of-core-small.json",
+    "source": "artifacts/optimization-b02-20261114/p07-out-of-core-small/result.json",
+    "sha256": "175b9f0ada355e99c189aad96d50441068d8abff554693becbc0957db29929ae"
+  },
+  {
+    "file": "p07-out-of-core-small-isolated.json",
+    "source": "artifacts/optimization-b02-20261114/p07-out-of-core-small-isolated/result.json",
+    "sha256": "9a6d86e92df8608bc79305a8e557cd2db6146503df9deb82db20aa362c739248"
+  },
+  {
+    "file": "p07-out-of-core-full.json",
+    "source": "artifacts/optimization-b02-20261114/p07-out-of-core-full/result.json",
+    "sha256": "09ccdc18b684d4fed76f1f119d9bab48343cb0d004e9c66182a9b71286a5ca31"
+  },
+  {
+    "file": "baseline-current.json",
+    "source": "artifacts/optimization-b02-20261114/baseline-current/result.json",
+    "sha256": "2c7ac67cd91999be609d63dd2b878376acbc721965afc724cd09555fcf358b80"
+  },
+  {
+    "file": "p07-benchmark.json",
+    "source": "artifacts/optimization-b02-20261114/p07-benchmark/result.json",
+    "sha256": "8aa78d4b0e66a3a03bb3fa8d218184213ad7c0ba151338034f7c1198da5396ee"
+  },
+  {
+    "file": "baseline-seed2.json",
+    "source": "artifacts/optimization-b02-20261114/baseline-seed2/result.json",
+    "sha256": "0aeb506e6f85151fd92205fc769fa1284fe31cea3ce4b831cb8b83bb7223e29c"
+  },
+  {
+    "file": "p07-seed2.json",
+    "source": "artifacts/optimization-b02-20261114/p07-seed2/result.json",
+    "sha256": "84dee21358f72af55519e00e82c1c41e6682b7a93a58deb37511d1087104d945"
+  },
+  {
+    "file": "p07-vs-current.json",
+    "source": "artifacts/optimization-b02-20261114/p07-vs-current.json",
+    "sha256": "8ba15a96ca30c809135a91b4bfd6e7b66f1d0bbb7aef708783bd87967052551e"
+  },
+  {
+    "file": "p07-vs-frozen.json",
+    "source": "artifacts/optimization-b02-20261114/p07-vs-frozen.json",
+    "sha256": "8eef6af6362369429a409865b770f590e6e8c9f1ca4e24caa42a4406c7a67695"
+  },
+  {
+    "file": "p07-vs-seed2.json",
+    "source": "artifacts/optimization-b02-20261114/p07-vs-seed2.json",
+    "sha256": "994f2d2aecc0cf4819c1255fd2b76a9873638825063c106448b5328f2a5550c5"
+  },
+  {
+    "file": "p07-fingerprint.json",
+    "source": "artifacts/optimization-b02-20261114/p07-fingerprint.json",
+    "sha256": "49de86f0f8aa230299c02898469b3fe3a3d8b124fd84bb853b398989ffc84fff"
+  },
+  {
+    "file": "p07.diff",
+    "source": "artifacts/optimization-b02-20261114/p07.diff",
+    "sha256": "e83d46f80f11aeabb80300200bd5040cd29224d3d0c681582789777ce49e1190"
+  },
+  {
+    "file": "binary-identities.sha256",
+    "source": "artifacts/optimization-b02-20261114/binary-identities.sha256",
+    "sha256": "a9e9c43f28b9f38e368a5790375d938cdec135b96607fbb6c4b4aa41c0939f38"
+  },
+  {
+    "file": "docker-binary.sha256",
+    "source": "artifacts/optimization-b02-20261114/docker-binary.sha256",
+    "sha256": "9f9d3c46a7f543f6a3d06f4c4e334aa7b20c8f68368ea4c69b840de457aaf58c"
+  },
+  {
+    "file": "tool-identities.sha256",
+    "source": "artifacts/optimization-b02-20261114/tool-identities.sha256",
+    "sha256": "733ab780c4e023936137561107a45e20a4be81d383433075f8f045b612aa1394"
+  },
+  {
+    "file": "record.json",
+    "source": "artifacts/optimization-b02-20261114/record.json",
+    "sha256": "eacb28f67596dbf99fe27f62becfb6727ddb09105f0665fce81a443ddbe9b335"
+  },
+  {
+    "file": "report.md",
+    "source": "artifacts/optimization-b02-20261114/report.md",
+    "sha256": "13df3ea73e843b0c13c9397de5990336c7240d0ed8287fd8ab55ff784a86cb3e"
+  },
+  {
+    "file": "closure.json",
+    "source": "artifacts/optimization-b02-20261114/closure.json",
+    "sha256": "2f8dea55d28d5c38415d9ef76fe26a3a8a6d58a4ee5eccf88c0cd0af40d94e55"
+  },
+  {
+    "file": "summary.json",
+    "source": "artifacts/optimization-b02-20261114/summary.json",
+    "sha256": "f09c701aaf58ea36dd3e4fef736a218bfdbae32ac8b0176e962c8686d8600e84"
+  },
+  {
+    "file": "medians.json",
+    "source": "artifacts/optimization-b02-20261114/medians.json",
+    "sha256": "1da682a61557eb5ba0b4f6e954d5eaee88994a10581238e876364ca4fc06429b"
+  },
+  {
+    "file": "main-fingerprint-after.json",
+    "source": "artifacts/optimization-b02-20261114/main-fingerprint-after.json",
+    "sha256": "6d1cbfbf6403895b0b06c372c7761ad7017c5d51ff32c1d1762e89e3b86ccf7b"
+  },
+  {
+    "file": "skills-check.json",
+    "source": "artifacts/optimization-b02-20261114/skills-check.json",
+    "sha256": "326f5f12aad42f09eca05247f909ed89c4da16a919f0fe947b3f65a661adc707"
+  },
+  {
+    "file": "material-check.json",
+    "source": "artifacts/optimization-b02-20261114/material-check.json",
+    "sha256": "641e93cca51ec938b2db5042718d35d7be3f28246f96c0c1eb14f4de9d77d7c4"
+  },
+  {
+    "file": "learning-validation.json",
+    "source": "artifacts/optimization-b02-20261114/learning-validation.json",
+    "sha256": "b5764b7487b471280a52ebd6a43fb0aabeffaee2917263b807c5b31a6f13a450"
+  },
+  {
+    "file": "sanitizer-scan.json",
+    "source": "artifacts/optimization-b02-20261114/sanitizer-scan.json",
+    "sha256": "da4373f88af65b9bf21241e612afa060d99f1c4b250b3b8d47513a4db13c2c18"
+  },
+  {
+    "file": "baseline-image-after.txt",
+    "source": "artifacts/optimization-b02-20261114/baseline-image-after.txt",
+    "sha256": "68cf5b13b04fd3fe31a44e0833b649700b193f1a08c2aa8ada17800b8e74e315"
+  },
+  {
+    "file": "remaining-lab-containers.txt",
+    "source": "artifacts/optimization-b02-20261114/remaining-lab-containers.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

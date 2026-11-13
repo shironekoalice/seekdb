@@ -3,8 +3,9 @@
 前置工作和交接演练已完成，用户已在**本会话**切换模型并明确恢复长线优化。
 当前按有界周期进行本地实验。不要创建新会话、自动切模型或启动无人看管的后台循环。
 最新完成状态、基线身份与证据见 `optimization/state.json`、`docs/BASELINE.md`。
-首批结果见 `docs/OPTIMIZATION_B01.md`：P01/P03/P04均未采用，冻结引擎保持不变；
-新增独立查询与碰撞反例工具已保留。接下来评估P07固定预算链节点缓存。
+首批结果见 `docs/OPTIMIZATION_B01.md`：P01/P03/P04均未单独采用。
+第二批P07组合缓存已采用，见 `docs/OPTIMIZATION_B02.md`；两种子查询约快3倍，
+本地E为0.597888/0.599353。完整快照tag为 `best-b02-20261114`，原始基线仍保留。
 
 ## 接手读什么
 
@@ -20,26 +21,28 @@
 
 Windows 根：`E:\develop\project_files\project\oceanbase\minivectordb`。
 WSL：`Ubuntu-24.04`；Linux 路径 `/mnt/e/develop/project_files/project/oceanbase/minivectordb`。
-原生 Release `/opt/minivectordb-build/minivectordb`，
-ASAN `/opt/minivectordb-asan/minivectordb`，
+当前原生 Release `/opt/mvdb-b02-p07/minivectordb`，
+ASAN `/opt/mvdb-b02-p07-asan/minivectordb`；
+冻结原生基线 `/opt/minivectordb-build/minivectordb`，
 oracle `/opt/minivectordb-build/mvdb_oracle`。
 
 PowerShell 可直接调用：
 
 ```powershell
-wsl -d Ubuntu-24.04 -- python3 /mnt/e/develop/project_files/project/oceanbase/minivectordb/tools/verify.py --binary /opt/minivectordb-build/minivectordb --output /mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/resume-check-01
+wsl -d Ubuntu-24.04 -- python3 /mnt/e/develop/project_files/project/oceanbase/minivectordb/tools/verify.py --binary /opt/mvdb-b02-p07/minivectordb --output /mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/resume-check-01
 ```
 
 命令/完整 Docker/benchmark 入口见 `docs/VALIDATION.md`。当前基线镜像标签
-`minivectordb:baseline`；采用候选时使用新标签，按 image ID 核对身份。
+`minivectordb:baseline`；当前最佳为 `minivectordb:b02-p07`，按 image ID 核对身份。
 输出目录必须是新目录。已有完整测试通过且身份未变时不需要为“接手”重跑全套；
 可先检查报告、二进制 hash、git diff 和一次短验证。
 
-## 第一个有界周期
+## 接续有界周期
 
 本会话已满足恢复条件；接续时核对最新state、基线/tag和工作树，从队列选择一个假设。
 P01 的演练历史见 `docs/REHEARSAL.md`，B01已补全完整负载比较但未采用。
-P03/P04也已有完整负结果；先读首批报告，避免重复相同实验。当前best仍为冻结基线。
+P03/P04也已有完整负结果；P07已在第二批采用。先读两批报告，避免重复相同实验。
+下一周期先profile当前最佳，再研究PK点操作或有新热点证据的查询改动。
 先定位开销，保持单一可解释改动，用隔离实验目录保存反例、差分与小规模筛选。
 只有值得继续且正确的候选才跑3轮完整本地比较。一次最多3候选或45分钟为默认批次，
 结束记录 best/rejected/inconclusive、剩余预算和下一步；用户新预算优先。

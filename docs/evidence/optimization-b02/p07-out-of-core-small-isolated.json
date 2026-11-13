@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "scope": "local live-data-over-cgroup-memory test",
+  "logical_payload_bytes": 268435456,
+  "memory_limit_bytes": 134217728,
+  "image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+  "recovery_seconds": 3.8162259469972923,
+  "metrics": {
+    "B_bytes": 3625000960,
+    "M_bytes": 134217728,
+    "io_start": {
+      "8:80": {
+        "rbytes": 36864,
+        "wbytes": 0,
+        "rios": 2,
+        "wios": 0,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "io_end": {
+      "8:80": {
+        "rbytes": 2792161280,
+        "wbytes": 832876544,
+        "rios": 21520,
+        "wios": 3453,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "memory_events": {
+      "low": "0",
+      "high": "0",
+      "max": "13808",
+      "oom": "0",
+      "oom_kill": "0",
+      "oom_group_kill": "0"
+    },
+    "memory_limit_bytes": 134217728,
+    "memory_swap_max": "max",
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    }
+  },
+  "seconds": 28.45073602100456
+}

@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "suite": "all",
+  "scope": "local validation; no official hidden-case or score claim",
+  "source": {
+    "code_sha256": "81b6fc0dec77f560b06a2cabefae9c84f427184467f0f8442e5cd77bd7e7f309",
+    "files": {
+      "CMakeLists.txt": "4fa8edc015d871c520a70666c436dbb408069d74e8fad31f51c18f2cf271a316",
+      "Dockerfile": "a6c5bc7cb03fc0e0ebb34bf107230ffc98824379852e96a33d091f8720d894a7",
+      "src/main.cpp": "88b39e37409beae13ffc3d74cd26909a055750bc7956875c3faefffd8fdbe9d0",
+      "src/sql.cpp": "65cc828206dcce39b1b08b6a7eff1e8ffff8b18462e6b4f1bff34c3132189649",
+      "src/sql.hpp": "748f621ce074c998f645f3a52dadcaa0be82be45375ae72b0797d563880e2f3a",
+      "src/storage.cpp": "c070fec9f522b8273a564e64b816e5ef6ddf0101814fb22282592977a00111e8",
+      "src/storage.hpp": "dca1ee38bb7e49eb055d49d62b7dca10857d16750a071dbb417726bac57a07a9",
+      "src/types.hpp": "003ceb93b211cb7ceb21e0a345500e2ef77b7b3dbfd95efc1800f21d72d44d5f",
+      "third_party/DEPENDENCIES.md": "7062492b04fbb26ee50c53c14fc8a8994819acbe91fbef21f76f2fbee103d5e0",
+      "third_party/apt-build.lock": "42863465d249a9383c3047d8aecc43b9cba99b144782b327227cdc2cbd42ad15",
+      "third_party/nlohmann/LICENSE.MIT": "86b998c792894ccb911a1cb7994f7a9652894e7a094c0b5e45be2f553f45cf14",
+      "third_party/nlohmann/json.hpp": "9bea4c8066ef4a1c206b2be5a36302f8926f7fdc6087af5d20b417d0cf103ea6"
+    }
+  },
+  "image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1"
+}

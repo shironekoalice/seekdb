@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "scope": "local independent multi-map eviction/state oracle",
+  "initial_rows": 24000,
+  "rollback_cycles": 8200,
+  "phases": [
+    {
+      "name": "alternating-tables-over-node-capacity",
+      "passed": true
+    },
+    {
+      "name": "temporary-map-churn",
+      "passed": true
+    },
+    {
+      "name": "updated-tombstone-reinsert",
+      "passed": true
+    },
+    {
+      "name": "kill-recovery",
+      "passed": true
+    },
+    {
+      "name": "repeated-recovery",
+      "passed": true
+    }
+  ],
+  "queries": 80
+}

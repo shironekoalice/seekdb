@@ -40,10 +40,13 @@ python3 tools/verify.py --binary /opt/minivectordb-asan/minivectordb --output ar
 python3 tests/contract.py --binary /opt/minivectordb-candidate/minivectordb --check ordering --check random_model --output artifacts/query-focus
 python3 tests/query_paths.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/query-paths-new
 python3 tests/map_collisions.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/map-collisions-new
+python3 tests/cache_eviction.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/cache-eviction-new
 ```
 
-后两项是B01新增独立工具，分别覆盖119次跨查询路径全排序比较和24个同桶键的
+`query_paths.py`和`map_collisions.py`是B01新增独立工具，分别覆盖119次跨查询路径全排序比较和24个同桶键的
 事务/恢复状态比较；也支持 `--image`。修改缓存时还需验证容量淘汰、映射身份及超内存数据。
+`cache_eviction.py`为B02新增工具，两表24000行、8200次回滚、80次查询及全状态比较，
+覆盖淘汰和映射身份复用；先在冻结基线上通过，再验证候选。
 
 故意破坏隔离副本，确认测试会拒绝，原始代码不变：
 

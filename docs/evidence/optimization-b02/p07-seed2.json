@@ -1,0 +1,253 @@
+{
+  "schema": 1,
+  "scope": "local cgroup-v2 comparison; not official score",
+  "passed": true,
+  "image": "minivectordb:b02-p07",
+  "image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+  "workload": {
+    "rows": 10000,
+    "dimensions": 128,
+    "queries": 1000,
+    "seed": 20261114,
+    "mode": "exact",
+    "k": 10,
+    "batch": 100,
+    "sha256": "b6a54a7cfe659ad975c54303223e84eaf4c58dad999b7ef555eb078fe605c72a"
+  },
+  "environment": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+    "quota_cpus": 2,
+    "memory": "2g",
+    "swap_limit_requested": true,
+    "swap_limit_supported": "false",
+    "docker": "29.9.3"
+  },
+  "measurement": {
+    "resources": "cgroup v2 io.stat and memory.peak, page cache included",
+    "io_devices": "sum of local cgroup devices; no dedicated contest data device",
+    "T": "client wall time of all write batches or query series, response parsing included",
+    "BM": "startup + load + index + warmup + requests + shutdown + sync -f",
+    "cache": "fresh named volumes; host page cache is NOT globally reset",
+    "overhead": "sleep supervisor and docker exec/sync included in cgroup"
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "write": {
+        "B_bytes": 35348480,
+        "M_bytes": 14135296,
+        "io_start": {
+          "8:80": {
+            "rbytes": 8192,
+            "wbytes": 0,
+            "rios": 1,
+            "wios": 0,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "io_end": {
+          "8:80": {
+            "rbytes": 8192,
+            "wbytes": 35348480,
+            "rios": 1,
+            "wios": 611,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.716086455999175,
+        "persisted_rows_verified": 10000
+      },
+      "query": {
+        "B_bytes": 40644608,
+        "M_bytes": 23035904,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 40644608,
+            "rios": 0,
+            "wios": 620,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 3.6009991620012443,
+        "recall": {
+          "filtered": 1.0,
+          "unfiltered": 1.0
+        }
+      }
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "write": {
+        "B_bytes": 35348480,
+        "M_bytes": 14532608,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 35348480,
+            "rios": 0,
+            "wios": 611,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.6492208579948056,
+        "persisted_rows_verified": 10000
+      },
+      "query": {
+        "B_bytes": 40644608,
+        "M_bytes": 22781952,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 40644608,
+            "rios": 0,
+            "wios": 619,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 4.037716232000093,
+        "recall": {
+          "filtered": 1.0,
+          "unfiltered": 1.0
+        }
+      }
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "write": {
+        "B_bytes": 35348480,
+        "M_bytes": 14213120,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 35348480,
+            "rios": 0,
+            "wios": 611,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.7834607670010882,
+        "persisted_rows_verified": 10000
+      },
+      "query": {
+        "B_bytes": 40644608,
+        "M_bytes": 22818816,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 40644608,
+            "rios": 0,
+            "wios": 619,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 3.71744928300177,
+        "recall": {
+          "filtered": 1.0,
+          "unfiltered": 1.0
+        }
+      }
+    }
+  ]
+}

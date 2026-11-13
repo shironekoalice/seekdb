@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "log_files": 34,
+  "patterns": "AddressSanitizer|LeakSanitizer|UndefinedBehaviorSanitizer|runtime error:",
+  "findings": []
+}

@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "id": "b02-20261114",
+  "status": "completed",
+  "started_local": "2026-11-14T00:28:42.2272476+08:00",
+  "budget": {
+    "max_candidates": 1,
+    "max_minutes": 30,
+    "reserve_cleanup_minutes": 5
+  },
+  "baseline_tag": "prep-baseline-20261113",
+  "baseline_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "worktree_base_commit": "ce44302",
+  "baseline_code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d",
+  "baseline_image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+  "worktree": "../worktrees/minivectordb-b01",
+  "branch": "optimization/b02-p07-20261114",
+  "candidates": [
+    {
+      "id": "P07",
+      "status": "completed",
+      "hypothesis": "A process-wide 640 KiB read-through disk-chain-node cache plus P04's fixed bucket directory cache removes repeated small reads while keeping chain nodes disk-resident, the journal authoritative and cache memory independent of row count.",
+      "rationale": "B01 P04 reduced File::read call count from 108720 to 56205 but did not repeat aggregate gains. Remaining reads include chain nodes; this separately measured combination is not adoption of P04 alone.",
+      "changed_files": [
+        "src/storage.cpp",
+        "src/storage.hpp",
+        "tests/cache_eviction.py"
+      ],
+      "risk": [
+        "cross-map/descriptor reuse",
+        "eviction",
+        "update invalidation",
+        "recovery",
+        "64 KiB directory per map plus globally fixed node cache"
+      ],
+      "commit": "1b39d8d488a7fce0aefec6df730999680fe35b71",
+      "candidate_code_sha256": "81b6fc0dec77f560b06a2cabefae9c84f427184467f0f8442e5cd77bd7e7f309",
+      "candidate_image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+      "candidate_binary_sha256": "3e9cf0f603b45f6dfc666dce4a4828715610c01905ef66892dbe5a7b186219b9",
+      "decision": "adopted_local",
+      "adopted_commit": "eeb4fe9ae9bdbe90f0b71c2ce7ed4415619f6f5e",
+      "reason": "Both complete three-round seeds show repeatable aggregate gain (local E 0.597888 and 0.599353) with exact recall 1.0. Native/Docker/sanitizer public and independent checks, cache eviction/churn, crash recovery and isolated live-data-over-memory checks passed. Initial swap-invalid resource attempt is retained.",
+      "local_E_vs_current": "0.597888",
+      "local_E_vs_frozen": "0.586331",
+      "local_E_vs_seed2": "0.599353",
+      "measurement_reports": [
+        "baseline-current/result.json",
+        "p07-benchmark/result.json",
+        "baseline-seed2/result.json",
+        "p07-seed2/result.json"
+      ]
+    }
+  ],
+  "permissions": {
+    "local_optimization": true,
+    "remote_push": false,
+    "official_submission": false
+  },
+  "background_optimizer": false,
+  "measurement_observations": [
+    {
+      "report": "p07-out-of-core-small/result.json",
+      "passed": false,
+      "reason": "Host pswpout increased by 2 pages; tool rejected memory evidence. Semantic assertions reached the resource gate without an earlier failure.",
+      "concurrency": "ASAN eviction/churn validation was running concurrently; causality of the host-wide swap is unproven.",
+      "action": "Retain failed attempt and rerun small/full live-data tests sequentially after all other task workloads finish. No assertion/resource/system-swap change."
+    }
+  ],
+  "finished_local": "2026-11-14T00:56:55.8673825+08:00",
+  "elapsed_seconds_through_evidence_audit": 1693.64,
+  "adopted": [
+    "P07"
+  ],
+  "tool_observations": [
+    "Two final PowerShell cleanup checks called Trim on null output from an empty file. Replaced the check with IsNullOrWhiteSpace and continued; no engine/test result changed."
+  ]
+}

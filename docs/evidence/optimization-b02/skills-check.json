@@ -1,0 +1,11 @@
+{
+  "installed": "E:\\develop\\project_files\\project\\oceanbase\\.agents\\skills",
+  "verified": {
+    "minivectordb-engineering/SKILL.md": "1e61b2e4b21c2419007c5dd8ac25c57610c431614405c22598c225e380853fc1",
+    "minivectordb-engineering/agents/openai.yaml": "a8253b82b4aa9f78efb3cf3ba89256d79693cd80a2329be93d3a1aa747ed153d",
+    "minivectordb-evaluation/SKILL.md": "9d754b50dc1c49c407dbc1f9932ab5f7af97ca12f56c3b783a4916ef0136e157",
+    "minivectordb-evaluation/agents/openai.yaml": "1df00739d3477d7185cba0b752b4ec1c3e461e84e1de31dcd2a741353b03ed46",
+    "minivectordb-learning-evidence/SKILL.md": "e1bf950354bc0792c30c5fe654506bf0c7e852ea0422994ad8b90feb869a88ba",
+    "minivectordb-learning-evidence/agents/openai.yaml": "334e3fc2f34b9ca59c0c29eb5f814593c36f80933937325b939bd79b70b284ca"
+  }
+}

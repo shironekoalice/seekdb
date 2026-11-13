@@ -1,0 +1,18 @@
+{
+  "id": "b02-20261114",
+  "completed_local": "2026-11-14T00:56:55.8673825+08:00",
+  "elapsed_seconds_through_evidence_audit": 1693.64,
+  "budget_seconds": 1800,
+  "candidates_evaluated": 1,
+  "adopted": [
+    "P07"
+  ],
+  "adopted_source_commit": "eeb4fe9ae9bdbe90f0b71c2ce7ed4415619f6f5e",
+  "baseline_tag_preserved": true,
+  "baseline_image_preserved": true,
+  "remaining_lab_containers": [],
+  "git_metadata_commit_follows": true,
+  "remote_push": false,
+  "official_submission": false,
+  "background_optimizer": false
+}
