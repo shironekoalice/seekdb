@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "id": "handoff-rehearsal-20261113-P01",
+  "status": "completed",
+  "started_local": "2026-11-13T23:28:04+08:00",
+  "budget": {"max_candidates": 1, "max_minutes": 8},
+  "hypothesis": "Bind SELECT predicate column indexes and constants once to avoid repeated per-row parsing.",
+  "expected_effect": "Reduce predicate evaluation cost for filtered queries; no expected effect on unfiltered queries.",
+  "baseline_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "baseline_code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d",
+  "candidate_code_sha256": "7a6d285d6fcb5251b6d1fa0f12716383e02d5f2e80cdc1a91ac9f61d2632932c",
+  "baseline_image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+  "candidate_image": "minivectordb:rehearsal-p01-20261113-2331",
+  "candidate_image_id": "sha256:81f4a154a4ed24293dce6df97952a596451c84e83910006900f78630c58dfa83",
+  "candidate_binary_sha256": "5adc444994c339fd894373452dc9c8e08e1937da62eea81867b49f478e8aaebb",
+  "changed_files": ["source/src/storage.cpp"],
+  "profile": {
+    "file": "profile-gprof.txt",
+    "matches_calls": 50021,
+    "literal_calls": 26595,
+    "sampled_cpu_seconds": 0.01,
+    "limitation": "Counts establish repetition, not significant runtime attribution."
+  },
+  "checks": [
+    {"report": "profile-probe/result.json", "passed": true, "scope": "baseline call-count workload and predicate edge cases"},
+    {"report": "candidate-probe/result.json", "passed": true, "scope": "six invalid empty-table predicates, all five comparison operators, AND, long comparison strings"},
+    {"report": "candidate-checks/result.json", "passed": true, "scope": "types, ordering, random_model, transaction; 240 operations and 48 independent filtered TopK comparisons"}
+  ],
+  "measurement_reports": [
+    "screen-baseline/result.json",
+    "screen-candidate/result.json",
+    "screen-candidate-2/result.json",
+    "screen-baseline-2/result.json"
+  ],
+  "screen_order": ["baseline", "candidate", "candidate", "baseline"],
+  "screen_query_seconds": {
+    "baseline": [0.1374175069940975, 0.127514441999665],
+    "candidate": [0.12636070600274252, 0.1185669200058328]
+  },
+  "decision": "inconclusive",
+  "adopted": false,
+  "reason": "Relevant correctness passed and both micro pairs favor the candidate, but very short timings and two 1000x16/100-query screens do not establish full-workload benefit. No three-round full comparison or E score.",
+  "stop_conditions": ["Any correctness regression", "Eight-minute budget", "One candidate"],
+  "known_limits": [
+    "Micro screening cannot establish full-workload improvement or official results.",
+    "Profile has only 0.01 sampled CPU seconds; call counts establish repetition, not dominant runtime.",
+    "WSL reports swap limit unsupported and memory.swap.max=max; all measured host swap deltas were zero.",
+    "No public 20-case rerun, full crash-point matrix, sanitizer or out-of-core rerun for this query-local change.",
+    "Experimental image layers the isolated native Release binary over the preserved baseline; not a contest source-build package.",
+    "No student technical explanation occurred in this delegated rehearsal."
+  ],
+  "next_action": "Stop. Parent agent can archive this report; await the user's same-conversation model switch and explicit resume before further optimization.",
+  "formal_state_modified": false,
+  "state_update_location": "record.json only, as required by the current write allowlist"
+}

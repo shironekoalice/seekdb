@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "phase": "preparation",
-  "status": "ready_for_handoff_rehearsal",
+  "phase": "handoff_ready",
+  "status": "awaiting_user_model_switch",
   "updated_local_date": "2026-11-13",
   "workspace": "E:/develop/project_files/project/oceanbase",
   "project": "minivectordb",
@@ -9,13 +9,16 @@
   "branch": "2026-competition-round2",
   "upstream_commit": "f4d4e26653af823a7601668802f80e374ad6643c",
   "baseline_tag": "prep-baseline-20261113",
-  "baseline_commit": null,
-  "best_candidate": null,
+  "baseline_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "best_candidate": {
+    "kind": "baseline",
+    "commit": "86adad6257aa425c7f1985fa964457fe7390dbfe"
+  },
   "measured_image": "minivectordb:baseline",
   "measured_image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
   "baseline_report": "docs/evidence/benchmark-baseline.json",
   "next_batch": {
-    "action": "profile one plausible query hotspot, then choose one hypothesis",
+    "action": "Read P01 rehearsal, then choose full validation/comparison or another evidenced hypothesis; do not repeat the same micro prototype.",
     "suggested_queue": "P01",
     "max_candidates": 3,
     "max_minutes": 45,
@@ -35,5 +38,14 @@
   ],
   "stop_after_rehearsal": true,
   "continue_same_conversation": true,
-  "code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d"
+  "code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d",
+  "rehearsal": {
+    "completed": true,
+    "report": "docs/REHEARSAL.md",
+    "candidate": "P01",
+    "decision": "inconclusive_not_adopted",
+    "elapsed_seconds": 482.496,
+    "budget_seconds": 480
+  },
+  "background_optimization_running": false
 }

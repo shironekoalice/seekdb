@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "synthetic": false,
+  "scope": "Isolated copy of actual Agent/tool rehearsal evidence. Not the formal submission material.",
+  "student_learning_evidence_incomplete": true,
+  "student_messages": [],
+  "baseline_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "candidate_code_sha256": "7a6d285d6fcb5251b6d1fa0f12716383e02d5f2e80cdc1a91ac9f61d2632932c",
+  "units": [
+    {
+      "id": "handoff-rehearsal-P01",
+      "sources": ["agent", "tool"],
+      "agent_summary": "The Agent read the handoff and three installed skills, selected P01, profiled the unmodified isolated baseline, and changed only SELECT predicate binding in the isolated storage.cpp. Empty-table validation remains eager. This summary records Agent work and makes no claim about student understanding.",
+      "tool_profile": "gprof recorded matches=50021 calls, literal=26595 calls, Schema::field=60591 calls. Total sampled CPU time was 0.01 seconds, insufficient to rank hotspots reliably.",
+      "tool_correctness": "types PASS\nordering PASS\nrandom_model PASS\ntransaction PASS\nrandom_model: 240 seeded operations, 48 state comparisons and 48 independent filtered TopK comparisons. Additional probe: six invalid empty-table predicates rejected, five comparison operators matched explicit expected IDs, AND and longer-than-VARCHAR comparison literals passed.",
+      "tool_screen": "Four sequential single-round micro runs, order baseline/candidate/candidate/baseline, each 1000 rows x 16 dimensions, 100 queries, seed 20261113, exact, K10, half filtered. Query T seconds: 0.1374175069940975 / 0.12636070600274252 / 0.1185669200058328 / 0.127514441999665. Every run passed independent full-sort oracle checks; filtered and unfiltered recalls both 1.0. Query B=1941504 bytes in all runs. Host pswpin/pswpout deltas were zero; swap limiting was unsupported.",
+      "agent_decision": "Inconclusive, not adopted. The candidate was faster in both tiny pairs, but full-workload gains and comprehensive resource tradeoffs remain unverified. No three-round full comparison, official score, ranking or submission was performed.",
+      "student_evidence": "Missing: no student technical statements, predictions, explanations or result feedback occurred in this delegated rehearsal.",
+      "evidence_files": ["../record.json", "../profile-gprof.txt", "../candidate-probe/result.json", "../candidate-checks/result.json", "../screen-baseline/result.json", "../screen-candidate/result.json", "../screen-candidate-2/result.json", "../screen-baseline-2/result.json"]
+    }
+  ],
+  "evidence_links": [
+    {"pointer": "/units/0/tool_profile", "quote": "gprof recorded matches=50021 calls, literal=26595 calls, Schema::field=60591 calls."},
+    {"pointer": "/units/0/tool_correctness", "quote": "types PASS\nordering PASS\nrandom_model PASS\ntransaction PASS"},
+    {"pointer": "/units/0/agent_decision", "quote": "Inconclusive, not adopted."}
+  ],
+  "limitations": "This is an Agent/tool record, not a fabricated student conversation or an official learning-score prediction. The original formal agent/conversation.json was copied to inputs/baseline-conversation.json and was not edited."
+}

@@ -52,4 +52,5 @@ WSL Docker 报 swap 限额不支持，实际 memory.swap.max=max；
 缺commit marker）被独立测试拒绝，控制组通过，见 `evidence/mutation-controls.json`。
 最终扩展测试还覆盖了真正截断在64KiB复制块内部的日志记录。
 
-交接演练结果在完成后写入 `docs/REHEARSAL.md`，然后停止等待用户切换模型。
+交接演练已完成，见 `docs/REHEARSAL.md`。候选未采用，正式基线保持该 tag 对应源码；
+后续提交只补充交接记录、状态及 skill 的收尾预算提醒。

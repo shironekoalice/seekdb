@@ -1,0 +1,30 @@
+{
+  "scope": "independent local tests; not hidden formal cases",
+  "passed": true,
+  "checks": [
+    {
+      "name": "types",
+      "passed": true,
+      "detail": "BIGINT boundaries, Unicode length, finite float32, types, invalid syntax",
+      "seconds": 0.065
+    },
+    {
+      "name": "ordering",
+      "passed": true,
+      "detail": "filter-before-TopK, ASC/DESC ties, Unicode order, quotes, deleted/stale index entries",
+      "seconds": 0.096
+    },
+    {
+      "name": "random_model",
+      "passed": true,
+      "detail": "240 seeded operations, 48 state comparisons and 48 independent filtered TopK comparisons",
+      "seconds": 0.55
+    },
+    {
+      "name": "transaction",
+      "passed": true,
+      "detail": "statement rollback, read-your-writes, vector visibility, acknowledged commit and uncommitted crash",
+      "seconds": 0.041
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "report.md": {
+    "original": "artifacts/handoff-rehearsal/report.md",
+    "sha256": "97a434640ff507be152a68f8974038b018e5daaf36931c4a23fcac15afcc405f"
+  },
+  "record.json": {
+    "original": "artifacts/handoff-rehearsal/record.json",
+    "sha256": "c52dd9c41c24dffdc02192b38b459c9f840ac7b7e9d45061c509c43b8c97861b"
+  },
+  "audit.json": {
+    "original": "artifacts/handoff-rehearsal/audit.json",
+    "sha256": "39eabf663b5939fa5c74fe8e0dbb851ed17461e0eec4621441ca9d7060100ad2"
+  },
+  "learning/conversation.json": {
+    "original": "artifacts/handoff-rehearsal/learning/conversation.json",
+    "sha256": "3b7abe51b4f80ad353b75ceace2917373caedeef6b13cbfd1bee14ce2447ba86"
+  },
+  "learning-validation.json": {
+    "original": "artifacts/handoff-rehearsal/learning-validation.json",
+    "sha256": "a3ea869baedd1ec546e126d77acf0d1e638bb1cddabe49e331cbaae478d76d38"
+  },
+  "candidate-probe/result.json": {
+    "original": "artifacts/handoff-rehearsal/candidate-probe/result.json",
+    "sha256": "ec61b2a499f713e20cf38ea6eff5985cfe129f2bd9c625349e21573ad972c356"
+  },
+  "candidate-checks/result.json": {
+    "original": "artifacts/handoff-rehearsal/candidate-checks/result.json",
+    "sha256": "605c52d1d86719e182845a30ac28aceb50f0f7a524639840cb288c15645f619b"
+  },
+  "screen-baseline/result.json": {
+    "original": "artifacts/handoff-rehearsal/screen-baseline/result.json",
+    "sha256": "f70f0712613969ee5bfb30675e7fdf22e8209beaffec28a595677a87a15bfcb5"
+  },
+  "screen-candidate/result.json": {
+    "original": "artifacts/handoff-rehearsal/screen-candidate/result.json",
+    "sha256": "dbb2875328931d1692cb6032fe09512460a5c11efeba244967961f46f14d41da"
+  },
+  "screen-candidate-2/result.json": {
+    "original": "artifacts/handoff-rehearsal/screen-candidate-2/result.json",
+    "sha256": "83a7a05a8ec99397709cedb28a65236321787df3b2a62a4585b3815e1392b013"
+  },
+  "screen-baseline-2/result.json": {
+    "original": "artifacts/handoff-rehearsal/screen-baseline-2/result.json",
+    "sha256": "206f4b1958499c151d69f0b8604d1d7e36d5ad17ce68392866b863c0104c7f72"
+  },
+  "candidate.diff": {
+    "original": "artifacts/handoff-rehearsal/candidate.patch",
+    "sha256": "187d978eb4149b07d60089e1af861b9c61345d50d8f3bdf68585c16844d73ae2"
+  }
+}

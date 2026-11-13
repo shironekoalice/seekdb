@@ -1,0 +1,24 @@
+{
+  "finished_local": "2026-11-13T23:36:06.4962086+08:00",
+  "elapsed_seconds": 482.496,
+  "formal_code_unchanged": true,
+  "formal_conversation_unchanged": true,
+  "installed_skills_unchanged": {
+    "minivectordb-engineering": true,
+    "minivectordb-learning-evidence": true,
+    "minivectordb-evaluation": true
+  },
+  "baseline_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "baseline_tag_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "baseline_image_after": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+  "candidate_containers_remaining": [],
+  "learning_validation": {
+    "valid": true,
+    "bytes": 3175,
+    "links": 3,
+    "synthetic": false,
+    "student_learning_evidence_incomplete": true,
+    "scope": "format/provenance-link checks only; not official scoring or authorship certification"
+  },
+  "packaging_correction": "Initial audit timestamp calculation mixed DateTime and DateTimeOffset and failed; corrected to DateTimeOffset before finalization."
+}
