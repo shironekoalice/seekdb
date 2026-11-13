@@ -1,0 +1,46 @@
+{
+  "scope": "Python PK CRUD oracle; not formal cases",
+  "passed": true,
+  "seed": 20261114,
+  "phases": [
+    {
+      "name": "no-index",
+      "rows": 28,
+      "passed": true
+    },
+    {
+      "name": "indexed",
+      "rows": 28,
+      "passed": true
+    },
+    {
+      "name": "pending-random-and-failed-statements",
+      "rows": 17,
+      "passed": true
+    },
+    {
+      "name": "rollback",
+      "rows": 28,
+      "passed": true
+    },
+    {
+      "name": "committed-delete-reinsert",
+      "rows": 28,
+      "passed": true
+    },
+    {
+      "name": "kill-recovery",
+      "rows": 28,
+      "passed": true
+    },
+    {
+      "name": "repeated-recovery",
+      "rows": 28,
+      "passed": true
+    }
+  ],
+  "point_queries": 1218,
+  "scan_controls": 812,
+  "errors_checked": 90,
+  "random_operations": 120
+}

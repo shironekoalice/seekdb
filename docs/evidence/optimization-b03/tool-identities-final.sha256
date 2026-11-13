@@ -1,0 +1,3 @@
+88f36d4c817a863ea134cc449440e81ed08168c8defbea826eecb2ab3c69c6fb  tests/point_paths.py
+ba3a591cf20edf84b7ba0c3037d84dd925e8e12187f7ab740000b7cf68ce63ed  tools/point_benchmark.py
+1c19f0dc83380e88cdf1ae760ad226e482f1a09508616680165c16ba40afc950  tools/profile_workload.py

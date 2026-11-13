@@ -1,0 +1,76 @@
+{
+  "scope": "local point CRUD; independent Python state, not official E workload",
+  "passed": true,
+  "image": "minivectordb:b03-p02",
+  "binary": null,
+  "image_id": "sha256:7190653ae8aaaa40aa084c051a073026c49d709e3ccb926a857721e02d41ae62",
+  "binary_sha256": null,
+  "workload": {
+    "rows": 1000,
+    "operations_per_stage": 60,
+    "seed": 20261114,
+    "keys_sha256": "3e0f8f21addda8547ed286fffc0b6cbff24c1747990455ce2c5f5f11ae26e03d",
+    "hit_pattern": "alternating present/absent; repeated keys allowed",
+    "durability": "each update/delete/insert autocommits"
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "stages": {
+        "select": {
+          "T_seconds": 0.02694485899701249,
+          "requests": 60
+        },
+        "update": {
+          "T_seconds": 0.20803963400248904,
+          "requests": 60
+        },
+        "delete": {
+          "T_seconds": 0.18136196900013601,
+          "requests": 60
+        },
+        "insert": {
+          "T_seconds": 0.1583622599937371,
+          "requests": 30
+        }
+      },
+      "resources_whole_round": {
+        "B_bytes": 3760128,
+        "M_bytes": 6565888,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 3760128,
+            "rios": 0,
+            "wios": 573,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        }
+      },
+      "persisted_rows_verified": 1000
+    }
+  ],
+  "medians_T_seconds": {
+    "select": 0.02694485899701249,
+    "update": 0.20803963400248904,
+    "delete": 0.18136196900013601,
+    "insert": 0.1583622599937371
+  }
+}

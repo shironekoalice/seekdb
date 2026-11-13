@@ -1,0 +1,5 @@
+{
+  "log_files": 1,
+  "findings": 0,
+  "scope": "Additional range-only oracle sanitizer stderr scan"
+}

@@ -1,0 +1,247 @@
+[
+  {
+    "file": "p02-native-public.json",
+    "source": "artifacts/optimization-b03-20261114/p02-native/public/result.json",
+    "sha256": "3cd9c400f7d1f1e107e20a5eb599f2930568e8962305c2a85d5e1d4de1fd7553"
+  },
+  {
+    "file": "p02-native-extended.json",
+    "source": "artifacts/optimization-b03-20261114/p02-native/extended/result.json",
+    "sha256": "c901d03e5c94876d9007ff56eda28e1685e20981c39aff24ebf00015662e12f2"
+  },
+  {
+    "file": "p02-native-identity.json",
+    "source": "artifacts/optimization-b03-20261114/p02-native/result.json",
+    "sha256": "4375fcb6f5b5463dab45bfb7002f86831a98139d2f066412b580cbb7ce21127a"
+  },
+  {
+    "file": "p02-docker-public.json",
+    "source": "artifacts/optimization-b03-20261114/p02-docker/public/result.json",
+    "sha256": "bd3acbd2127b178667b72348d0c5774daf6835ada5347b578315a6a0e8ad456f"
+  },
+  {
+    "file": "p02-docker-extended.json",
+    "source": "artifacts/optimization-b03-20261114/p02-docker/extended/result.json",
+    "sha256": "9623944352c8cdcd8ab9ed3743fc94ce048a8a503d854ae74b344e7cbf056500"
+  },
+  {
+    "file": "p02-docker-identity.json",
+    "source": "artifacts/optimization-b03-20261114/p02-docker/result.json",
+    "sha256": "7394d276ad33ee1e55fbb5a7dd4b269bb642e5504c11cc96a5ebf908407ddd36"
+  },
+  {
+    "file": "p02-asan-public.json",
+    "source": "artifacts/optimization-b03-20261114/p02-asan/public/result.json",
+    "sha256": "a22e1c3e1347802937984c11f820457278b1f760d1f0f24f80bef384f0404bf7"
+  },
+  {
+    "file": "p02-asan-extended.json",
+    "source": "artifacts/optimization-b03-20261114/p02-asan/extended/result.json",
+    "sha256": "f24ad33b28c5f27566a8f8926447a8b167b7c688409a0e48e718c06595d94750"
+  },
+  {
+    "file": "p02-asan-identity.json",
+    "source": "artifacts/optimization-b03-20261114/p02-asan/result.json",
+    "sha256": "816eea7b671260995c62a8f0398ae16e053d38dd8ad8606219a34e242db9e84e"
+  },
+  {
+    "file": "p07-point-control.json",
+    "source": "artifacts/optimization-b03-20261114/p07-point-control/result.json",
+    "sha256": "c0b92fa83400df68f8ccd30eccb93e60fe1d07be6ab7173b5b75074b8dff04e5"
+  },
+  {
+    "file": "p02-point-native.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-native/result.json",
+    "sha256": "c0b92fa83400df68f8ccd30eccb93e60fe1d07be6ab7173b5b75074b8dff04e5"
+  },
+  {
+    "file": "p02-point-docker.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-docker/result.json",
+    "sha256": "c0b92fa83400df68f8ccd30eccb93e60fe1d07be6ab7173b5b75074b8dff04e5"
+  },
+  {
+    "file": "p02-point-asan.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-asan/result.json",
+    "sha256": "c0b92fa83400df68f8ccd30eccb93e60fe1d07be6ab7173b5b75074b8dff04e5"
+  },
+  {
+    "file": "p02-query-paths.json",
+    "source": "artifacts/optimization-b03-20261114/p02-query-paths/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p02-query-asan.json",
+    "source": "artifacts/optimization-b03-20261114/p02-query-asan/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p02-collisions.json",
+    "source": "artifacts/optimization-b03-20261114/p02-collisions/result.json",
+    "sha256": "da0b76e73731845d784710da9d3d4bc01f14bdf95da309968082b4df8ed84f3d"
+  },
+  {
+    "file": "p02-out-of-core-small.json",
+    "source": "artifacts/optimization-b03-20261114/p02-out-of-core-small/result.json",
+    "sha256": "d4c2ec9abda6ca48d47fa54812baf6798ba45a135fd03671bd1b37cf2a619c5e"
+  },
+  {
+    "file": "p07-point-screen.json",
+    "source": "artifacts/optimization-b03-20261114/p07-point-screen/result.json",
+    "sha256": "10cce437dff9c024f3c53fdefa154981d84f2ec59c0454f477aa7c3f5e42bbac"
+  },
+  {
+    "file": "p02-point-screen.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-screen/result.json",
+    "sha256": "0351d1d743906d2c9ebd233df84564cc900cace6ff08ab4431d9163a64c97f70"
+  },
+  {
+    "file": "p07-point-full.json",
+    "source": "artifacts/optimization-b03-20261114/p07-point-full/result.json",
+    "sha256": "8409326ed67026fd11cd80604e49c29abcb9e3f00b09cd68de00dcfa7fc67eda"
+  },
+  {
+    "file": "p02-point-full.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-full/result.json",
+    "sha256": "7a4c7062b50dd7abdfc2dd9a6a18d5a7bbd2bb4328c6f5de829df728a97191ef"
+  },
+  {
+    "file": "p07-point-seed2.json",
+    "source": "artifacts/optimization-b03-20261114/p07-point-seed2/result.json",
+    "sha256": "e3c4110fb21c0ba9fecb2781dfafe9da103b41007a4c0c5456724de0c2eaf779"
+  },
+  {
+    "file": "p02-point-seed2.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-seed2/result.json",
+    "sha256": "e3085a0185e1976a8d0b6f11cb437938df1c757ee861d0a22f53d6bab822c43b"
+  },
+  {
+    "file": "p07-vector-full.json",
+    "source": "artifacts/optimization-b03-20261114/p07-vector-full/result.json",
+    "sha256": "4f5ab1784341a27570462e08b2b52bcb1bbf23d53efac186ffb05d49a6486058"
+  },
+  {
+    "file": "p02-vector-full.json",
+    "source": "artifacts/optimization-b03-20261114/p02-vector-full/result.json",
+    "sha256": "aadccea4481aa1aba5cddbbd846128b0b025053a4e059527a9b33ec0d54bf8ec"
+  },
+  {
+    "file": "p07-vector-seed2.json",
+    "source": "artifacts/optimization-b03-20261114/p07-vector-seed2/result.json",
+    "sha256": "220d56c9313fbf3ba17a43f25815ff899c612e7a283eee5779c0e1e861dd1668"
+  },
+  {
+    "file": "p02-vector-seed2.json",
+    "source": "artifacts/optimization-b03-20261114/p02-vector-seed2/result.json",
+    "sha256": "0110780bd96f5c86b3f652a9b5fe2a4dd85261396ea9d301a5ccfef7d5e8ff0b"
+  },
+  {
+    "file": "p02-vector-comparison.json",
+    "source": "artifacts/optimization-b03-20261114/p02-vector-comparison.json",
+    "sha256": "79fd90ef4318f8ce5d2efe41693c2ec7dabeff96804c1d3c37a008678311387a"
+  },
+  {
+    "file": "p02-vector-seed2-comparison.json",
+    "source": "artifacts/optimization-b03-20261114/p02-vector-seed2-comparison.json",
+    "sha256": "badccdb171fdfc8d2b7d2223bb176be420774199643b93624dd66df759301a96"
+  },
+  {
+    "file": "p02-fingerprint.json",
+    "source": "artifacts/optimization-b03-20261114/p02-fingerprint.json",
+    "sha256": "2ec7bf282256b69b9b937f8e298c2834faf446f5f91facecae9c367791c5bee4"
+  },
+  {
+    "file": "profile-summary.json",
+    "source": "artifacts/optimization-b03-20261114/profile-summary.json",
+    "sha256": "775a3dcd1623a18f02917cfc8d6d7c2b7bb7813aa1424a03b074139c48839130"
+  },
+  {
+    "file": "point-comparisons.json",
+    "source": "artifacts/optimization-b03-20261114/point-comparisons.json",
+    "sha256": "40da78227112ee8e02127ce6caa1e7891c1808fa101f4caa5dc86aa4266a2a41"
+  },
+  {
+    "file": "sanitizer-audit.json",
+    "source": "artifacts/optimization-b03-20261114/sanitizer-audit.json",
+    "sha256": "628c465d4dcc1cf5c2aaeb8735d5aa4fc482805d2ae0bfd71c3439418bd6b0f4"
+  },
+  {
+    "file": "record.json",
+    "source": "artifacts/optimization-b03-20261114/record.json",
+    "sha256": "66b9e4a10a7be145a9ba8e9cd7fbbb95cac8a3a086c7507b3e1ac02532aab6de"
+  },
+  {
+    "file": "p02.diff",
+    "source": "artifacts/optimization-b03-20261114/p02.diff",
+    "sha256": "4269686a2b20145dd66d96c34322cb260cf584c459d5b63b2d9faa75484ddffb"
+  },
+  {
+    "file": "binary-identities.sha256",
+    "source": "artifacts/optimization-b03-20261114/binary-identities.sha256",
+    "sha256": "37fb5077447093fed793fdbf054be03d7680e516e5d82ce37c650795ead878c8"
+  },
+  {
+    "file": "tool-identities.sha256",
+    "source": "artifacts/optimization-b03-20261114/tool-identities.sha256",
+    "sha256": "f6e76e0a39d3a38ba234861223d91a801d3d6d141e8e6f8c53dec2237862e7b4"
+  },
+  {
+    "file": "p07-profile-vector-gprof.txt.gz",
+    "source": "artifacts/optimization-b03-20261114/p07-profile-vector-gprof.txt.gz",
+    "sha256": "ac0a345baaf7fe94e0e768a6386d0df0eabd5976da0551aaa5dc058ba519a364"
+  },
+  {
+    "file": "p07-profile-points-gprof.txt.gz",
+    "source": "artifacts/optimization-b03-20261114/p07-profile-points-gprof.txt.gz",
+    "sha256": "0d8e4d15576d1bd67a0a63ef86c8adaee05102e9f72a8f8edbe9ab3c27ef2d4c"
+  },
+  {
+    "file": "p02-profile-points-gprof.txt.gz",
+    "source": "artifacts/optimization-b03-20261114/p02-profile-points-gprof.txt.gz",
+    "sha256": "1b010b90660d22a795a3f6bb26e3b605b5667933bfdd92def1618712dc8781fa"
+  },
+  {
+    "file": "record-final.json",
+    "source": "artifacts/optimization-b03-20261114/record-final.json",
+    "sha256": "f06ae5c88921277fc339108b8dcbc30c57e1ca1d559f1931ba9c815503aa6fb1"
+  },
+  {
+    "file": "sanitizer-audit-final.json",
+    "source": "artifacts/optimization-b03-20261114/sanitizer-audit-final.json",
+    "sha256": "8c9481ccee189a6de1fde25f8e42c1421090a2a27e1cb5b88b7c78e3018ddd3f"
+  },
+  {
+    "file": "tool-identities-final.sha256",
+    "source": "artifacts/optimization-b03-20261114/tool-identities-final.sha256",
+    "sha256": "e1c13428a8b5a5594d796af9f051212ff8e3d88be5c5363824c152aa5362c3da"
+  },
+  {
+    "file": "p07-point-control-range-only.json",
+    "source": "artifacts/optimization-b03-20261114/p07-point-control-range-only/result.json",
+    "sha256": "cc18533bd57a6c5d4fbb0ff3f8e438daa3ccd48361bf83b2b1eebac350ad6407"
+  },
+  {
+    "file": "p02-point-native-range-only.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-native-range-only/result.json",
+    "sha256": "cc18533bd57a6c5d4fbb0ff3f8e438daa3ccd48361bf83b2b1eebac350ad6407"
+  },
+  {
+    "file": "p02-point-asan-range-only.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-asan-range-only/result.json",
+    "sha256": "cc18533bd57a6c5d4fbb0ff3f8e438daa3ccd48361bf83b2b1eebac350ad6407"
+  },
+  {
+    "file": "p02-point-docker-range-only.json",
+    "source": "artifacts/optimization-b03-20261114/p02-point-docker-range-only/result.json",
+    "sha256": "cc18533bd57a6c5d4fbb0ff3f8e438daa3ccd48361bf83b2b1eebac350ad6407"
+  },
+  {
+    "file": "closure.json",
+    "source": "artifacts/optimization-b03-20261114/closure.json",
+    "sha256": "2fd192ed77619b72bc43f12a90cd990701faeca75624a762359bcadd79015852"
+  },
+  {
+    "file": "summary.json",
+    "source": "artifacts/optimization-b03-20261114/summary.json",
+    "sha256": "5d163b3a79f6ec45cc33afff89bd0b7263e836265416ad46e54168a2425c73ef"
+  }
+]

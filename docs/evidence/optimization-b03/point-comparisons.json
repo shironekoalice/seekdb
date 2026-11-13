@@ -1,0 +1,172 @@
+{
+  "primary": {
+    "scope": "local PK workload only; T client wall, B/M whole round; no official E",
+    "workload": {
+      "rows": 10000,
+      "operations_per_stage": 300,
+      "seed": 20261114,
+      "keys_sha256": "63e9d90eca8db32fec755d649f3a0eb634fe91767b292d06938840a28359fbe2",
+      "hit_pattern": "alternating present/absent; repeated keys allowed",
+      "durability": "each update/delete/insert autocommits"
+    },
+    "baseline_image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+    "candidate_image_id": "sha256:7190653ae8aaaa40aa084c051a073026c49d709e3ccb926a857721e02d41ae62",
+    "stages": {
+      "select": {
+        "baseline_seconds": [
+          0.35784024500026135,
+          0.3888661170058185,
+          0.3778802579981857
+        ],
+        "candidate_seconds": [
+          0.12316236500191735,
+          0.09863533899624599,
+          0.11874469499889528
+        ],
+        "baseline_median": 0.3778802579981857,
+        "candidate_median": 0.11874469499889528,
+        "median_speedup": 3.1822917057616866
+      },
+      "update": {
+        "baseline_seconds": [
+          1.6155442780000158,
+          1.6193360070028575,
+          1.529526258003898
+        ],
+        "candidate_seconds": [
+          1.1453544369942392,
+          0.948036850997596,
+          1.141842329998326
+        ],
+        "baseline_median": 1.6155442780000158,
+        "candidate_median": 1.141842329998326,
+        "median_speedup": 1.4148575819591347
+      },
+      "delete": {
+        "baseline_seconds": [
+          1.1355557599963504,
+          1.0837927329994272,
+          1.1906169229987427
+        ],
+        "candidate_seconds": [
+          0.8721582080033841,
+          1.0972240729970508,
+          1.0035435560057522
+        ],
+        "baseline_median": 1.1355557599963504,
+        "candidate_median": 1.0035435560057522,
+        "median_speedup": 1.1315460631484953
+      },
+      "insert": {
+        "baseline_seconds": [
+          0.7918644660021528,
+          0.7970031820004806,
+          1.6147058439964894
+        ],
+        "candidate_seconds": [
+          0.8855765369953588,
+          0.8010568649988272,
+          0.8045887690022937
+        ],
+        "baseline_median": 0.7970031820004806,
+        "candidate_median": 0.8045887690022937,
+        "median_speedup": 0.9905720943492421
+      }
+    },
+    "whole_round_resource_medians": {
+      "B_bytes": {
+        "baseline": 27602944,
+        "candidate": 27602944
+      },
+      "M_bytes": {
+        "baseline": 7245824,
+        "candidate": 7602176
+      }
+    }
+  },
+  "second_seed_reverse_order": {
+    "scope": "local PK workload only; T client wall, B/M whole round; no official E",
+    "workload": {
+      "rows": 10000,
+      "operations_per_stage": 300,
+      "seed": 20261113,
+      "keys_sha256": "31d25269e6086fba2636dab1f8ce3346e09ab8b30d25eb5f3d1b190b147b438c",
+      "hit_pattern": "alternating present/absent; repeated keys allowed",
+      "durability": "each update/delete/insert autocommits"
+    },
+    "baseline_image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+    "candidate_image_id": "sha256:7190653ae8aaaa40aa084c051a073026c49d709e3ccb926a857721e02d41ae62",
+    "stages": {
+      "select": {
+        "baseline_seconds": [
+          0.39388615699863294,
+          0.3891988710020087,
+          0.3903397020039847
+        ],
+        "candidate_seconds": [
+          0.1022390779980924,
+          0.20354483899427578,
+          0.10425157199642854
+        ],
+        "baseline_median": 0.3903397020039847,
+        "candidate_median": 0.10425157199642854,
+        "median_speedup": 3.7442092673418585
+      },
+      "update": {
+        "baseline_seconds": [
+          1.1682266159987194,
+          2.5158250449967454,
+          1.1831548830014071
+        ],
+        "candidate_seconds": [
+          1.8594440889937687,
+          1.0678632720009773,
+          1.0663298609943013
+        ],
+        "baseline_median": 1.1831548830014071,
+        "candidate_median": 1.0678632720009773,
+        "median_speedup": 1.1079647685460656
+      },
+      "delete": {
+        "baseline_seconds": [
+          1.1123128360050032,
+          1.6831456930012791,
+          1.1976618649932789
+        ],
+        "candidate_seconds": [
+          1.7511040519966627,
+          0.9417206409998471,
+          0.872124845001963
+        ],
+        "baseline_median": 1.1976618649932789,
+        "candidate_median": 0.9417206409998471,
+        "median_speedup": 1.2717804122055698
+      },
+      "insert": {
+        "baseline_seconds": [
+          0.783822710000095,
+          0.8132756240011076,
+          0.8026147880009376
+        ],
+        "candidate_seconds": [
+          0.8183609810002963,
+          0.817930985998828,
+          0.924661709999782
+        ],
+        "baseline_median": 0.8026147880009376,
+        "candidate_median": 0.8183609810002963,
+        "median_speedup": 0.9807588663622355
+      }
+    },
+    "whole_round_resource_medians": {
+      "B_bytes": {
+        "baseline": 27553792,
+        "candidate": 27553792
+      },
+      "M_bytes": {
+        "baseline": 7241728,
+        "candidate": 7622656
+      }
+    }
+  }
+}

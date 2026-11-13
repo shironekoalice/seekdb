@@ -41,12 +41,18 @@ python3 tests/contract.py --binary /opt/minivectordb-candidate/minivectordb --ch
 python3 tests/query_paths.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/query-paths-new
 python3 tests/map_collisions.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/map-collisions-new
 python3 tests/cache_eviction.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/cache-eviction-new
+python3 tests/point_paths.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/point-paths-new
 ```
 
 `query_paths.py`和`map_collisions.py`是B01新增独立工具，分别覆盖119次跨查询路径全排序比较和24个同桶键的
 事务/恢复状态比较；也支持 `--image`。修改缓存时还需验证容量淘汰、映射身份及超内存数据。
 `cache_eviction.py`为B02新增工具，两表24000行、8200次回滚、80次查询及全状态比较，
 覆盖淘汰和映射身份复用；先在冻结基线上通过，再验证候选。
+
+`point_paths.py`为B03新增Python状态oracle，1218次点查询、812次强制范围扫描、
+90个错误反例、120次随机操作，覆盖PK等值、其他AND条件、提前报错和事务/恢复，
+也支持 `--image`。已在P07控制组和隔离P02的原生/Docker/sanitizer运行；
+主分支运行代码仍为P07，不能因新增工具误认为P02已经采用。
 
 故意破坏隔离副本，确认测试会拒绝，原始代码不变：
 
@@ -91,6 +97,17 @@ docker exec 运行，事后取 io.stat/memory.peak；睡眠监督进程与 sync 
 compare 使用官方公式但没有官方 reference：基线 T/B/M 分别取三轮中位数，
 候选每轮计算 E 再取中位数，四舍五入6位；同一负载/环境才比较。不能把 E 当排名分。
 三轮任一失败无有效比较。检测换页或明显系统竞争时先解决测量条件/标不确定，不挑最好轮次。
+
+PK点操作另用 `tools/point_benchmark.py --image TAG --output NEW`：
+默认10000行，SELECT/UPDATE/DELETE各300次、重插约150次，命中/未命中交替，
+逐条自动提交，每轮关闭并重启核验全部状态。三轮T按操作报告，B/M统计全轮；
+这不是默认向量性能项目，不计算官方E。`--rows 1000 --operations 60 --rounds 1`
+仅用于筛选。第二种子反转两个镜像顺序，保留弱收益或负结果。
+
+`tools/profile_workload.py --binary PATH --output NEW`使用10000×128/1000查询诊断负载。
+独立以RelWithDebInfo、编译/链接均加 `-pg` 构建，从新的诊断目录执行，
+再用 `gprof PATH gmon.out` 保存完整报告。计数含装载/索引，插桩时间不是平台T，
+不能和Release性能混比。B03完整profile压缩副本在精选证据目录。
 
 ## 提交与证据
 

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "phase": "bounded_optimization",
-  "status": "batch_b02_completed",
+  "status": "batch_b03_completed",
   "updated_local_date": "2026-11-14",
   "workspace": "E:/develop/project_files/project/oceanbase",
   "project": "minivectordb",
@@ -24,12 +24,14 @@
   "measured_image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
   "baseline_report": "docs/evidence/benchmark-baseline.json",
   "next_batch": {
-    "action": "Profile adopted P07 before selecting another hypothesis. Consider PK equality CRUD latency, or predicate binding only with new hotspot evidence.",
-    "suggested_queue": "P02/profile",
-    "max_candidates": 3,
+    "note": "Resume only on user continuation; P07 remains best. P02 is a verified point-workload alternative, not promoted for default workload E.",
     "max_minutes": 45,
+    "action": "Before editing P07, count transient JSON projection allocations before TopK rejection (P08); use profile evidence, then one minimal candidate. Do not repeat P02 or existing profiles without new justification.",
     "reserve_cleanup_minutes": 5,
-    "note": "Resume from this state; no background loop, push or official submission."
+    "suggested_queue": "P08/allocation-counting",
+    "max_candidates": 3,
+    "material_bytes_current": 113875,
+    "material_limit_bytes": 131072
   },
   "permissions": {
     "local_preparation_and_rehearsal": true,
@@ -56,15 +58,16 @@
   },
   "background_optimization_running": false,
   "last_batch": {
-    "id": "b02-20261114",
     "status": "completed",
-    "report": "docs/OPTIMIZATION_B02.md",
-    "evidence": "docs/evidence/optimization-b02",
-    "completed_local": "2026-11-14T00:56:55.8673825+08:00",
-    "elapsed_seconds_through_evidence_audit": 1693.64,
-    "adopted": [
-      "P07"
-    ]
+    "conservative_elapsed_seconds_through_evidence_audit": 1927.668,
+    "completed_local": "2026-11-14T01:47:07.6681854+08:00",
+    "id": "b03-20261114",
+    "evidence": "docs/evidence/optimization-b03",
+    "candidate_decisions": {
+      "P02": "point_gain_verified_not_promoted_default_E_inconclusive"
+    },
+    "adopted": [],
+    "report": "docs/OPTIMIZATION_B03.md"
   },
   "completed_batches": [
     {
@@ -91,7 +94,39 @@
       "adopted": [
         "P07"
       ]
+    },
+    {
+      "status": "completed",
+      "conservative_elapsed_seconds_through_evidence_audit": 1927.668,
+      "completed_local": "2026-11-14T01:47:07.6681854+08:00",
+      "id": "b03-20261114",
+      "evidence": "docs/evidence/optimization-b03",
+      "candidate_decisions": {
+        "P02": "point_gain_verified_not_promoted_default_E_inconclusive"
+      },
+      "adopted": [],
+      "report": "docs/OPTIMIZATION_B03.md"
     }
   ],
-  "best_report": "docs/evidence/optimization-b02/p07-benchmark.json"
+  "best_report": "docs/evidence/optimization-b02/p07-benchmark.json",
+  "evaluated_point_candidate": {
+    "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
+    "point_select_speedup": [
+      3.1822917057616866,
+      3.7442092673418585
+    ],
+    "status": "point_gain_verified_not_promoted_default_E_inconclusive",
+    "image_id": "sha256:7190653ae8aaaa40aa084c051a073026c49d709e3ccb926a857721e02d41ae62",
+    "engine_commit": "10bf31541f1a31e21393ac9e2fe10ee3e5775dab",
+    "validation_tool_commit": "69c6b9a7f09f9923b90339d1f3d7f99c3e255d89",
+    "image": "minivectordb:b03-p02",
+    "default_E": [
+      "0.494849",
+      "0.531551"
+    ],
+    "branch": "optimization/b03-p02-20261114",
+    "native": "/opt/mvdb-b03-p02/minivectordb",
+    "id": "P02",
+    "report": "docs/OPTIMIZATION_B03.md"
+  }
 }

@@ -1,0 +1,6 @@
+{
+  "log_files": 33,
+  "findings": 0,
+  "scope": "Scanned actual stderr logs after passing sanitizer suites",
+  "patterns": "AddressSanitizer|LeakSanitizer|UndefinedBehaviorSanitizer|runtime error:"
+}

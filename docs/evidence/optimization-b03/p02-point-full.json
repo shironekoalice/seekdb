@@ -1,0 +1,180 @@
+{
+  "scope": "local point CRUD; independent Python state, not official E workload",
+  "passed": true,
+  "image": "minivectordb:b03-p02",
+  "binary": null,
+  "image_id": "sha256:7190653ae8aaaa40aa084c051a073026c49d709e3ccb926a857721e02d41ae62",
+  "binary_sha256": null,
+  "workload": {
+    "rows": 10000,
+    "operations_per_stage": 300,
+    "seed": 20261114,
+    "keys_sha256": "63e9d90eca8db32fec755d649f3a0eb634fe91767b292d06938840a28359fbe2",
+    "hit_pattern": "alternating present/absent; repeated keys allowed",
+    "durability": "each update/delete/insert autocommits"
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "stages": {
+        "select": {
+          "T_seconds": 0.12316236500191735,
+          "requests": 300
+        },
+        "update": {
+          "T_seconds": 1.1453544369942392,
+          "requests": 300
+        },
+        "delete": {
+          "T_seconds": 0.8721582080033841,
+          "requests": 300
+        },
+        "insert": {
+          "T_seconds": 0.8855765369953588,
+          "requests": 150
+        }
+      },
+      "resources_whole_round": {
+        "B_bytes": 27602944,
+        "M_bytes": 7634944,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 27602944,
+            "rios": 0,
+            "wios": 3133,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        }
+      },
+      "persisted_rows_verified": 10000
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "stages": {
+        "select": {
+          "T_seconds": 0.09863533899624599,
+          "requests": 300
+        },
+        "update": {
+          "T_seconds": 0.948036850997596,
+          "requests": 300
+        },
+        "delete": {
+          "T_seconds": 1.0972240729970508,
+          "requests": 300
+        },
+        "insert": {
+          "T_seconds": 0.8010568649988272,
+          "requests": 150
+        }
+      },
+      "resources_whole_round": {
+        "B_bytes": 27832320,
+        "M_bytes": 7602176,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 27832320,
+            "rios": 0,
+            "wios": 3140,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        }
+      },
+      "persisted_rows_verified": 10000
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "stages": {
+        "select": {
+          "T_seconds": 0.11874469499889528,
+          "requests": 300
+        },
+        "update": {
+          "T_seconds": 1.141842329998326,
+          "requests": 300
+        },
+        "delete": {
+          "T_seconds": 1.0035435560057522,
+          "requests": 300
+        },
+        "insert": {
+          "T_seconds": 0.8045887690022937,
+          "requests": 150
+        }
+      },
+      "resources_whole_round": {
+        "B_bytes": 27602944,
+        "M_bytes": 7397376,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 27602944,
+            "rios": 0,
+            "wios": 3133,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        }
+      },
+      "persisted_rows_verified": 10000
+    }
+  ],
+  "medians_T_seconds": {
+    "select": 0.11874469499889528,
+    "update": 1.141842329998326,
+    "delete": 1.0035435560057522,
+    "insert": 0.8045887690022937
+  }
+}

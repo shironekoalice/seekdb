@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "id": "b03-20261114",
+  "started_local": "2026-11-14T01:15:00+08:00",
+  "max_seconds": 2700,
+  "reserve_cleanup_seconds": 300,
+  "candidate_limit": 3,
+  "scope": "Profile frozen P07, then evaluate P02 PK equality SELECT/UPDATE/DELETE using existing lookup",
+  "baseline_tag": "best-b02-20261114",
+  "baseline_commit": "2714fea7c4184ac729d976dcb6b9b45b2128f5d9",
+  "baseline_code_sha256": "81b6fc0dec77f560b06a2cabefae9c84f427184467f0f8442e5cd77bd7e7f309",
+  "status": "archiving",
+  "hypothesis": "A PK equality currently scans the full visible table; lookup can bound row visits while preserving all validation, predicates and statement staging",
+  "stop_conditions": [
+    "Any semantic regression",
+    "Point gain not reproducible",
+    "Material default workload regression without explanation",
+    "40-minute work deadline before cleanup"
+  ],
+  "remote_push": false,
+  "official_submission": false,
+  "candidate": {
+    "decision": "point_gain_verified_not_promoted_default_E_inconclusive",
+    "commit": "10bf31541f1a31e21393ac9e2fe10ee3e5775dab",
+    "profile_observation": "P07 point workload: 9087500 load calls / 9077500 matches / 911 DiskMap scans; P02: 10455 / 455 / 1. The remaining 10000 loads and one scan build the vector index.",
+    "image_id": "sha256:7190653ae8aaaa40aa084c051a073026c49d709e3ccb926a857721e02d41ae62",
+    "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
+    "id": "P02",
+    "changed_engine_files": [
+      "src/storage.cpp"
+    ],
+    "image": "minivectordb:b03-p02",
+    "binary_sha256": "d530fc51ae9b9e09020030a8dffbf489488b97a55ce9b8b6a6f44da9f5b85688",
+    "reason": "Two complete three-round point workloads show repeatable SELECT gain (3.1823x/3.7442x) and smaller update/delete gains. Default vector workload E is 0.494849 and 0.531551 across opposite-order seeds, so repeatable contest-workload aggregate improvement is not established. Preserve P07 as best; retain candidate branch/image/build and all raw evidence.",
+    "learning_summary": "B03先profile当前P07再评估P02。P07的1万行点负载有9087500次行加载、9077500次谓词判断；P02复用事务可见的lookup，并保留全部提前校验、AND条件及语句暂存，调用分别降至10455/455。P07控制组与候选原生/Docker/sanitizer均通过1218次点查询、812次扫描对照、90个错误反例及120次随机操作；公开20例、扩展、故障恢复和119次独立查询对照通过。小表筛选未显示稳定端到端收益，更新项更慢，结果保留；完整两种子点查询中位数约快3.18/3.74倍，更新/删除改善较小，插入基本持平。默认向量完整三轮本地E为0.494849/0.531551，综合收益不重复，故P02仅保留独立分支，不替换P07最佳。128MiB/256MiB活跃数据通过且无换页；没有把P07旧的2GiB测试标成P02新通过。以上实现、解释和实验归Agent/工具，不证明学生已掌握相关知识，也不推算官方成绩。",
+    "known_limits": [
+      "Point workload is not official performance scoring workload",
+      "No repeatable default E benefit established; time/order/seed variability not causally isolated",
+      "-pg timings are diagnostic and not platform T/B/M",
+      "P02 full 2GiB/2304MiB test not rerun because no memory structure/log format changes; 128MiB/256MiB passed",
+      "Official 29 cases, reference performance and Agent evaluation not run"
+    ]
+  },
+  "first_verified_clock": "2026-11-14T01:18:09.9706678+08:00",
+  "timing_basis": "Conservative budget clock includes initial truncated reads before first verified 01:18:09 timestamp; not an exact process start. Closure reports the conservative upper-bound elapsed time including archiving.",
+  "retained_best": "P07 best-b02-20261114"
+}

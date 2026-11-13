@@ -1,0 +1,18 @@
+{
+  "id": "b03-20261114",
+  "conservative_budget_start": "2026-11-14T01:15:00+08:00",
+  "first_verified_clock": "2026-11-14T01:18:09.9706678+08:00",
+  "timing_basis": "Conservative budget clock includes initial truncated reads before first verified 01:18:09 timestamp; not an exact process start. Closure reports the conservative upper-bound elapsed time including archiving.",
+  "evidence_audit_completed_local": "2026-11-14T01:47:07.6681854+08:00",
+  "conservative_elapsed_seconds_through_evidence_audit": 1927.668,
+  "budget_seconds": 2700,
+  "candidate_count": 1,
+  "candidate_limit": 3,
+  "archived_hashed_files": 47,
+  "best_unchanged": "P07 / best-b02-20261114",
+  "candidate_decision": "point_gain_verified_not_promoted_default_E_inconclusive",
+  "archived_sources_match": true,
+  "remote_push": false,
+  "official_submission": false,
+  "note": "Budget clock intentionally starts before first verified timestamp. Local commit and final audit follow; final-audit.json records the later closing time."
+}
