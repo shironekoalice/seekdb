@@ -1,5 +1,6 @@
 #pragma once
 #include "sql.hpp"
+#include <array>
 #include <filesystem>
 #include <functional>
 #include <list>
@@ -25,6 +26,9 @@ public:
 };
 class DiskMap {
   File file_;
+  // Fixed-size cache of the derived bucket directory, independent of row count.
+  std::array<uint64_t, 8192> heads_{};
+  uint64_t cache_id_;
 public:
   explicit DiskMap(const std::filesystem::path& path);
   std::optional<uint64_t> find(int64_t key) const;

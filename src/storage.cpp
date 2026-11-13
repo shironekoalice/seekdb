@@ -30,6 +30,32 @@ constexpr uint64_t BUCKETS = 8192;
 constexpr uint64_t MAP_HEADER = BUCKETS * sizeof(uint64_t);
 struct Node { int64_t key; uint64_t value; uint64_t next; };
 static_assert(sizeof(Node) == 24);
+struct CachedNode { uint64_t owner = 0, position = 0; Node node{}; };
+constexpr size_t NODE_CACHE_SLOTS = 16384;
+// One process-wide read-through cache, bounded independently of rows/maps.
+std::array<CachedNode, NODE_CACHE_SLOTS> node_cache{};
+static_assert(sizeof(node_cache) == 640 * 1024);
+uint64_t next_cache_owner = 0;
+uint64_t new_cache_owner() {
+  if (++next_cache_owner == 0) throw std::runtime_error("map cache identity exhausted");
+  return next_cache_owner;
+}
+CachedNode& cache_slot(uint64_t owner, uint64_t position) {
+  uint64_t index = (position - MAP_HEADER) / sizeof(Node);
+  return node_cache[(index ^ (owner * 0x9e3779b97f4a7c15ULL)) % NODE_CACHE_SLOTS];
+}
+Node read_node(const File& file, uint64_t owner, uint64_t position) {
+  auto& cached = cache_slot(owner, position);
+  if (cached.owner != owner || cached.position != position) {
+    Node node{};
+    file.read(position, &node, sizeof(node));
+    cached = {owner, position, node};
+  }
+  return cached.node;
+}
+void remember_node(uint64_t owner, uint64_t position, const Node& node) {
+  cache_slot(owner, position) = {owner, position, node};
+}
 struct Header { uint32_t magic, length, type, checksum; };
 static_assert(sizeof(Header) == 16);
 uint32_t checksum(const std::vector<uint8_t>& payload, uint32_t type) {
@@ -112,28 +138,37 @@ void File::write(uint64_t offset, const void* data, size_t length) {
 }
 void File::truncate(uint64_t length) { if (::ftruncate(fd_, static_cast<off_t>(length)) != 0) io_error("ftruncate"); }
 void File::sync() { if (::fdatasync(fd_) != 0) io_error("fdatasync"); }
-DiskMap::DiskMap(const std::filesystem::path& path) : file_(path, true) { file_.truncate(MAP_HEADER); }
+DiskMap::DiskMap(const std::filesystem::path& path) : file_(path, true), cache_id_(new_cache_owner()) {
+  static_assert(sizeof(heads_) == MAP_HEADER);
+  file_.truncate(MAP_HEADER);
+}
 std::optional<uint64_t> DiskMap::find(int64_t key) const {
-  uint64_t position = 0; file_.read(bucket(key) * 8, &position, 8);
+  uint64_t position = heads_[bucket(key)];
   while (position) {
-    Node node{}; file_.read(position, &node, sizeof(node));
+    Node node = read_node(file_, cache_id_, position);
     if (node.key == key) return node.value;
     position = node.next;
   }
   return {};
 }
 void DiskMap::set(int64_t key, uint64_t value) {
-  uint64_t head = 0; file_.read(bucket(key) * 8, &head, 8);
+  const uint64_t slot = bucket(key), head = heads_[slot];
   uint64_t position = head;
   while (position) {
-    Node n{}; file_.read(position, &n, sizeof(n));
-    if (n.key == key) { n.value = value; file_.write(position, &n, sizeof(n)); return; }
+    Node n = read_node(file_, cache_id_, position);
+    if (n.key == key) {
+      n.value = value; file_.write(position, &n, sizeof(n));
+      remember_node(cache_id_, position, n);
+      return;
+    }
     position = n.next;
   }
   Node node{key, value, head};
   position = file_.size();
   file_.write(position, &node, sizeof(node));
-  file_.write(bucket(key) * 8, &position, 8);
+  file_.write(slot * 8, &position, 8);
+  heads_[slot] = position;
+  remember_node(cache_id_, position, node);
 }
 void DiskMap::scan(const std::function<void(int64_t, uint64_t)>& fn) const {
   const uint64_t end = file_.size();
