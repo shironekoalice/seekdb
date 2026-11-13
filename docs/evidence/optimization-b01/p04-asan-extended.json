@@ -1,0 +1,72 @@
+{
+  "scope": "independent local tests; not hidden formal cases",
+  "passed": true,
+  "checks": [
+    {
+      "name": "types",
+      "passed": true,
+      "detail": "BIGINT boundaries, Unicode length, finite float32, types, invalid syntax",
+      "seconds": 0.083
+    },
+    {
+      "name": "transaction",
+      "passed": true,
+      "detail": "statement rollback, read-your-writes, vector visibility, acknowledged commit and uncommitted crash",
+      "seconds": 0.137
+    },
+    {
+      "name": "random_model",
+      "passed": true,
+      "detail": "240 seeded operations, 48 state comparisons and 48 independent filtered TopK comparisons",
+      "seconds": 2.041
+    },
+    {
+      "name": "ordering",
+      "passed": true,
+      "detail": "filter-before-TopK, ASC/DESC ties, Unicode order, quotes, deleted/stale index entries",
+      "seconds": 0.137
+    },
+    {
+      "name": "ddl",
+      "passed": true,
+      "detail": "transactional schema, non-leading PK, column lists, multi-table atomic commit",
+      "seconds": 0.12
+    },
+    {
+      "name": "commit_before_append",
+      "passed": true,
+      "detail": "exit 86 observed; recovered state correct twice: commit_before_append",
+      "seconds": 0.125
+    },
+    {
+      "name": "commit_partial_append",
+      "passed": true,
+      "detail": "exit 86 observed; recovered state correct twice: commit_partial_append",
+      "seconds": 0.207
+    },
+    {
+      "name": "commit_before_marker",
+      "passed": true,
+      "detail": "exit 86 observed; recovered state correct twice: commit_before_marker",
+      "seconds": 0.13
+    },
+    {
+      "name": "commit_after_sync",
+      "passed": true,
+      "detail": "exit 86 observed; recovered state correct twice: commit_after_sync",
+      "seconds": 0.156
+    },
+    {
+      "name": "commit_after_apply",
+      "passed": true,
+      "detail": "exit 86 observed; recovered state correct twice: commit_after_apply",
+      "seconds": 0.181
+    },
+    {
+      "name": "recovery_after_record",
+      "passed": true,
+      "detail": "exit 86 observed; recovered state correct twice: recovery_after_record",
+      "seconds": 0.147
+    }
+  ]
+}

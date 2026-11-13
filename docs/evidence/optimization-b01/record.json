@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "id": "b01-20261113",
+  "status": "completed",
+  "started_local": "2026-11-13T23:47:56+08:00",
+  "budget": {
+    "max_candidates": 3,
+    "max_minutes": 45,
+    "reserve_cleanup_minutes": 5
+  },
+  "baseline_tag": "prep-baseline-20261113",
+  "baseline_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "worktree_base_commit": "b221d26a6fcb61e8fbc7d60be88fe72c09c4d15b",
+  "baseline_code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d",
+  "baseline_image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+  "baseline_identity_checked": true,
+  "worktree": "../worktrees/minivectordb-b01",
+  "branch": "optimization/b01-20261113",
+  "candidates": [
+    {
+      "id": "P01",
+      "status": "completed",
+      "hypothesis": "Binding SELECT predicate columns and constants once reduces filtered query overhead without changing visibility, comparison semantics or eager errors.",
+      "origin": "Reuse of handoff rehearsal prototype; no repeated micro prototype.",
+      "changed_files": [
+        "src/storage.cpp"
+      ],
+      "commit": "796947f",
+      "candidate_code_sha256": "7a6d285d6fcb5251b6d1fa0f12716383e02d5f2e80cdc1a91ac9f61d2632932c",
+      "candidate_image_id": "sha256:2caa51b2901a9ddd992a62dffd39996204f148e4d484d1928c7fc824e7b6078e",
+      "checks": [
+        "p01-native/result.json",
+        "p01-docker/result.json",
+        "p01-probe/result.json"
+      ],
+      "measurement_reports": [
+        "p01-benchmark/result.json",
+        "baseline-current/result.json"
+      ],
+      "comparisons": [
+        "p01-vs-frozen.json",
+        "p01-vs-current.json"
+      ],
+      "local_E_vs_frozen": "0.491478",
+      "local_E_vs_current": "0.503032",
+      "decision": "inconclusive_not_adopted",
+      "reason": "Full-workload effects are small relative to sequential-run/host variation. Preserve the correct prototype, but do not adopt a marginal improvement based on these results."
+    },
+    {
+      "id": "P03",
+      "status": "completed",
+      "hypothesis": "For unfiltered indexed vector ordering, evaluate sort keys using flat float32 vectors and defer full-row loading until the row is a TopK contender.",
+      "baseline": "frozen engine; P01 is not included",
+      "changed_files": [
+        "src/storage.cpp",
+        "tests/query_paths.py"
+      ],
+      "risks": [
+        "stale index entries",
+        "mixed/different distance expressions",
+        "tie order",
+        "transaction fallback",
+        "additional one-vector scratch memory"
+      ],
+      "control_test": "query-oracle-baseline/result.json: 119 exact independent full-sort comparisons passed",
+      "commit": "6c87ac7",
+      "candidate_code_sha256": "29d7e3ddc79b7a163a7e6dd56974c113c6741d6036865463c3c7de6c5f3f75fe",
+      "candidate_image_id": "sha256:6de86c5ce6755f96856a5e3cfc270792166f23b1a4675c90e575983876573081",
+      "checks": [
+        "p03-native/result.json",
+        "p03-docker/result.json",
+        "p03-asan/result.json",
+        "p03-query-oracle/result.json",
+        "p03-docker-oracle/result.json",
+        "p03-asan-oracle/result.json",
+        "p03-out-of-core/result.json"
+      ],
+      "measurement_reports": [
+        "p03-benchmark/result.json"
+      ],
+      "comparisons": [
+        "p03-vs-frozen.json",
+        "p03-vs-current.json"
+      ],
+      "local_E_vs_frozen": "0.487888",
+      "local_E_vs_current": "0.499438",
+      "decision": "rejected",
+      "reason": "All correctness checks passed but full-workload aggregate efficiency did not improve. Index version lookup remains per row; no reliable benefit justifies adopting this query-path complexity."
+    },
+    {
+      "id": "P04",
+      "status": "completed",
+      "hypothesis": "A fixed 64 KiB bucket-head cache per DiskMap removes one repeated small read from every point lookup/set while retaining disk-resident nodes and the same rebuildable file format.",
+      "baseline": "frozen engine; P01 and P03 are not included",
+      "changed_files": [
+        "src/storage.cpp",
+        "src/storage.hpp",
+        "tests/query_paths.py"
+      ],
+      "evidence_for_hypothesis": "Prior baseline gprof counted 51006 DiskMap::find calls and 108720 File::read calls on 500x16/100 queries; code inspection identifies an unconditional bucket-head pread in find/set. Counts establish repetition, not runtime dominance.",
+      "risks": [
+        "head update after insertion",
+        "collision chains",
+        "transaction/pending maps",
+        "recovery rebuilding cache",
+        "64 KiB per live map rather than one global cache"
+      ],
+      "commit": "894d0e0cd3f0c36138bd5e7252e0cca778aadf46",
+      "candidate_code_sha256": "c5b57dc101a1268956aeb73780a72cda8c77c9afd7eb692b6f94e851689dae51",
+      "candidate_image_id": "sha256:c55aa67517d9d5f4973edbbf00eb7861bc61b6c99d59acd9be78133f66637d92",
+      "checks": [
+        "p04-native/result.json",
+        "p04-docker/result.json",
+        "p04-asan/result.json",
+        "p04-query-oracle/result.json",
+        "p04-docker-oracle/result.json",
+        "p04-asan-oracle/result.json",
+        "collisions-baseline/result.json",
+        "p04-collisions/result.json",
+        "p04-asan-collisions/result.json",
+        "p04-out-of-core-small/result.json",
+        "p04-out-of-core-full/result.json"
+      ],
+      "measurement_reports": [
+        "p04-benchmark/result.json",
+        "baseline-seed2/result.json",
+        "p04-seed2/result.json"
+      ],
+      "comparisons": [
+        "p04-vs-frozen.json",
+        "p04-vs-current.json",
+        "p04-vs-seed2.json"
+      ],
+      "local_E_vs_frozen": "0.503876",
+      "local_E_vs_current": "0.515368",
+      "local_E_vs_seed2": "0.499212",
+      "decision": "inconclusive_not_adopted",
+      "reason": "Correctness and out-of-core checks passed. The second complete three-round seed failed to repeat aggregate benefit, with large timing variation. No removal of unfavorable rounds or adoption based only on the first seed."
+    }
+  ],
+  "permissions": {
+    "local_optimization": true,
+    "remote_push": false,
+    "official_submission": false
+  },
+  "background_optimization_running": false,
+  "tool_observations": [
+    "Initial WSL command lost the shell output variable across Windows quoting, so P01 logs were produced at /p01-*; after the processes completed, all exact files/directories were moved into this evidence root. Subsequent commands use explicit absolute paths.",
+    "The worktree was created with Windows git; use Windows git for worktree operations because its .git pointer is a Windows path."
+  ],
+  "finished_local": "2026-11-14T00:26:49.3161681+08:00",
+  "elapsed_seconds_through_evidence_audit": 2333.316,
+  "adopted": [],
+  "next_action": "B02: one bounded global node-cache candidate / 30 minutes; frozen engine remains best."
+}

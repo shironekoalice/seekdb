@@ -1,0 +1,894 @@
+{
+  "schema": 1,
+  "scope": "Selected actual local metrics; complete raw reports archived separately. Not official score.",
+  "benchmarks": {
+    "baseline-current": {
+      "image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+      "workload": {
+        "rows": 10000,
+        "dimensions": 128,
+        "queries": 1000,
+        "seed": 20261113,
+        "mode": "exact",
+        "k": 10,
+        "batch": 100,
+        "sha256": "6df3df853280073341e2b39942cb6c769f128f149c3b536cb430b2f9797efdcf"
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "write": {
+            "T_seconds": 2.830075827005203,
+            "B_bytes": 35835904,
+            "M_bytes": 14503936,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.949441644996114,
+            "B_bytes": 40644608,
+            "M_bytes": 22097920,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 2,
+          "write": {
+            "T_seconds": 2.5840397479987587,
+            "B_bytes": 35348480,
+            "M_bytes": 13922304,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.288389638000808,
+            "B_bytes": 40644608,
+            "M_bytes": 22204416,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 3,
+          "write": {
+            "T_seconds": 2.6259440380017622,
+            "B_bytes": 35348480,
+            "M_bytes": 13533184,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 10.231174327003828,
+            "B_bytes": 40644608,
+            "M_bytes": 22212608,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "p01-benchmark": {
+      "image_id": "sha256:2caa51b2901a9ddd992a62dffd39996204f148e4d484d1928c7fc824e7b6078e",
+      "workload": {
+        "rows": 10000,
+        "dimensions": 128,
+        "queries": 1000,
+        "seed": 20261113,
+        "mode": "exact",
+        "k": 10,
+        "batch": 100,
+        "sha256": "6df3df853280073341e2b39942cb6c769f128f149c3b536cb430b2f9797efdcf"
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "write": {
+            "T_seconds": 2.9669146570013254,
+            "B_bytes": 35508224,
+            "M_bytes": 14274560,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 10.169669647999399,
+            "B_bytes": 40644608,
+            "M_bytes": 21970944,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 2,
+          "write": {
+            "T_seconds": 2.634983228999772,
+            "B_bytes": 35348480,
+            "M_bytes": 13586432,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.675605826996616,
+            "B_bytes": 40644608,
+            "M_bytes": 22179840,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 3,
+          "write": {
+            "T_seconds": 2.765159924994805,
+            "B_bytes": 35348480,
+            "M_bytes": 13373440,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.452596680006536,
+            "B_bytes": 40644608,
+            "M_bytes": 21991424,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "p03-benchmark": {
+      "image_id": "sha256:6de86c5ce6755f96856a5e3cfc270792166f23b1a4675c90e575983876573081",
+      "workload": {
+        "rows": 10000,
+        "dimensions": 128,
+        "queries": 1000,
+        "seed": 20261113,
+        "mode": "exact",
+        "k": 10,
+        "batch": 100,
+        "sha256": "6df3df853280073341e2b39942cb6c769f128f149c3b536cb430b2f9797efdcf"
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "write": {
+            "T_seconds": 2.7340262419966166,
+            "B_bytes": 35348480,
+            "M_bytes": 15024128,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.698443070999929,
+            "B_bytes": 40644608,
+            "M_bytes": 22147072,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 2,
+          "write": {
+            "T_seconds": 2.772098895999079,
+            "B_bytes": 35348480,
+            "M_bytes": 14008320,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.089625983004225,
+            "B_bytes": 40644608,
+            "M_bytes": 22183936,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 3,
+          "write": {
+            "T_seconds": 2.761876046002726,
+            "B_bytes": 35348480,
+            "M_bytes": 13946880,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.797402347998286,
+            "B_bytes": 40644608,
+            "M_bytes": 22347776,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "p04-benchmark": {
+      "image_id": "sha256:c55aa67517d9d5f4973edbbf00eb7861bc61b6c99d59acd9be78133f66637d92",
+      "workload": {
+        "rows": 10000,
+        "dimensions": 128,
+        "queries": 1000,
+        "seed": 20261113,
+        "mode": "exact",
+        "k": 10,
+        "batch": 100,
+        "sha256": "6df3df853280073341e2b39942cb6c769f128f149c3b536cb430b2f9797efdcf"
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "write": {
+            "T_seconds": 2.8973912419969565,
+            "B_bytes": 35348480,
+            "M_bytes": 13860864,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 7.732271314001991,
+            "B_bytes": 40644608,
+            "M_bytes": 22380544,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 2,
+          "write": {
+            "T_seconds": 3.1601913340055034,
+            "B_bytes": 35348480,
+            "M_bytes": 13742080,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 8.568395303998841,
+            "B_bytes": 40644608,
+            "M_bytes": 22183936,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 3,
+          "write": {
+            "T_seconds": 2.8799329990069964,
+            "B_bytes": 35418112,
+            "M_bytes": 13791232,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 8.150893271995301,
+            "B_bytes": 40644608,
+            "M_bytes": 22208512,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "baseline-seed2": {
+      "image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+      "workload": {
+        "rows": 10000,
+        "dimensions": 128,
+        "queries": 1000,
+        "seed": 20261114,
+        "mode": "exact",
+        "k": 10,
+        "batch": 100,
+        "sha256": "b6a54a7cfe659ad975c54303223e84eaf4c58dad999b7ef555eb078fe605c72a"
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "write": {
+            "T_seconds": 2.595284778995847,
+            "B_bytes": 35348480,
+            "M_bytes": 14123008,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.99555659800535,
+            "B_bytes": 40644608,
+            "M_bytes": 22224896,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 2,
+          "write": {
+            "T_seconds": 2.689260662999004,
+            "B_bytes": 35348480,
+            "M_bytes": 13373440,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.985278633001144,
+            "B_bytes": 40644608,
+            "M_bytes": 22167552,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 3,
+          "write": {
+            "T_seconds": 2.766137061997142,
+            "B_bytes": 35418112,
+            "M_bytes": 13848576,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.920190919998277,
+            "B_bytes": 40644608,
+            "M_bytes": 22339584,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "p04-seed2": {
+      "image_id": "sha256:c55aa67517d9d5f4973edbbf00eb7861bc61b6c99d59acd9be78133f66637d92",
+      "workload": {
+        "rows": 10000,
+        "dimensions": 128,
+        "queries": 1000,
+        "seed": 20261114,
+        "mode": "exact",
+        "k": 10,
+        "batch": 100,
+        "sha256": "b6a54a7cfe659ad975c54303223e84eaf4c58dad999b7ef555eb078fe605c72a"
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "write": {
+            "T_seconds": 3.1102476680025575,
+            "B_bytes": 35348480,
+            "M_bytes": 13385728,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 10.524760963002336,
+            "B_bytes": 40644608,
+            "M_bytes": 22216704,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 2,
+          "write": {
+            "T_seconds": 3.1253315130015835,
+            "B_bytes": 35348480,
+            "M_bytes": 13352960,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 9.385507248000067,
+            "B_bytes": 40644608,
+            "M_bytes": 22257664,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        },
+        {
+          "round": 3,
+          "write": {
+            "T_seconds": 2.6649364530021558,
+            "B_bytes": 35348480,
+            "M_bytes": 14258176,
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "query": {
+            "T_seconds": 7.284585335000884,
+            "B_bytes": 40644608,
+            "M_bytes": 22208512,
+            "recall": {
+              "filtered": 1.0,
+              "unfiltered": 1.0
+            },
+            "host_swap_io_delta": {
+              "pswpin": 0,
+              "pswpout": 0
+            }
+          },
+          "passed": true
+        }
+      ],
+      "passed": true
+    }
+  },
+  "comparisons": {
+    "p01-vs-frozen": {
+      "scope": "local relative E; no official reference or rank available",
+      "rounds": [
+        {
+          "round": 1,
+          "write": 0.4689322413888011,
+          "query": 0.48563179951939417,
+          "E": 0.4800652801425298
+        },
+        {
+          "round": 2,
+          "write": 0.4891552752959164,
+          "query": 0.4926387230099801,
+          "E": 0.49147757377195883
+        },
+        {
+          "round": 3,
+          "write": 0.4826752931979895,
+          "query": 0.4965419903588021,
+          "E": 0.4919197579718646
+        }
+      ],
+      "median_E": "0.491478"
+    },
+    "p01-vs-current": {
+      "scope": "local relative E; no official reference or rank available",
+      "rounds": [
+        {
+          "round": 1,
+          "write": 0.480335174828221,
+          "query": 0.49722102235417576,
+          "E": 0.4915924065121908
+        },
+        {
+          "round": 2,
+          "write": 0.500619220568709,
+          "query": 0.5042384613146658,
+          "E": 0.5030320477326802
+        },
+        {
+          "round": 3,
+          "write": 0.4941232300563127,
+          "query": 0.5081416661159593,
+          "E": 0.5034688540960771
+        }
+      ],
+      "median_E": "0.503032"
+    },
+    "p03-vs-frozen": {
+      "scope": "local relative E; no official reference or rank available",
+      "rounds": [
+        {
+          "round": 1,
+          "write": 0.4789521412058879,
+          "query": 0.49235595065072585,
+          "E": 0.48788801416911315
+        },
+        {
+          "round": 2,
+          "write": 0.4801469859523986,
+          "query": 0.5019984124403883,
+          "E": 0.4947146036110584
+        },
+        {
+          "round": 3,
+          "write": 0.48090331746706255,
+          "query": 0.4904038172607307,
+          "E": 0.4872369839961746
+        }
+      ],
+      "median_E": "0.487888"
+    },
+    "p03-vs-current": {
+      "scope": "local relative E; no official reference or rank available",
+      "rounds": [
+        {
+          "round": 1,
+          "write": 0.4904035648736739,
+          "query": 0.5039555185699851,
+          "E": 0.49943820067121475
+        },
+        {
+          "round": 2,
+          "write": 0.4915938954429805,
+          "query": 0.5135908128218453,
+          "E": 0.5062585070288903
+        },
+        {
+          "round": 3,
+          "write": 0.4923519464776588,
+          "query": 0.5020022787860218,
+          "E": 0.4987855013499008
+        }
+      ],
+      "median_E": "0.499438"
+    },
+    "p04-vs-frozen": {
+      "scope": "local relative E; no official reference or rank available",
+      "rounds": [
+        {
+          "round": 1,
+          "write": 0.47404612635385635,
+          "query": 0.5257682939898528,
+          "E": 0.5085275714445207
+        },
+        {
+          "round": 2,
+          "write": 0.46157414427032994,
+          "query": 0.5108509053078417,
+          "E": 0.49442531829533776
+        },
+        {
+          "round": 3,
+          "write": 0.47508468300925233,
+          "query": 0.5182723841206847,
+          "E": 0.5038764837502072
+        }
+      ],
+      "median_E": "0.503876"
+    },
+    "p04-vs-current": {
+      "scope": "local relative E; no official reference or rank available",
+      "rounds": [
+        {
+          "round": 1,
+          "write": 0.485467299973924,
+          "query": 0.5372364770126341,
+          "E": 0.5199800846663974
+        },
+        {
+          "round": 2,
+          "write": 0.4729154356902309,
+          "query": 0.5224154147349142,
+          "E": 0.5059154217200198
+        },
+        {
+          "round": 3,
+          "write": 0.486509986311645,
+          "query": 0.5297975422875517,
+          "E": 0.5153683569622495
+        }
+      ],
+      "median_E": "0.515368"
+    },
+    "p04-vs-seed2": {
+      "scope": "local relative E; no official reference or rank available",
+      "rounds": [
+        {
+          "round": 1,
+          "write": 0.4798084633064004,
+          "query": 0.4921273730798701,
+          "E": 0.48802106982204685
+        },
+        {
+          "round": 2,
+          "write": 0.4792005497291154,
+          "query": 0.5092174958997742,
+          "E": 0.49921184717622125
+        },
+        {
+          "round": 3,
+          "write": 0.5000062801914724,
+          "query": 0.5469443341567781,
+          "E": 0.5312983161683429
+        }
+      ],
+      "median_E": "0.499212"
+    }
+  },
+  "validations": {
+    "p01-native-public": {
+      "passed": true,
+      "cases": 20,
+      "checks": 0,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p01-native-extended": {
+      "passed": true,
+      "cases": 0,
+      "checks": 11,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p03-native-public": {
+      "passed": true,
+      "cases": 20,
+      "checks": 0,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p03-native-extended": {
+      "passed": true,
+      "cases": 0,
+      "checks": 11,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p03-query-oracle": {
+      "passed": true,
+      "cases": 0,
+      "checks": 0,
+      "exact_queries": 119,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p04-native-public": {
+      "passed": true,
+      "cases": 20,
+      "checks": 0,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p04-native-extended": {
+      "passed": true,
+      "cases": 0,
+      "checks": 11,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p04-asan-extended": {
+      "passed": true,
+      "cases": 0,
+      "checks": 11,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p04-query-oracle": {
+      "passed": true,
+      "cases": 0,
+      "checks": 0,
+      "exact_queries": 119,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p04-collisions": {
+      "passed": true,
+      "cases": 0,
+      "checks": 0,
+      "exact_queries": null,
+      "logical_payload_bytes": null,
+      "memory_limit_bytes": null,
+      "recovery_seconds": null,
+      "seconds": null,
+      "host_swap_io_delta": null
+    },
+    "p04-out-of-core-small": {
+      "passed": true,
+      "cases": 0,
+      "checks": 0,
+      "exact_queries": null,
+      "logical_payload_bytes": 268435456,
+      "memory_limit_bytes": 134217728,
+      "recovery_seconds": 3.520397637003043,
+      "seconds": 30.088446036999812,
+      "host_swap_io_delta": {
+        "pswpin": 0,
+        "pswpout": 0
+      }
+    },
+    "p04-out-of-core-full": {
+      "passed": true,
+      "cases": 0,
+      "checks": 0,
+      "exact_queries": null,
+      "logical_payload_bytes": 2415919104,
+      "memory_limit_bytes": 2147483648,
+      "recovery_seconds": 33.01927242200327,
+      "seconds": 244.1571842170015,
+      "host_swap_io_delta": {
+        "pswpin": 0,
+        "pswpout": 0
+      }
+    }
+  },
+  "profile": {
+    "baseline_find_calls": 51006,
+    "candidate_find_calls": 51006,
+    "baseline_file_read_calls": 108720,
+    "candidate_file_read_calls": 56205,
+    "time_share_unproven": true
+  },
+  "decisions": {
+    "P01": "inconclusive_not_adopted",
+    "P03": "rejected",
+    "P04": "inconclusive_not_adopted"
+  },
+  "best_engine": "prep-baseline-20261113",
+  "student_technical_understanding_established": false
+}

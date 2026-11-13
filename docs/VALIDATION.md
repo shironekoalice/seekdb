@@ -12,13 +12,14 @@ cd /mnt/e/develop/project_files/project/oceanbase/minivectordb
 ## 正确性
 
 ```bash
-cmake -S . -B /opt/minivectordb-build -DCMAKE_BUILD_TYPE=Release
-cmake --build /opt/minivectordb-build -j4
-python3 tools/verify.py --binary /opt/minivectordb-build/minivectordb --output artifacts/native-new
+cmake -S . -B /opt/minivectordb-candidate -DCMAKE_BUILD_TYPE=Release
+cmake --build /opt/minivectordb-candidate -j4
+python3 tools/verify.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/native-new
 docker build -t minivectordb:candidate .
 python3 tools/verify.py --image minivectordb:candidate --output artifacts/docker-new
 ```
 
+冻结原生基线 `/opt/minivectordb-build/minivectordb` 保留，不用候选覆盖。
 `verify.py` 保持上游 driver/case 不变；先跑公开 20 case，再跑本地扩展。
 原生额外跑 6 个故障点：追加前、部分追加、commit marker 前、sync 后、
 apply 后、恢复过程中。每个故障确认 exit86，正常恢复两次；其他扩展测试还真实 kill
@@ -36,8 +37,13 @@ python3 tools/verify.py --binary /opt/minivectordb-asan/minivectordb --output ar
 查询小改动可先定向执行：
 
 ```bash
-python3 tests/contract.py --binary /opt/minivectordb-build/minivectordb --check ordering --check random_model --output artifacts/query-focus
+python3 tests/contract.py --binary /opt/minivectordb-candidate/minivectordb --check ordering --check random_model --output artifacts/query-focus
+python3 tests/query_paths.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/query-paths-new
+python3 tests/map_collisions.py --binary /opt/minivectordb-candidate/minivectordb --output artifacts/map-collisions-new
 ```
+
+后两项是B01新增独立工具，分别覆盖119次跨查询路径全排序比较和24个同桶键的
+事务/恢复状态比较；也支持 `--image`。修改缓存时还需验证容量淘汰、映射身份及超内存数据。
 
 故意破坏隔离副本，确认测试会拒绝，原始代码不变：
 

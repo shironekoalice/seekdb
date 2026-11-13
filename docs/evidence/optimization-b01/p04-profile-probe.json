@@ -1,0 +1,87 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "sql": "SELECT id FROM empty WHERE absent=1;",
+      "error": {
+        "code": "unknown_column",
+        "message": "absent"
+      }
+    },
+    {
+      "sql": "SELECT id FROM empty WHERE id='x';",
+      "error": {
+        "code": "type_mismatch",
+        "message": "integer literal required"
+      }
+    },
+    {
+      "sql": "SELECT id FROM empty WHERE id=9223372036854775808;",
+      "error": {
+        "code": "invalid_integer",
+        "message": "BIGINT out of range or invalid"
+      }
+    },
+    {
+      "sql": "SELECT id FROM empty WHERE text=1;",
+      "error": {
+        "code": "type_mismatch",
+        "message": "quoted string required"
+      }
+    },
+    {
+      "sql": "SELECT id FROM empty WHERE v='[0,0]';",
+      "error": {
+        "code": "unsupported",
+        "message": "vector comparison"
+      }
+    },
+    {
+      "sql": "SELECT id FROM empty WHERE id='x' LIMIT 0;",
+      "error": {
+        "code": "type_mismatch",
+        "message": "integer literal required"
+      }
+    },
+    {
+      "operator": "=",
+      "expected_ids": [
+        2
+      ]
+    },
+    {
+      "operator": "<",
+      "expected_ids": [
+        1
+      ]
+    },
+    {
+      "operator": ">",
+      "expected_ids": [
+        3
+      ]
+    },
+    {
+      "operator": "<=",
+      "expected_ids": [
+        1,
+        2
+      ]
+    },
+    {
+      "operator": ">=",
+      "expected_ids": [
+        2,
+        3
+      ]
+    }
+  ],
+  "profile_workload": {
+    "rows": 500,
+    "dimensions": 16,
+    "queries": 100,
+    "filtered_queries": 50,
+    "expected_matches_calls_from_vector_queries": 50000,
+    "scope": "call-count workload; timings are not performance evidence"
+  }
+}

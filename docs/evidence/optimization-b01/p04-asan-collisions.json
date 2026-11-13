@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "scope": "local independent SQL state with adversarial hash placement",
+  "keys": [
+    0,
+    18956,
+    26218,
+    29048,
+    29414,
+    52436,
+    55229,
+    58828,
+    81178,
+    81493,
+    88844,
+    89675,
+    95844,
+    109784,
+    110458,
+    115457,
+    119704,
+    121283,
+    121743,
+    128537,
+    129503,
+    134636,
+    135696,
+    175628
+  ],
+  "phases": [
+    {
+      "name": "same-bucket-batch",
+      "rows": 24,
+      "passed": true
+    },
+    {
+      "name": "pending-update-delete-reinsert-failed-batch",
+      "rows": 24,
+      "passed": true
+    },
+    {
+      "name": "rollback",
+      "rows": 24,
+      "passed": true
+    },
+    {
+      "name": "committed-tombstones",
+      "rows": 12,
+      "passed": true
+    },
+    {
+      "name": "crash-recovery",
+      "rows": 12,
+      "passed": true
+    },
+    {
+      "name": "repeated-recovery",
+      "rows": 12,
+      "passed": true
+    }
+  ]
+}

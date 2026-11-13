@@ -1,0 +1,15 @@
+{
+  "id": "b01-20261113",
+  "completed_local": "2026-11-14T00:26:49.3161681+08:00",
+  "elapsed_seconds_through_evidence_audit": 2333.316,
+  "budget_seconds": 2700,
+  "max_candidates": 3,
+  "candidates_evaluated": 3,
+  "adopted": [],
+  "baseline_tag_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
+  "baseline_source_unchanged": true,
+  "git_metadata_commit_follows": true,
+  "remote_push": false,
+  "official_submission": false,
+  "background_optimizer": false
+}

@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "phase": "handoff_ready",
-  "status": "awaiting_user_model_switch",
-  "updated_local_date": "2026-11-13",
+  "phase": "bounded_optimization",
+  "status": "batch_b01_completed",
+  "updated_local_date": "2026-11-14",
   "workspace": "E:/develop/project_files/project/oceanbase",
   "project": "minivectordb",
   "wsl_distribution": "Ubuntu-24.04",
@@ -18,15 +18,16 @@
   "measured_image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
   "baseline_report": "docs/evidence/benchmark-baseline.json",
   "next_batch": {
-    "action": "Read P01 rehearsal, then choose full validation/comparison or another evidenced hypothesis; do not repeat the same micro prototype.",
-    "suggested_queue": "P01",
-    "max_candidates": 3,
-    "max_minutes": 45,
-    "note": "default batch boundary; later user budget overrides"
+    "action": "P07: bounded global chain-node cache combined with the unadopted P04 prototype; independent correctness and full comparison.",
+    "suggested_queue": "P07",
+    "max_candidates": 1,
+    "max_minutes": 30,
+    "reserve_cleanup_minutes": 5,
+    "note": "New bounded batch after archiving B01; no remote push or official submission."
   },
   "permissions": {
     "local_preparation_and_rehearsal": true,
-    "long_optimization": "wait for user model switch and resume",
+    "long_optimization": "authorized by user same-conversation resume on 2026-11-13",
     "remote_push": false,
     "official_submission": false
   },
@@ -36,7 +37,7 @@
     "official Agent evaluation",
     "student technical explanations not yet present"
   ],
-  "stop_after_rehearsal": true,
+  "stop_after_rehearsal": false,
   "continue_same_conversation": true,
   "code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d",
   "rehearsal": {
@@ -47,5 +48,19 @@
     "elapsed_seconds": 482.496,
     "budget_seconds": 480
   },
-  "background_optimization_running": false
+  "background_optimization_running": false,
+  "last_batch": {
+    "id": "b01-20261113",
+    "status": "completed",
+    "report": "docs/OPTIMIZATION_B01.md",
+    "evidence": "docs/evidence/optimization-b01",
+    "completed_local": "2026-11-14T00:26:49.3161681+08:00",
+    "elapsed_seconds_through_evidence_audit": 2333.316,
+    "adopted": [],
+    "candidate_decisions": {
+      "P01": "inconclusive_not_adopted",
+      "P03": "rejected",
+      "P04": "inconclusive_not_adopted"
+    }
+  }
 }

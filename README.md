@@ -9,14 +9,15 @@ OceanBase 加赛的自研单机数据库基线，C++20，Linux x86_64。源码�
 
 ```bash
 cd /mnt/e/develop/project_files/project/oceanbase/minivectordb
-cmake -S . -B /opt/minivectordb-build -DCMAKE_BUILD_TYPE=Release
-cmake --build /opt/minivectordb-build -j4
+cmake -S . -B /opt/minivectordb-candidate -DCMAKE_BUILD_TYPE=Release
+cmake --build /opt/minivectordb-candidate -j4
 docker build -t minivectordb:local .
 python3 tools/verify.py --image minivectordb:local --output artifacts/my-first-check
 ```
 
-输出目录必须新建。原生快速验证使用 `--binary /opt/minivectordb-build/minivectordb`。
-性能 oracle 编译为 `/opt/minivectordb-build/mvdb_oracle`，仅测试工具使用，不进入运行镜像。
+输出目录必须新建。原生快速验证使用 `--binary /opt/minivectordb-candidate/minivectordb`。
+性能 oracle 编译为同目录的 `mvdb_oracle`，仅测试工具使用，不进入运行镜像。
+已冻结的 `/opt/minivectordb-build/minivectordb` 和 `minivectordb:baseline` 保留作对照。
 
 ## 运行入口
 

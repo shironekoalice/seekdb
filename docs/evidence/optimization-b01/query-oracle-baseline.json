@@ -1,0 +1,50 @@
+{
+  "scope": "independent local query-path oracle",
+  "passed": true,
+  "seed": 20261114,
+  "phases": [
+    {
+      "name": "no-index",
+      "rows": 39,
+      "queries": 17,
+      "passed": true
+    },
+    {
+      "name": "index",
+      "rows": 39,
+      "queries": 17,
+      "passed": true
+    },
+    {
+      "name": "stale-entries-delete-reinsert",
+      "rows": 39,
+      "queries": 17,
+      "passed": true
+    },
+    {
+      "name": "transaction-pending",
+      "rows": 39,
+      "queries": 17,
+      "passed": true
+    },
+    {
+      "name": "rollback",
+      "rows": 39,
+      "queries": 17,
+      "passed": true
+    },
+    {
+      "name": "commit",
+      "rows": 39,
+      "queries": 17,
+      "passed": true
+    },
+    {
+      "name": "restart",
+      "rows": 39,
+      "queries": 17,
+      "passed": true
+    }
+  ],
+  "exact_queries": 119
+}

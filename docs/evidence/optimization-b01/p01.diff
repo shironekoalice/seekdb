@@ -1,0 +1,33 @@
+diff --git a/src/storage.cpp b/src/storage.cpp
+index 38b5faf..87edd6a 100644
+--- a/src/storage.cpp
++++ b/src/storage.cpp
+@@ -399,10 +399,13 @@ Json Database::select(Statement s) {
+     if (!e.query && schema.columns[schema.field(e.column)].type == "vector")
+       throw Error("unsupported", "ORDER BY vector");
+   }
++  struct BoundPredicate { size_t column; std::string op; Cell value; };
++  std::vector<BoundPredicate> predicates;
++  predicates.reserve(s.where.size());
+   for (const auto& p : s.where) {
+     size_t i = schema.field(p.column);
+     if (schema.columns[i].type == "vector") throw Error("unsupported", "vector comparison");
+-    (void)literal(p.value, schema.columns[i], false);
++    predicates.push_back({i, p.op, literal(p.value, schema.columns[i], false)});
+   }
+   using Key = std::variant<int64_t, std::string, double>;
+   struct Candidate { int64_t pk; std::vector<Key> keys; Json projection; size_t bytes; };
+@@ -421,7 +424,12 @@ Json Database::select(Statement s) {
+   std::vector<Candidate> heap;
+   size_t result_bytes = 0;
+   auto consume = [&](const Row& row) {
+-    if (s.limit == 0 || !matches(row, schema, s.where)) return;
++    if (s.limit == 0) return;
++    for (const auto& p : predicates) {
++      int cmp = compare(row[p.column], p.value);
++      if (!(p.op == "=" ? cmp == 0 : p.op == "<" ? cmp < 0 : p.op == ">" ? cmp > 0 :
++            p.op == "<=" ? cmp <= 0 : p.op == ">=" ? cmp >= 0 : false)) return;
++    }
+     Candidate c; c.pk = std::get<int64_t>(row[schema.pk]); c.projection = Json::array();
+     for (const auto& [e, desc] : s.order) {
+       (void)desc; size_t i = schema.field(e.column);

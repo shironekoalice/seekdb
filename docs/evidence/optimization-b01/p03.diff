@@ -1,0 +1,86 @@
+diff --git a/src/storage.cpp b/src/storage.cpp
+index 38b5faf..d881b02 100644
+--- a/src/storage.cpp
++++ b/src/storage.cpp
+@@ -420,21 +420,17 @@ Json Database::select(Statement s) {
+   };
+   std::vector<Candidate> heap;
+   size_t result_bytes = 0;
+-  auto consume = [&](const Row& row) {
+-    if (s.limit == 0 || !matches(row, schema, s.where)) return;
+-    Candidate c; c.pk = std::get<int64_t>(row[schema.pk]); c.projection = Json::array();
+-    for (const auto& [e, desc] : s.order) {
+-      (void)desc; size_t i = schema.field(e.column);
+-      if (e.query) c.keys.emplace_back(distance(std::get<std::vector<float>>(row[i]), *e.query));
+-      else if (auto v = std::get_if<int64_t>(&row[i])) c.keys.emplace_back(*v);
+-      else c.keys.emplace_back(std::get<std::string>(row[i]));
+-    }
+-    if (heap.size() == s.limit && !less(c, heap.front())) return;
++  auto project = [&](const Row& row, Json& projection) {
+     for (const auto& e : s.projection) {
+       size_t i = schema.field(e.column);
+-      if (e.query) c.projection.push_back(distance(std::get<std::vector<float>>(row[i]), *e.query));
+-      else std::visit([&](const auto& value) { c.projection.push_back(value); }, row[i]);
++      if (e.query) projection.push_back(distance(std::get<std::vector<float>>(row[i]), *e.query));
++      else std::visit([&](const auto& value) { projection.push_back(value); }, row[i]);
+     }
++  };
++  auto retain = [&](Candidate c, auto&& fill_projection) {
++    if (s.limit == 0 || (heap.size() == s.limit && !less(c, heap.front()))) return;
++    c.projection = Json::array();
++    fill_projection(c.projection);
+     c.bytes = c.projection.dump().size();
+     if (heap.size() == s.limit) {
+       std::pop_heap(heap.begin(), heap.end(), less);
+@@ -444,6 +440,17 @@ Json Database::select(Statement s) {
+     if (result_bytes > 15 * 1024 * 1024) throw Error("resource_limit", "result exceeds protocol size budget");
+     heap.push_back(std::move(c)); std::push_heap(heap.begin(), heap.end(), less);
+   };
++  auto consume = [&](const Row& row) {
++    if (s.limit == 0 || !matches(row, schema, s.where)) return;
++    Candidate c{}; c.pk = std::get<int64_t>(row[schema.pk]);
++    for (const auto& [e, desc] : s.order) {
++      (void)desc; size_t i = schema.field(e.column);
++      if (e.query) c.keys.emplace_back(distance(std::get<std::vector<float>>(row[i]), *e.query));
++      else if (auto v = std::get_if<int64_t>(&row[i])) c.keys.emplace_back(*v);
++      else c.keys.emplace_back(std::get<std::string>(row[i]));
++    }
++    retain(std::move(c), [&](Json& projection) { project(row, projection); });
++  };
+   // Flat vectors are a real derived index; the authoritative PK map removes
+   // deleted/stale entries. An active transaction uses the merged row view.
+   auto t = tables_.find(s.table);
+@@ -455,6 +462,13 @@ Json Database::select(Statement s) {
+     size_t dim = schema.columns[static_cast<size_t>(schema.vector_column)].size;
+     size_t stride = 16 + 4 * dim;
+     std::vector<char> buffer(stride * std::max<size_t>(1, 65536 / stride));
++    // With no filter, distances and the PK are available in the flat entry.
++    // Preserve version checks; load full payload only for a heap contender.
++    bool index_order = s.where.empty() &&
++        std::all_of(s.order.begin(), s.order.end(), [&](const auto& o) {
++          return o.first.query || schema.field(o.first.column) == schema.pk;
++        });
++    std::vector<float> indexed_vector(index_order ? dim : 0);
+     for (uint64_t off = 0; off < vectors.size();) {
+       size_t size = static_cast<size_t>(std::min<uint64_t>(buffer.size(), vectors.size() - off));
+       vectors.read(off, buffer.data(), size);
+@@ -462,7 +476,18 @@ Json Database::select(Statement s) {
+         int64_t key; uint64_t ref;
+         std::memcpy(&key, buffer.data() + p, 8); std::memcpy(&ref, buffer.data() + p + 8, 8);
+         auto current = table.map->find(key);
+-        if (current && *current == ref) consume(load(log_, ref, schema, true));
++        if (!current || *current != ref) continue;
++        if (index_order) {
++          if (s.limit == 0) continue;
++          std::memcpy(indexed_vector.data(), buffer.data() + p + 16, dim * sizeof(float));
++          Candidate c{}; c.pk = key;
++          for (const auto& [e, desc] : s.order) {
++            (void)desc;
++            if (e.query) c.keys.emplace_back(distance(indexed_vector, *e.query));
++            else c.keys.emplace_back(key);
++          }
++          retain(std::move(c), [&](Json& projection) { project(load(log_, ref, schema, true), projection); });
++        } else consume(load(log_, ref, schema, true));
+       }
+       off += size;
+     }

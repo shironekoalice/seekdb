@@ -1,0 +1,58 @@
+diff --git a/src/storage.cpp b/src/storage.cpp
+index 38b5faf..c351542 100644
+--- a/src/storage.cpp
++++ b/src/storage.cpp
+@@ -112,9 +112,12 @@ void File::write(uint64_t offset, const void* data, size_t length) {
+ }
+ void File::truncate(uint64_t length) { if (::ftruncate(fd_, static_cast<off_t>(length)) != 0) io_error("ftruncate"); }
+ void File::sync() { if (::fdatasync(fd_) != 0) io_error("fdatasync"); }
+-DiskMap::DiskMap(const std::filesystem::path& path) : file_(path, true) { file_.truncate(MAP_HEADER); }
++DiskMap::DiskMap(const std::filesystem::path& path) : file_(path, true) {
++  static_assert(sizeof(heads_) == MAP_HEADER);
++  file_.truncate(MAP_HEADER);
++}
+ std::optional<uint64_t> DiskMap::find(int64_t key) const {
+-  uint64_t position = 0; file_.read(bucket(key) * 8, &position, 8);
++  uint64_t position = heads_[bucket(key)];
+   while (position) {
+     Node node{}; file_.read(position, &node, sizeof(node));
+     if (node.key == key) return node.value;
+@@ -123,7 +126,7 @@ std::optional<uint64_t> DiskMap::find(int64_t key) const {
+   return {};
+ }
+ void DiskMap::set(int64_t key, uint64_t value) {
+-  uint64_t head = 0; file_.read(bucket(key) * 8, &head, 8);
++  const uint64_t slot = bucket(key), head = heads_[slot];
+   uint64_t position = head;
+   while (position) {
+     Node n{}; file_.read(position, &n, sizeof(n));
+@@ -133,7 +136,8 @@ void DiskMap::set(int64_t key, uint64_t value) {
+   Node node{key, value, head};
+   position = file_.size();
+   file_.write(position, &node, sizeof(node));
+-  file_.write(bucket(key) * 8, &position, 8);
++  file_.write(slot * 8, &position, 8);
++  heads_[slot] = position;
+ }
+ void DiskMap::scan(const std::function<void(int64_t, uint64_t)>& fn) const {
+   const uint64_t end = file_.size();
+diff --git a/src/storage.hpp b/src/storage.hpp
+index 866f2ee..87c1f28 100644
+--- a/src/storage.hpp
++++ b/src/storage.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include "sql.hpp"
++#include <array>
+ #include <filesystem>
+ #include <functional>
+ #include <list>
+@@ -25,6 +26,8 @@ public:
+ };
+ class DiskMap {
+   File file_;
++  // Fixed-size cache of the derived bucket directory, independent of row count.
++  std::array<uint64_t, 8192> heads_{};
+ public:
+   explicit DiskMap(const std::filesystem::path& path);
+   std::optional<uint64_t> find(int64_t key) const;

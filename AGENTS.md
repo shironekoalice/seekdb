@@ -1,9 +1,9 @@
 # MiniVectorDB working agreement
 
 Read `HANDOFF.md`, `optimization/state.json`, then the relevant skill under
-`.agents/skills/`. Current scope: finish preparation/rehearsal and stop for the
-user's same-conversation model switch. A later explicit resume activates the
-bounded optimization workflow; do not start a background long-running optimizer.
+`.agents/skills/`. Current scope: bounded local optimization after the user's
+explicit same-conversation resume. Do not start a background long-running
+optimizer. See the latest state and completed batch reports before choosing work.
 
 - Preserve `prep-baseline-20261113` once created. Develop candidates on isolated
   branches/worktrees; never overwrite baseline artifacts or the user's edits.
@@ -17,7 +17,8 @@ bounded optimization workflow; do not start a background long-running optimizer.
 - Engine implementation is C++20. The sole library is vendored nlohmann/json.
   All database files, including scratch files, go under `/data`.
 - Use WSL Ubuntu-24.04 for build/test. Windows `E:` is `/mnt/e/`.
-  Native build: `/opt/minivectordb-build`; Docker default entrypoint has no port.
+  Frozen native baseline: `/opt/minivectordb-build`; use separate `/opt/mvdb-*`
+  build directories for candidates. Docker default entrypoint has no port.
   Benchmark runs sequentially; don't disturb other workloads or system caches.
 - Keep experiment identities, raw evidence, negative results and known
   limitations. Do not claim hidden-case pass, official scores or student

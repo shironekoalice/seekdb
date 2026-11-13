@@ -1,0 +1,342 @@
+[
+  {
+    "file": "p01-native-public.json",
+    "source": "artifacts/optimization-b01-20261113/p01-native/public/result.json",
+    "sha256": "783983684342ab13e486928e841f75669ece2c0d9f53cf45c552c176125dd34c"
+  },
+  {
+    "file": "p01-native-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p01-native/extended/result.json",
+    "sha256": "d9abcbb790406de0c75123de6dd7c948fdb7872ad2360319c801436a37f7a745"
+  },
+  {
+    "file": "p01-native-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p01-native/result.json",
+    "sha256": "db948d66d685db74ed3da29dea04e612c30c46ad5d84c116059d863595f5c25f"
+  },
+  {
+    "file": "p01-docker-public.json",
+    "source": "artifacts/optimization-b01-20261113/p01-docker/public/result.json",
+    "sha256": "9808e09c86948b28b199efbf5ea8b75a3f77c5b61de19318d2f010c1f3327cb4"
+  },
+  {
+    "file": "p01-docker-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p01-docker/extended/result.json",
+    "sha256": "088d12f00e29ab837bd8ebbf0cedc0a0b27299e5ba0cce2b08615e38de329345"
+  },
+  {
+    "file": "p01-docker-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p01-docker/result.json",
+    "sha256": "c80277408a79ccd1d1524238ec11da8a435ade6bcb9628cbe021712eebbf45aa"
+  },
+  {
+    "file": "p03-native-public.json",
+    "source": "artifacts/optimization-b01-20261113/p03-native/public/result.json",
+    "sha256": "8e3ebd213638ffebd6dde4832b61daf78d5e73866b4e8640b7d2bf3ab563afed"
+  },
+  {
+    "file": "p03-native-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p03-native/extended/result.json",
+    "sha256": "ce25340e6b92806e00eedc51270b204572310e5c17c5ee87225211036d5ae5c4"
+  },
+  {
+    "file": "p03-native-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p03-native/result.json",
+    "sha256": "193a8bde1c33bc47a7519392239e03f44db66d561a631e5809acc833dc7b7153"
+  },
+  {
+    "file": "p03-docker-public.json",
+    "source": "artifacts/optimization-b01-20261113/p03-docker/public/result.json",
+    "sha256": "197e0a8d1285100560b1e195632ed1c1599591755a48ec251ed6dd2e402270ce"
+  },
+  {
+    "file": "p03-docker-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p03-docker/extended/result.json",
+    "sha256": "1c1810d7c35e4661654f0b463ccb921103223aa68bcf368f4211b269b1ae4070"
+  },
+  {
+    "file": "p03-docker-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p03-docker/result.json",
+    "sha256": "e93d56843444e39927d612949967757687b43c09613a00ba570e8f165da78697"
+  },
+  {
+    "file": "p04-native-public.json",
+    "source": "artifacts/optimization-b01-20261113/p04-native/public/result.json",
+    "sha256": "0ae6f52df6a9b3a47a75f279aa1158118a04c6fa90f6b50ef11afac902f18d0a"
+  },
+  {
+    "file": "p04-native-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p04-native/extended/result.json",
+    "sha256": "f44c8150b8b1faa7ee0584b4961a65ed055b33bcb460ce9519dab0036d291186"
+  },
+  {
+    "file": "p04-native-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p04-native/result.json",
+    "sha256": "a693349e80a26c49371b5c31c176c2c7c434b5eba05a2a1b2c3ac5e1ccfe7b0a"
+  },
+  {
+    "file": "p04-docker-public.json",
+    "source": "artifacts/optimization-b01-20261113/p04-docker/public/result.json",
+    "sha256": "8fc4782ea9ab1c0686bcb14a17dc3a414ac441de6a3a9143f4040ef684579107"
+  },
+  {
+    "file": "p04-docker-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p04-docker/extended/result.json",
+    "sha256": "6c4c6562f675b2df661b6220914b96caf69307c136b2b830b08531eea6d348d4"
+  },
+  {
+    "file": "p04-docker-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p04-docker/result.json",
+    "sha256": "e643f71cc1f812c175ae2c81b91931ddfab493bee00e9a6afd087c053757ad89"
+  },
+  {
+    "file": "p03-asan-public.json",
+    "source": "artifacts/optimization-b01-20261113/p03-asan/public/result.json",
+    "sha256": "2a9f1b05f5bbf16e15a0e17d9535a6de1fe43342c10b87bf8c371377438e2c39"
+  },
+  {
+    "file": "p03-asan-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p03-asan/extended/result.json",
+    "sha256": "046d5925d44c9c1c7f406178de757855d1ee836493d04677ecdd40a3830a7e1f"
+  },
+  {
+    "file": "p03-asan-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p03-asan/result.json",
+    "sha256": "14e60694ae38114802f130d7d88f166ce4921c150c1d47e037101e8f6ea069d2"
+  },
+  {
+    "file": "p03-query-oracle.json",
+    "source": "artifacts/optimization-b01-20261113/p03-query-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p03-asan-oracle.json",
+    "source": "artifacts/optimization-b01-20261113/p03-asan-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p03-docker-oracle.json",
+    "source": "artifacts/optimization-b01-20261113/p03-docker-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p04-asan-public.json",
+    "source": "artifacts/optimization-b01-20261113/p04-asan/public/result.json",
+    "sha256": "29eda7def8c5247a6c0b31d54e11272e0e4b80fa3655af4c913080c657ea5063"
+  },
+  {
+    "file": "p04-asan-extended.json",
+    "source": "artifacts/optimization-b01-20261113/p04-asan/extended/result.json",
+    "sha256": "ad31d62a20c74713343cd501beda12f32712a5ec17566019dd777c9ae2d844f3"
+  },
+  {
+    "file": "p04-asan-identity.json",
+    "source": "artifacts/optimization-b01-20261113/p04-asan/result.json",
+    "sha256": "8a100abf4e37d9c625537d21c5b334651d4b2592b7eb8b2a8e7de56176ba7993"
+  },
+  {
+    "file": "p04-query-oracle.json",
+    "source": "artifacts/optimization-b01-20261113/p04-query-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p04-asan-oracle.json",
+    "source": "artifacts/optimization-b01-20261113/p04-asan-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p04-docker-oracle.json",
+    "source": "artifacts/optimization-b01-20261113/p04-docker-oracle/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "p01-probe.json",
+    "source": "artifacts/optimization-b01-20261113/p01-probe/result.json",
+    "sha256": "ec61b2a499f713e20cf38ea6eff5985cfe129f2bd9c625349e21573ad972c356"
+  },
+  {
+    "file": "query-oracle-baseline.json",
+    "source": "artifacts/optimization-b01-20261113/query-oracle-baseline/result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "collisions-baseline.json",
+    "source": "artifacts/optimization-b01-20261113/collisions-baseline/result.json",
+    "sha256": "da0b76e73731845d784710da9d3d4bc01f14bdf95da309968082b4df8ed84f3d"
+  },
+  {
+    "file": "p03-out-of-core.json",
+    "source": "artifacts/optimization-b01-20261113/p03-out-of-core/result.json",
+    "sha256": "bf5492f193fe692a6b5cac7e1ea7f46c63eb95a28ec2c74a4b107d552910f0ed"
+  },
+  {
+    "file": "p04-collisions.json",
+    "source": "artifacts/optimization-b01-20261113/p04-collisions/result.json",
+    "sha256": "da0b76e73731845d784710da9d3d4bc01f14bdf95da309968082b4df8ed84f3d"
+  },
+  {
+    "file": "p04-asan-collisions.json",
+    "source": "artifacts/optimization-b01-20261113/p04-asan-collisions/result.json",
+    "sha256": "da0b76e73731845d784710da9d3d4bc01f14bdf95da309968082b4df8ed84f3d"
+  },
+  {
+    "file": "p04-out-of-core-small.json",
+    "source": "artifacts/optimization-b01-20261113/p04-out-of-core-small/result.json",
+    "sha256": "8d3a6f17db6d5826ac247d2ec46d65414a01c0e5f7e7d0b3bb8d8ca21bcb9088"
+  },
+  {
+    "file": "p04-out-of-core-full.json",
+    "source": "artifacts/optimization-b01-20261113/p04-out-of-core-full/result.json",
+    "sha256": "b60692d0cae174d8f2f9e64e1e123b363b16040c39eeb44c1b25981628c543a7"
+  },
+  {
+    "file": "p04-profile-probe.json",
+    "source": "artifacts/optimization-b01-20261113/p04-profile-probe/result.json",
+    "sha256": "ec61b2a499f713e20cf38ea6eff5985cfe129f2bd9c625349e21573ad972c356"
+  },
+  {
+    "file": "baseline-current.json",
+    "source": "artifacts/optimization-b01-20261113/baseline-current/result.json",
+    "sha256": "becb4c3173e3c597a06057af91899b8ab6773a0f9f443c14e75bddeb9ea594a5"
+  },
+  {
+    "file": "p01-benchmark.json",
+    "source": "artifacts/optimization-b01-20261113/p01-benchmark/result.json",
+    "sha256": "0508c3f9b291d97ec4dc51ef8b80a37fbf8ad7bf57c18aa82c8acc29404cd7f7"
+  },
+  {
+    "file": "p03-benchmark.json",
+    "source": "artifacts/optimization-b01-20261113/p03-benchmark/result.json",
+    "sha256": "b63d424b6f0e444e65009bee95aef69f972ba83ad96990bb0a4fe074407456a2"
+  },
+  {
+    "file": "p04-benchmark.json",
+    "source": "artifacts/optimization-b01-20261113/p04-benchmark/result.json",
+    "sha256": "d66421c4e92cd95db4fb8128bb01d300fcffea38cf1b57a888db4b868647168f"
+  },
+  {
+    "file": "baseline-seed2.json",
+    "source": "artifacts/optimization-b01-20261113/baseline-seed2/result.json",
+    "sha256": "6627bf426bfa908124ac14c148efc14d89a373439774582427206e5258e9c5cb"
+  },
+  {
+    "file": "p04-seed2.json",
+    "source": "artifacts/optimization-b01-20261113/p04-seed2/result.json",
+    "sha256": "cd31795ade1f81a2fa99a7c4754d32fe42dbb6c8e7219366fc78149017f97191"
+  },
+  {
+    "file": "p01-vs-frozen.json",
+    "source": "artifacts/optimization-b01-20261113/p01-vs-frozen.json",
+    "sha256": "621f060608d0ec92b8ebb0bdd497ff7f0d058279e763b90e4544643a9ed83f3f"
+  },
+  {
+    "file": "p01-vs-current.json",
+    "source": "artifacts/optimization-b01-20261113/p01-vs-current.json",
+    "sha256": "498fe22618438db32195b6960b8001617174c5d26556fb7e66a4f46fc4e2f0cc"
+  },
+  {
+    "file": "p03-vs-frozen.json",
+    "source": "artifacts/optimization-b01-20261113/p03-vs-frozen.json",
+    "sha256": "ba5caf08b8c996cea4b9e605ae84624fafe51f05f85414378e9a790294ba2f9d"
+  },
+  {
+    "file": "p03-vs-current.json",
+    "source": "artifacts/optimization-b01-20261113/p03-vs-current.json",
+    "sha256": "7461e635cc132c2c66cb7d8b8d6c03bc3d06a2c8d3d5050dc25dacb1c6b8785d"
+  },
+  {
+    "file": "p04-vs-frozen.json",
+    "source": "artifacts/optimization-b01-20261113/p04-vs-frozen.json",
+    "sha256": "1bf3282738560c8ceae4edb7bde9e9a02f68686a4accbc4d2abae182cd85d293"
+  },
+  {
+    "file": "p04-vs-current.json",
+    "source": "artifacts/optimization-b01-20261113/p04-vs-current.json",
+    "sha256": "7eb4566b0422cb102024270d804ee9028490e49870ec4561bdb3a6f6017eff03"
+  },
+  {
+    "file": "p04-vs-seed2.json",
+    "source": "artifacts/optimization-b01-20261113/p04-vs-seed2.json",
+    "sha256": "7c269ddbae6a0d6120737a66009594b9b03a9dfbd334f246135ff2cf74439dc8"
+  },
+  {
+    "file": "p01-fingerprint.json",
+    "source": "artifacts/optimization-b01-20261113/p01-fingerprint.json",
+    "sha256": "518bb932039238bf8d70a234c9204a1ced445768181a87fdc694c5ee8b151bcf"
+  },
+  {
+    "file": "p03-fingerprint.json",
+    "source": "artifacts/optimization-b01-20261113/p03-fingerprint.json",
+    "sha256": "3e9323034a814427dca4821dceb762660c00a18cd039c0e5fd7fc6dc37b2c39d"
+  },
+  {
+    "file": "p04-fingerprint.json",
+    "source": "artifacts/optimization-b01-20261113/p04-fingerprint.json",
+    "sha256": "1f975037229d7fec1cfd24fac43f4b119fd8160957ba2653d775b0878fa57395"
+  },
+  {
+    "file": "p01.diff",
+    "source": "artifacts/optimization-b01-20261113/p01.diff",
+    "sha256": "64486a7122abfae388fbf56846c430f8c8e759d9917753b93d48ec8348bc07ae"
+  },
+  {
+    "file": "p03.diff",
+    "source": "artifacts/optimization-b01-20261113/p03.diff",
+    "sha256": "29a5264505d426fd7f48f61968d1714bde336042833a2257913397fc90a6160f"
+  },
+  {
+    "file": "p04.diff",
+    "source": "artifacts/optimization-b01-20261113/p04.diff",
+    "sha256": "7a87ebb36107d47e2a355e7076fac6b905f9982f0366c119915ef1b3c68f7e2b"
+  },
+  {
+    "file": "binary-identities.sha256",
+    "source": "artifacts/optimization-b01-20261113/binary-identities.sha256",
+    "sha256": "38f6980c9182b71171fe4c99676009cfadeb57ce20c32db84421d533f63cf64e"
+  },
+  {
+    "file": "tool-identities.sha256",
+    "source": "artifacts/optimization-b01-20261113/tool-identities.sha256",
+    "sha256": "3641546795ac1453197b024f888a3e09e0e090120413926c72cb0dd06a4f2d15"
+  },
+  {
+    "file": "p04-profile.txt",
+    "source": "artifacts/optimization-b01-20261113/p04-profile.txt",
+    "sha256": "6381b00589cc73a7209bdfb465e0d7dcc11779de3f96073417518f1c183f188b"
+  },
+  {
+    "file": "record.json",
+    "source": "artifacts/optimization-b01-20261113/record.json",
+    "sha256": "7eedd675b635e918feb75fa1f0393cc26cb973720c18f5cc19dffa4770f54964"
+  },
+  {
+    "file": "report.md",
+    "source": "artifacts/optimization-b01-20261113/report.md",
+    "sha256": "94b5797bd72bd1788f94054aab75526577b02f6e36fc1908cf719000d6a446fd"
+  },
+  {
+    "file": "closure.json",
+    "source": "artifacts/optimization-b01-20261113/closure.json",
+    "sha256": "25afe3576b5b90d577474e55b00c08c98f8c1cbbc2bf69732b13e06a761962e5"
+  },
+  {
+    "file": "summary.json",
+    "source": "artifacts/optimization-b01-20261113/summary.json",
+    "sha256": "03b1e73b16e091224a60c5359a4861cc728b877444d287e239c1e675bde94214"
+  },
+  {
+    "file": "main-fingerprint-after.json",
+    "source": "artifacts/optimization-b01-20261113/main-fingerprint-after.json",
+    "sha256": "0d6f179897fc8f9eed27640d8d76a217931b89495d64c671d15311aa100b2a22"
+  },
+  {
+    "file": "skills-check.json",
+    "source": "artifacts/optimization-b01-20261113/skills-check.json",
+    "sha256": "326f5f12aad42f09eca05247f909ed89c4da16a919f0fe947b3f65a661adc707"
+  },
+  {
+    "file": "material-check.json",
+    "source": "artifacts/optimization-b01-20261113/material-check.json",
+    "sha256": "8179f480ca072132fd318da06927bbf3451f5e4a2ae19928860ca1c423635a29"
+  }
+]
