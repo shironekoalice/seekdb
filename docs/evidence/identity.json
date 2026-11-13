@@ -1,0 +1,40 @@
+{
+  "source": {
+    "code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d",
+    "files": {
+      "CMakeLists.txt": "4fa8edc015d871c520a70666c436dbb408069d74e8fad31f51c18f2cf271a316",
+      "Dockerfile": "a6c5bc7cb03fc0e0ebb34bf107230ffc98824379852e96a33d091f8720d894a7",
+      "src/main.cpp": "88b39e37409beae13ffc3d74cd26909a055750bc7956875c3faefffd8fdbe9d0",
+      "src/sql.cpp": "65cc828206dcce39b1b08b6a7eff1e8ffff8b18462e6b4f1bff34c3132189649",
+      "src/sql.hpp": "748f621ce074c998f645f3a52dadcaa0be82be45375ae72b0797d563880e2f3a",
+      "src/storage.cpp": "da45588c219e390a07c7825daaba5a516b3f8c56d2ad7c1b54e8e374c2452bbf",
+      "src/storage.hpp": "2a6c46a4a362b0b06ba69d2d2e2e37bb5ffadc1509e05ee1d7f3ce1e3172f213",
+      "src/types.hpp": "003ceb93b211cb7ceb21e0a345500e2ef77b7b3dbfd95efc1800f21d72d44d5f",
+      "third_party/apt-build.lock": "42863465d249a9383c3047d8aecc43b9cba99b144782b327227cdc2cbd42ad15",
+      "third_party/DEPENDENCIES.md": "7062492b04fbb26ee50c53c14fc8a8994819acbe91fbef21f76f2fbee103d5e0",
+      "third_party/nlohmann/json.hpp": "9bea4c8066ef4a1c206b2be5a36302f8926f7fdc6087af5d20b417d0cf103ea6",
+      "third_party/nlohmann/LICENSE.MIT": "86b998c792894ccb911a1cb7994f7a9652894e7a094c0b5e45be2f553f45cf14"
+    }
+  },
+  "image": "minivectordb:baseline",
+  "image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+  "docker_binary_sha256": "3c022c9485466492d18216e8a44d7c7d16c1a35d2b8c68820b2a7225cc9d4c2c",
+  "native_binary_sha256": "3c022c9485466492d18216e8a44d7c7d16c1a35d2b8c68820b2a7225cc9d4c2c",
+  "sanitizer_binary_sha256": "cc2938cfa065e99803003446fcda82a9bf5852cc5bb9cae2e8ecf53b51f92aca",
+  "upstream_commit": "f4d4e26653af823a7601668802f80e374ad6643c",
+  "tool_files": {
+    "tools/benchmark.py": "9b3d0ae63b2c58340aaeb014b4041dbcf33d9c370cdaf18fa7c1b1f9ee1ef11d",
+    "tools/compare.py": "75d571b747c55206bf61f02c995dbf8c734bb66392c0405bc9db050c11f72399",
+    "tools/container_lab.py": "f30e2691fb96253df45690e3a14166192476d566b503d9ca739f70aaa120f5f1",
+    "tools/evidence.py": "b246e6ed08f8ef102437cf011242e2937bea7a6331b6e850ae4e50e12c325a9f",
+    "tools/fingerprint.py": "3933c52a22c7647cf4e0be86c2cce89dffa436a2a4d9e1383d46ae5a4873dc80",
+    "tools/install_skills.py": "75292037ddeaf6822e47919ec6b248aba3bde88fe71ef70ae38256c47b9c8d9e",
+    "tools/mutation_check.py": "3376e82ce74896c2d5d5d48baa5b5ac7aa9296a1142f1c3fa99908e3baa30d63",
+    "tools/oracle.cpp": "14c42681fca0e39754c8fecbdfca880e23c8d7dc20ca77e625092924c23ad00b",
+    "tools/out_of_core.py": "b87048468cf31d5e55bc94107cbcf49333d3391005b63122cfe647c6988cfeac",
+    "tools/submission_check.py": "297336455c82fa2a00611f790115762536f8aa4d9adbd7f4e56b016133ec2d52",
+    "tools/verify.py": "f7e1b10e74e668046e34b7cfd9741c5b8fc42d646cc7f81abdd8e31666c3668e",
+    "tests/contract.py": "a25ad1eca1eb3c664d24c4ed89efce6b5fe8c38731f4c285ef21007c6436deb4",
+    "tests/tool_contract.py": "77dbbf9f09bb8115b0707d5897cb8b35879fca1d2f8215f73eb7ffb353ad3d33"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MiniVectorDB 验证与测量"
+  short_description: "独立验证正确性、恢复和资源边界，比较三轮本地性能结果"
+  default_prompt: "使用 $minivectordb-evaluation 验证当前候选并解释证据范围。"

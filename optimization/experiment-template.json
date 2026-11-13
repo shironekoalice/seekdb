@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "id": "replace-with-unique-id",
+  "status": "planned",
+  "hypothesis": "",
+  "expected_effect": "",
+  "baseline_code_sha256": "",
+  "candidate_code_sha256": "",
+  "baseline_image_id": "",
+  "candidate_image_id": "",
+  "changed_files": [],
+  "checks": [],
+  "measurement_reports": [],
+  "decision": "not_evaluated",
+  "reason": "",
+  "known_limits": [],
+  "next_action": ""
+}

@@ -1,0 +1,46 @@
+{
+  "native-public.json": {
+    "original": "artifacts/native-final/public/result.json",
+    "sha256": "25b6b2ba931c0f2bb82d1433c72187eff56e62eaef46ad2e0f4c62dd8699acf2"
+  },
+  "native-extended.json": {
+    "original": "artifacts/crash-torn-release/result.json",
+    "sha256": "a6526912090027689c079db275da3797fd9ddb3f68b3f45dc25b07da80147593"
+  },
+  "docker-public.json": {
+    "original": "artifacts/docker-final/public/result.json",
+    "sha256": "64070c648940630396bb40a2820d8c78b437c642a718faf2e83acb56869b90ed"
+  },
+  "docker-extended.json": {
+    "original": "artifacts/docker-final/extended/result.json",
+    "sha256": "6e717beb43f11bf353903d4f12a7f0af173d14507fa25e9f289ec0b07eba5012"
+  },
+  "sanitizer-public.json": {
+    "original": "artifacts/sanitizer-final/public/result.json",
+    "sha256": "05bec3d331a6a24e52aaf157c1962c6f88c4031861758741b32224cdd9e2f2a8"
+  },
+  "sanitizer-extended.json": {
+    "original": "artifacts/crash-torn-sanitizer/result.json",
+    "sha256": "3cf0213c9c1fec5b80afc7e499dfd1d31bc969f460cf0306913401e38b0ec0a9"
+  },
+  "out-of-core-128m.json": {
+    "original": "artifacts/out-of-core-128m/result.json",
+    "sha256": "c40ed8a9bf9b466bc9fdeff0f5436b6e47d12aa05a9d5b1729df632daa54342c"
+  },
+  "out-of-core-2g.json": {
+    "original": "artifacts/out-of-core-final/result.json",
+    "sha256": "b6c26e1e4741eed1775189278d2ea4c0db83a7994edcd47ecd6336c856ba3ffe"
+  },
+  "benchmark-baseline.json": {
+    "original": "artifacts/benchmark-final/result.json",
+    "sha256": "fe04765ed4f892a2d9a3d3f1889b657796341b9200e41ea0fc71611eb3a8dc7a"
+  },
+  "mutation-controls.json": {
+    "original": "artifacts/mutation-controls-1/result.json",
+    "sha256": "d12f722470f81aa2256e84b55dfbaab5870e137e138befbf96c45ebc46e5e9db"
+  },
+  "predicate-regression-before.json": {
+    "original": "artifacts/predicate-regression-before/result.json",
+    "sha256": "c6237b7c9db6399d34f9236991e7ac5578160c5c49b856d421a13709c3f5dd36"
+  }
+}

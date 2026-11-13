@@ -1,0 +1,7 @@
+.git
+.agents
+build*
+artifacts
+protocol-results
+__pycache__
+*.pyc

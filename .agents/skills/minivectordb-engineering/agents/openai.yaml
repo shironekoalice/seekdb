@@ -1,0 +1,4 @@
+interface:
+  display_name: "MiniVectorDB 引擎迭代"
+  short_description: "围绕可验证假设改进数据库引擎，并保持事务、恢复和向量语义"
+  default_prompt: "使用 $minivectordb-engineering 接手 HANDOFF.md，完成一个有界优化实验。"

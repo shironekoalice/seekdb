@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "phase": "preparation",
+  "status": "ready_for_handoff_rehearsal",
+  "updated_local_date": "2026-11-13",
+  "workspace": "E:/develop/project_files/project/oceanbase",
+  "project": "minivectordb",
+  "wsl_distribution": "Ubuntu-24.04",
+  "branch": "2026-competition-round2",
+  "upstream_commit": "f4d4e26653af823a7601668802f80e374ad6643c",
+  "baseline_tag": "prep-baseline-20261113",
+  "baseline_commit": null,
+  "best_candidate": null,
+  "measured_image": "minivectordb:baseline",
+  "measured_image_id": "sha256:233191784d759ee3058d8d88f48ba2b77d0a123c62a0644a882bc30a39817ae2",
+  "baseline_report": "docs/evidence/benchmark-baseline.json",
+  "next_batch": {
+    "action": "profile one plausible query hotspot, then choose one hypothesis",
+    "suggested_queue": "P01",
+    "max_candidates": 3,
+    "max_minutes": 45,
+    "note": "default batch boundary; later user budget overrides"
+  },
+  "permissions": {
+    "local_preparation_and_rehearsal": true,
+    "long_optimization": "wait for user model switch and resume",
+    "remote_push": false,
+    "official_submission": false
+  },
+  "unknown": [
+    "official 29-case result",
+    "official performance reference and frozen generator",
+    "official Agent evaluation",
+    "student technical explanations not yet present"
+  ],
+  "stop_after_rehearsal": true,
+  "continue_same_conversation": true,
+  "code_sha256": "4c7836b5081215d2ed849aa8a33e3d46cb3538a9b0e2cf4cfa91b7ea1d069e3d"
+}

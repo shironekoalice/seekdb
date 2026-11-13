@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "mutations": [
+    {
+      "name": "missing-filter",
+      "control_passed": true,
+      "mutant_rejected": true,
+      "check": "ordering"
+    },
+    {
+      "name": "missing-commit-marker",
+      "control_passed": true,
+      "mutant_rejected": true,
+      "check": "transaction"
+    }
+  ]
+}

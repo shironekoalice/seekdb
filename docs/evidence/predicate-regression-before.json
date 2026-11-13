@@ -1,0 +1,12 @@
+{
+  "scope": "independent local tests; not hidden formal cases",
+  "passed": false,
+  "checks": [
+    {
+      "name": "types",
+      "passed": false,
+      "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/minivectordb/tests/contract.py\", line 61, in check\n    detail = method()\n             ^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/minivectordb/tests/contract.py\", line 95, in types\n    assert self.ok(s, \"SELECT id FROM t WHERE text='longer-than-three';\")[\"rows\"] == []\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/minivectordb/tests/contract.py\", line 50, in ok\n    assert result[\"ok\"], (sql, result)\n           ~~~~~~^^^^^^\nAssertionError: (\"SELECT id FROM t WHERE text='longer-than-three';\", {'error': {'code': 'value_too_long', 'message': 'text'}, 'id': 22, 'ok': False})\n",
+      "seconds": 0.089
+    }
+  ]
+}
