@@ -1,0 +1,17 @@
+{
+  "record_id": 47253392,
+  "question_id": 600081,
+  "repository": "https://github.com/shironekoalice/seekdb",
+  "branch": "2026-competition-round2",
+  "commit": "81a7935da6ee9f743555551268d8a2edc17f7cd0",
+  "started_local": "2026-11-14T02:04:40+08:00",
+  "ended_local": "2026-11-14T02:25:56+08:00",
+  "failed_case_count_in_feedback": 1,
+  "feedback": "正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。",
+  "prompt_evaluation_executed": false,
+  "failed_case_name": null,
+  "timed_out_sql": null,
+  "other_formal_cases_passed": null,
+  "source": "Read-only authenticated OceanBase task record UI and its own response; credentials and unrelated user identifiers omitted.",
+  "scope": "An aggregate timeout report; does not identify the slow statement or establish its cause."
+}

@@ -358,10 +358,12 @@ Json Database::modify(const Statement& s) {
     merge_statement(statement); schemas_[s.table] = schema;
     return Json::object();
   }
+  std::optional<int64_t> point_key;
   for (const auto& p : s.where) {
     auto col = schema.field(p.column);
     if (schema.columns[col].type == "vector") throw Error("unsupported", "vector comparison");
-    (void)literal(p.value, schema.columns[col], false);
+    auto value = literal(p.value, schema.columns[col], false);
+    if (col == schema.pk && p.op == "=" && !point_key) point_key = std::get<int64_t>(value);
   }
   size_t affected = 0;
   if (s.kind == "insert") {
@@ -395,7 +397,7 @@ Json Database::modify(const Statement& s) {
       if (!assigned.insert(i).second) throw Error("duplicate_column", column);
       values.emplace_back(i, literal(value, schema.columns[i]));
     }
-    rows(s.table, [&](const Row& original) {
+    auto change = [&](const Row& original) {
       if (!matches(original, schema, s.where)) return;
       int64_t key = std::get<int64_t>(original[schema.pk]);
       if (s.kind == "delete") append(statement, {{"op", "delete"}, {"table", s.table}, {"key", key}});
@@ -405,7 +407,12 @@ Json Database::modify(const Statement& s) {
         append(statement, {{"op", "put"}, {"table", s.table}, {"key", key}, {"row", row_json(row)}});
       }
       ++affected;
-    });
+    };
+    // Keep eager validation above and all AND predicates in change(). lookup()
+    // merges pending rows/tombstones with committed data, including new tables.
+    if (point_key) {
+      if (auto row = lookup(s.table, *point_key)) change(*row);
+    } else rows(s.table, change);
   }
   merge_statement(statement);
   return {{"affected_rows", affected}};
@@ -434,10 +441,12 @@ Json Database::select(Statement s) {
     if (!e.query && schema.columns[schema.field(e.column)].type == "vector")
       throw Error("unsupported", "ORDER BY vector");
   }
+  std::optional<int64_t> point_key;
   for (const auto& p : s.where) {
     size_t i = schema.field(p.column);
     if (schema.columns[i].type == "vector") throw Error("unsupported", "vector comparison");
-    (void)literal(p.value, schema.columns[i], false);
+    auto value = literal(p.value, schema.columns[i], false);
+    if (i == schema.pk && p.op == "=" && !point_key) point_key = std::get<int64_t>(value);
   }
   using Key = std::variant<int64_t, std::string, double>;
   struct Candidate { int64_t pk; std::vector<Key> keys; Json projection; size_t bytes; };
@@ -484,7 +493,9 @@ Json Database::select(Statement s) {
   auto t = tables_.find(s.table);
   bool use_flat = !transaction_ && t != tables_.end() && t->second.vectors &&
       std::any_of(s.order.begin(), s.order.end(), [](const auto& o) { return o.first.query.has_value(); });
-  if (use_flat) {
+  if (point_key) {
+    if (auto row = lookup(s.table, *point_key)) consume(*row);
+  } else if (use_flat) {
     auto& table = t->second;
     auto& vectors = *table.vectors;
     size_t dim = schema.columns[static_cast<size_t>(schema.vector_column)].size;

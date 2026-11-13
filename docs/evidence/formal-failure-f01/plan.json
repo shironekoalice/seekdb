@@ -1,0 +1,28 @@
+{
+  "id": "F01-20261114",
+  "started_local_conservative": "2026-11-14T02:38:00+08:00",
+  "budget_minutes": 45,
+  "problem": "Official aggregate reports one JSON response timeout; failed case and SQL are not exposed.",
+  "hypothesis": "Full-table scans on BIGINT PK equality can block point CRUD when live data is larger than memory.",
+  "candidate": "Reuse isolated P02 point path without changing WAL, caches, vector scan, or SQL validation.",
+  "baseline_commit": "81a7935da6ee9f743555551268d8a2edc17f7cd0",
+  "candidate_code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
+  "minimum_checks": [
+    "same-condition many-row out-of-core control with no swap",
+    "source/Docker binary identity",
+    "fresh public20 + Docker extended5",
+    "independent point/range checks with sanitizer",
+    "2GiB/2304MiB active-data validation"
+  ],
+  "stop_conditions": [
+    "incorrect data or failed statement state",
+    "resource validity failure retained, not ignored",
+    "do not claim reproduction of unidentified official case",
+    "no further official submission"
+  ],
+  "negative_control_records": [
+    "p07-many-rows/result.json",
+    "p07-many-rows-retry/result.json"
+  ],
+  "validation_refinement": "Docker memory-swap flag did not constrain this WSL kernel; new runs set and verify swap.max only in their own fresh container cgroup, retaining zero host swap-out assertion."
+}

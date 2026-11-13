@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "logs_scanned": 32,
+  "findings": [],
+  "scope": "actual stderr logs from the fresh sanitizer validation, not a guarantee of all-input correctness"
+}

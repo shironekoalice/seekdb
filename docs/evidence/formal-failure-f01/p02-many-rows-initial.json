@@ -1,0 +1,141 @@
+{
+  "passed": true,
+  "scope": "local scalability diagnostic, not reproduction of an identified hidden case",
+  "image": "minivectordb:b03-p02",
+  "image_id": "sha256:7190653ae8aaaa40aa084c051a073026c49d709e3ccb926a857721e02d41ae62",
+  "workload": {
+    "rows": 200000,
+    "payload_bytes_per_row": 1024,
+    "logical_body_bytes": 204800000,
+    "memory_limit_bytes": 134217728,
+    "request_timeout_seconds": 60,
+    "startup_timeout_seconds": 120,
+    "batch_rows": 128
+  },
+  "requests": [
+    {
+      "label": "select-first",
+      "sql": "SELECT id,g FROM t WHERE id=0;",
+      "seconds": 0.0009496209968347102,
+      "read_bytes": 16384
+    },
+    {
+      "label": "select-last",
+      "sql": "SELECT id,g FROM t WHERE id=199999;",
+      "seconds": 0.0006206429970916361,
+      "read_bytes": 0
+    },
+    {
+      "label": "select-missing",
+      "sql": "SELECT id FROM t WHERE id=200000;",
+      "seconds": 0.000651677000860218,
+      "read_bytes": 0
+    },
+    {
+      "label": "select-other-predicate",
+      "sql": "SELECT id FROM t WHERE id=199999 AND g=8;",
+      "seconds": 0.00042900099651888013,
+      "read_bytes": 0
+    },
+    {
+      "label": "update-hit",
+      "sql": "UPDATE t SET body='durable' WHERE id=5;",
+      "seconds": 0.005874409005627967,
+      "read_bytes": 32768
+    },
+    {
+      "label": "update-missing",
+      "sql": "UPDATE t SET body='absent' WHERE id=200000;",
+      "seconds": 0.0005086489982204512,
+      "read_bytes": 0
+    },
+    {
+      "label": "delete-hit",
+      "sql": "DELETE FROM t WHERE id=6;",
+      "seconds": 0.005033394001657143,
+      "read_bytes": 0
+    },
+    {
+      "label": "delete-missing",
+      "sql": "DELETE FROM t WHERE id=200000;",
+      "seconds": 0.0005415100022219121,
+      "read_bytes": 0
+    },
+    {
+      "label": "update-pending",
+      "sql": "UPDATE t SET body='temporary' WHERE id=5;",
+      "seconds": 0.0006567679956788197,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-pending",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 0.0005064419965492561,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-rollback",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 0.0004088220011908561,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-restarted",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 0.0009499059960944578,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-deleted-restarted",
+      "sql": "SELECT id FROM t WHERE id=6;",
+      "seconds": 0.0006660009967163205,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-last-body-restarted",
+      "sql": "SELECT body FROM t WHERE id=199999;",
+      "seconds": 0.0006782740019843914,
+      "read_bytes": 0
+    },
+    {
+      "label": "range-control",
+      "sql": "SELECT id,g FROM t WHERE id>=199996 ORDER BY id;",
+      "seconds": 1.7668723140013753,
+      "read_bytes": 172924928
+    }
+  ],
+  "load_seconds": 21.60530188499979,
+  "insert_sql_sha256": "13b0afe743eba346b9cca28eaf493d3b389fdfa0627faf6412815b7fe610b5a2",
+  "recovery_seconds": 4.287567228006083,
+  "metrics": {
+    "B_bytes": 1268178944,
+    "M_bytes": 134217728,
+    "io_start": {},
+    "io_end": {
+      "8:80": {
+        "rbytes": 388493312,
+        "wbytes": 879685632,
+        "rios": 3022,
+        "wios": 9460,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "memory_events": {
+      "low": "0",
+      "high": "0",
+      "max": "2547",
+      "oom": "0",
+      "oom_kill": "0",
+      "oom_group_kill": "0"
+    },
+    "memory_limit_bytes": 134217728,
+    "memory_swap_max": "max",
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    }
+  },
+  "seconds": 31.255754714999057,
+  "max_request_seconds": 1.7668723140013753
+}

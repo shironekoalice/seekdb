@@ -1,0 +1,143 @@
+{
+  "passed": true,
+  "scope": "local scalability diagnostic, not reproduction of an identified hidden case",
+  "image": "minivectordb:f01-point-fix",
+  "image_id": "sha256:5485d87fd5f9e43c91353feb8644bdcb2accea09e71a3d8fb3335f492d9e0ba2",
+  "tool_sha256": "0eaff565ad5747a472356be010dd5fce79c7ce6f74d2cdfb42d925f44dd9d5be",
+  "workload": {
+    "rows": 200000,
+    "payload_bytes_per_row": 1024,
+    "logical_body_bytes": 204800000,
+    "memory_limit_bytes": 134217728,
+    "request_timeout_seconds": 60,
+    "startup_timeout_seconds": 120,
+    "batch_rows": 128
+  },
+  "requests": [
+    {
+      "label": "select-first",
+      "sql": "SELECT id,g FROM t WHERE id=0;",
+      "seconds": 0.001060552996932529,
+      "read_bytes": 16384
+    },
+    {
+      "label": "select-last",
+      "sql": "SELECT id,g FROM t WHERE id=199999;",
+      "seconds": 0.0005889370004297234,
+      "read_bytes": 0
+    },
+    {
+      "label": "select-missing",
+      "sql": "SELECT id FROM t WHERE id=200000;",
+      "seconds": 0.0006174519949126989,
+      "read_bytes": 0
+    },
+    {
+      "label": "select-other-predicate",
+      "sql": "SELECT id FROM t WHERE id=199999 AND g=8;",
+      "seconds": 0.0005357449990697205,
+      "read_bytes": 0
+    },
+    {
+      "label": "update-hit",
+      "sql": "UPDATE t SET body='durable' WHERE id=5;",
+      "seconds": 0.007051653003145475,
+      "read_bytes": 32768
+    },
+    {
+      "label": "update-missing",
+      "sql": "UPDATE t SET body='absent' WHERE id=200000;",
+      "seconds": 0.0008543020012439229,
+      "read_bytes": 0
+    },
+    {
+      "label": "delete-hit",
+      "sql": "DELETE FROM t WHERE id=6;",
+      "seconds": 0.006338442995911464,
+      "read_bytes": 0
+    },
+    {
+      "label": "delete-missing",
+      "sql": "DELETE FROM t WHERE id=200000;",
+      "seconds": 0.0006574799990630709,
+      "read_bytes": 0
+    },
+    {
+      "label": "update-pending",
+      "sql": "UPDATE t SET body='temporary' WHERE id=5;",
+      "seconds": 0.0006471219967352226,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-pending",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 0.00044384499778971076,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-rollback",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 0.0005163460009498522,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-restarted",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 0.0008443679980700836,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-deleted-restarted",
+      "sql": "SELECT id FROM t WHERE id=6;",
+      "seconds": 0.0006079770028009079,
+      "read_bytes": 0
+    },
+    {
+      "label": "read-last-body-restarted",
+      "sql": "SELECT body FROM t WHERE id=199999;",
+      "seconds": 0.0006997900054557249,
+      "read_bytes": 0
+    },
+    {
+      "label": "range-control",
+      "sql": "SELECT id,g FROM t WHERE id>=199996 ORDER BY id;",
+      "seconds": 1.4514468999987002,
+      "read_bytes": 172056576
+    }
+  ],
+  "container_swap_max_enforced": 0,
+  "load_seconds": 21.467163641005754,
+  "insert_sql_sha256": "13b0afe743eba346b9cca28eaf493d3b389fdfa0627faf6412815b7fe610b5a2",
+  "recovery_seconds": 4.074141254001006,
+  "metrics": {
+    "B_bytes": 1270390784,
+    "M_bytes": 134217728,
+    "io_start": {},
+    "io_end": {
+      "8:80": {
+        "rbytes": 387620864,
+        "wbytes": 882769920,
+        "rios": 3013,
+        "wios": 9458,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "memory_events": {
+      "low": "0",
+      "high": "0",
+      "max": "2610",
+      "oom": "0",
+      "oom_kill": "0",
+      "oom_group_kill": "0"
+    },
+    "memory_limit_bytes": 134217728,
+    "memory_swap_max": "0",
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    }
+  },
+  "seconds": 31.175273873996048,
+  "max_request_seconds": 1.4514468999987002
+}

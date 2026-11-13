@@ -1,0 +1,150 @@
+{
+  "passed": false,
+  "scope": "local scalability diagnostic, not reproduction of an identified hidden case",
+  "image": "minivectordb:b02-p07",
+  "image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+  "workload": {
+    "rows": 200000,
+    "payload_bytes_per_row": 1024,
+    "logical_body_bytes": 204800000,
+    "memory_limit_bytes": 134217728,
+    "request_timeout_seconds": 60,
+    "startup_timeout_seconds": 120,
+    "batch_rows": 128
+  },
+  "requests": [
+    {
+      "label": "select-first",
+      "sql": "SELECT id,g FROM t WHERE id=0;",
+      "seconds": 1.778076371003408,
+      "read_bytes": 215564288
+    },
+    {
+      "label": "select-last",
+      "sql": "SELECT id,g FROM t WHERE id=199999;",
+      "seconds": 1.528045345999999,
+      "read_bytes": 215564288
+    },
+    {
+      "label": "select-missing",
+      "sql": "SELECT id FROM t WHERE id=200000;",
+      "seconds": 1.7124339310030336,
+      "read_bytes": 215535616
+    },
+    {
+      "label": "select-other-predicate",
+      "sql": "SELECT id FROM t WHERE id=199999 AND g=8;",
+      "seconds": 1.6425725640001474,
+      "read_bytes": 215535616
+    },
+    {
+      "label": "update-hit",
+      "sql": "UPDATE t SET body='durable' WHERE id=5;",
+      "seconds": 1.5159299949955312,
+      "read_bytes": 215535616
+    },
+    {
+      "label": "update-missing",
+      "sql": "UPDATE t SET body='absent' WHERE id=200000;",
+      "seconds": 1.6205260189963155,
+      "read_bytes": 215531520
+    },
+    {
+      "label": "delete-hit",
+      "sql": "DELETE FROM t WHERE id=6;",
+      "seconds": 1.804266559003736,
+      "read_bytes": 215527424
+    },
+    {
+      "label": "delete-missing",
+      "sql": "DELETE FROM t WHERE id=200000;",
+      "seconds": 1.6822490359991207,
+      "read_bytes": 215527424
+    },
+    {
+      "label": "update-pending",
+      "sql": "UPDATE t SET body='temporary' WHERE id=5;",
+      "seconds": 1.4924690179977915,
+      "read_bytes": 215527424
+    },
+    {
+      "label": "read-pending",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 1.4569535219998215,
+      "read_bytes": 215527424
+    },
+    {
+      "label": "read-rollback",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 1.6763092870023684,
+      "read_bytes": 215527424
+    },
+    {
+      "label": "read-restarted",
+      "sql": "SELECT body FROM t WHERE id=5;",
+      "seconds": 1.6351869630016154,
+      "read_bytes": 172040192
+    },
+    {
+      "label": "read-deleted-restarted",
+      "sql": "SELECT id FROM t WHERE id=6;",
+      "seconds": 1.6111004619961022,
+      "read_bytes": 172195840
+    },
+    {
+      "label": "read-last-body-restarted",
+      "sql": "SELECT body FROM t WHERE id=199999;",
+      "seconds": 1.6512498960000812,
+      "read_bytes": 172142592
+    },
+    {
+      "label": "range-control",
+      "sql": "SELECT id,g FROM t WHERE id>=199996 ORDER BY id;",
+      "seconds": 1.6943331199945533,
+      "read_bytes": 172470272
+    }
+  ],
+  "load_seconds": 23.24237678499776,
+  "insert_sql_sha256": "13b0afe743eba346b9cca28eaf493d3b389fdfa0627faf6412815b7fe610b5a2",
+  "recovery_seconds": 4.512571810999361,
+  "metrics": {
+    "B_bytes": 4159877120,
+    "M_bytes": 134217728,
+    "io_start": {},
+    "io_end": {
+      "8:32": {
+        "rbytes": 0,
+        "wbytes": 40960,
+        "rios": 0,
+        "wios": 10,
+        "dbytes": 0,
+        "dios": 0
+      },
+      "8:80": {
+        "rbytes": 3275284480,
+        "wbytes": 884551680,
+        "rios": 25355,
+        "wios": 9460,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "memory_events": {
+      "low": "0",
+      "high": "0",
+      "max": "21190",
+      "oom": "0",
+      "oom_kill": "0",
+      "oom_group_kill": "0"
+    },
+    "memory_limit_bytes": 134217728,
+    "memory_swap_max": "max",
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 10
+    }
+  },
+  "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f01/tests/large_point_paths.py\", line 112, in main\n    assert report[\"metrics\"][\"host_swap_io_delta\"][\"pswpout\"] == 0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "seconds": 56.044147499000246,
+  "max_request_seconds": 1.804266559003736
+}

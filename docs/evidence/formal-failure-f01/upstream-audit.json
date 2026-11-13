@@ -1,0 +1,21 @@
+{
+  "upstream_current_commit": "f4d4e26653af823a7601668802f80e374ad6643c",
+  "pinned_commit": "f4d4e26653af823a7601668802f80e374ad6643c",
+  "files": [
+    {
+      "path": "protocol_check/config.json",
+      "unchanged_ignoring_eol": true,
+      "upstream_sha256": "63fe51cac3aaaf45c3739b53b1de8420e5d001e8abb6cf88532d9f190d72d904"
+    },
+    {
+      "path": "mysqltest/manifest.json",
+      "unchanged_ignoring_eol": true,
+      "upstream_sha256": "a05fc8ff810affb8c899df4a2c1e31c35450178635d62b3efd6ae6ac15056aae"
+    },
+    {
+      "path": "STDIO_PROTOCOL.md",
+      "unchanged_ignoring_eol": true,
+      "upstream_sha256": "ca85bd31ab8dc61df50b44dedfe427764820aa84faa9036b3c00001b40c39f46"
+    }
+  ]
+}

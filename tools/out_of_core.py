@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prove live logical data exceeds the memory cap, then test rollback and recovery."""
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -15,18 +16,26 @@ def main():
     p.add_argument("--output", required=True, type=Path)
     p.add_argument("--memory-mib", type=int, default=128)
     p.add_argument("--data-mib", type=int, default=256)
+    p.add_argument("--enforce-no-swap", action="store_true",
+                   help="set and verify memory.swap.max=0 for this test's own container")
     args = p.parse_args()
     assert args.data_mib > args.memory_mib >= 64
     args.output.mkdir(parents=True, exist_ok=False)
     payload_size = 65536
     count = math.ceil(args.data_mib*1048576/payload_size)
     report = {"passed": False, "scope": "local live-data-over-cgroup-memory test",
+              "tool_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               "logical_payload_bytes": count*payload_size,
               "memory_limit_bytes": args.memory_mib*1048576,
               "image_id": docker("image", "inspect", "-f", "{{.Id}}", args.image)}
     started = time.monotonic()
     try:
         with Lab(args.image, args.output/"stderr.log", f"{args.memory_mib}m", 8*1048576) as lab:
+            if args.enforce_no_swap:
+                swap_file = lab.cgroup/"memory.swap.max"
+                swap_file.write_text("0")
+                assert swap_file.read_text().strip() == "0"
+                report["container_swap_max_enforced"] = 0
             lab.sql("CREATE TABLE t(id BIGINT PRIMARY KEY,body VARCHAR(65536),v VECTOR(2));")
             for start in range(0, count, 16):
                 rows = [f"({i},'{str(i).zfill(8)+'x'*(payload_size-8)}','[{i%101},0]')"

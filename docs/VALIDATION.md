@@ -52,7 +52,8 @@ python3 tests/point_paths.py --binary /opt/minivectordb-candidate/minivectordb -
 `point_paths.py`为B03新增Python状态oracle，1218次点查询、812次强制范围扫描、
 90个错误反例、120次随机操作，覆盖PK等值、其他AND条件、提前报错和事务/恢复，
 也支持 `--image`。已在P07控制组和隔离P02的原生/Docker/sanitizer运行；
-主分支运行代码仍为P07，不能因新增工具误认为P02已经采用。
+B03时主分支仍为P07；F01收到正式超时反馈后，补充大数据对照才采用P02。
+这不改变B03的历史结论，也不证明正式超时已定位。
 
 故意破坏隔离副本，确认测试会拒绝，原始代码不变：
 
@@ -73,6 +74,23 @@ python3 tools/out_of_core.py --image minivectordb:candidate --memory-mib 2048 --
 实际 memory.swap.max 可能仍为 max；报告记录该值及整段 host pswpin/pswpout。
 测试要求没有 swap-out 才采纳内存证据，但这不代表 Docker 成功禁止了 swap。
 不修改系统 swap、不全局清缓存、不停止其他项目。
+
+当前 WSL 可在有本任务容器 cgroup 写权限时，给 `out_of_core.py` 增加
+`--enforce-no-swap`。工具只设置本次新容器的 `memory.swap.max=0` 并回读核实；
+失败则保留错误，不放宽原有 host 换页检查，也不修改全局 swap。
+仅有 Docker 的 `--memory-swap` 参数不能证明实际限制已经生效。
+
+正式超时反馈后的多记录诊断使用：
+
+```bash
+python3 tests/large_point_paths.py --image minivectordb:f01-point-fix --enforce-no-swap --output artifacts/large-points-new
+```
+
+默认20万行×1024字节正文，活跃正文超过128 MiB容器内存；
+逐条核对PK命中/未命中、其他AND条件、事务、回滚及重启，另有范围扫描控制。
+记录每个请求的墙钟时间和cgroup实际读取字节。此诊断保留公开请求/启动超时，
+不是正式失败用例的复现或默认性能E。F01报告与原样保留的资源检查失败见
+`docs/FORMAL_FAILURE_F01.md`。
 
 ## 性能
 

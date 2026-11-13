@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "phase": "bounded_optimization",
-  "status": "batch_b03_completed",
+  "phase": "formal_failure_triage",
+  "status": "local_mitigation_validated_formal_root_unknown",
   "updated_local_date": "2026-11-14",
   "workspace": "E:/develop/project_files/project/oceanbase",
   "project": "minivectordb",
@@ -20,34 +20,40 @@
     "local_E_vs_contemporary": "0.597888",
     "local_E_second_seed": "0.599353"
   },
-  "measured_image": "minivectordb:b02-p07",
-  "measured_image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+  "measured_image": "minivectordb:f01-point-fix",
+  "measured_image_id": "sha256:5485d87fd5f9e43c91353feb8644bdcb2accea09e71a3d8fb3335f492d9e0ba2",
   "baseline_report": "docs/evidence/benchmark-baseline.json",
   "next_batch": {
-    "note": "Resume only on user continuation; P07 remains best. P02 is a verified point-workload alternative, not promoted for default workload E.",
+    "note": "Prioritize the formal timeout diagnosis. P07 performance snapshot remains preserved.",
     "max_minutes": 45,
-    "action": "Before editing P07, count transient JSON projection allocations before TopK rejection (P08); use profile evidence, then one minimal candidate. Do not repeat P02 or existing profiles without new justification.",
+    "action": "Obtain failed case name, timeout phase/SQL, stderr and resource configuration; do not assume F01 fixed the unidentified case or start P08 automatically.",
     "reserve_cleanup_minutes": 5,
-    "suggested_queue": "P08/allocation-counting",
+    "suggested_queue": "formal-timeout-diagnostics",
     "max_candidates": 3,
-    "material_bytes_current": 113875,
+    "material_bytes_current": 117659,
     "material_limit_bytes": 131072
   },
   "permissions": {
     "local_preparation_and_rehearsal": true,
     "long_optimization": "authorized by user same-conversation resume on 2026-11-13",
     "remote_push": false,
-    "official_submission": false
+    "official_submission": false,
+    "scoped_repository_push": {
+      "repository": "https://github.com/shironekoalice/seekdb",
+      "branch": "2026-competition-round2",
+      "scope": "User-requested contest materials and current failure repair; no official resubmission."
+    }
   },
   "unknown": [
-    "official 29-case result",
+    "failed case, SQL and cause of the aggregate formal JSON response timeout",
+    "F01 official 29-case acceptance",
     "official performance reference and frozen generator",
     "official Agent evaluation",
     "student technical explanations not yet present"
   ],
   "stop_after_rehearsal": false,
   "continue_same_conversation": true,
-  "code_sha256": "81b6fc0dec77f560b06a2cabefae9c84f427184467f0f8442e5cd77bd7e7f309",
+  "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
   "rehearsal": {
     "completed": true,
     "report": "docs/REHEARSAL.md",
@@ -128,5 +134,39 @@
     "native": "/opt/mvdb-b03-p02/minivectordb",
     "id": "P02",
     "report": "docs/OPTIMIZATION_B03.md"
+  },
+  "best_candidate_role": "retained default-workload performance reference; not current submission runtime",
+  "active_submission_candidate": {
+    "id": "F01",
+    "engine": "P07+P02",
+    "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
+    "report": "docs/FORMAL_FAILURE_F01.md",
+    "evidence": "docs/evidence/formal-failure-f01/summary.json",
+    "reason": "Remove verified full-table PK equality reads after formal aggregate timeout feedback.",
+    "formal_root_cause_confirmed": false,
+    "formal_result": "not_run"
+  },
+  "last_triage": {
+    "id": "F01",
+    "tests_completed_local": "2026-11-14T03:09:24.573095+08:00",
+    "evidence": "docs/evidence/formal-failure-f01",
+    "decision": "adopt_PK_equality_path_as_timeout_risk_mitigation_not_verified_formal_fix"
+  },
+  "last_official_feedback": {
+    "record_id": 47253392,
+    "question_id": 600081,
+    "repository": "https://github.com/shironekoalice/seekdb",
+    "branch": "2026-competition-round2",
+    "commit": "81a7935da6ee9f743555551268d8a2edc17f7cd0",
+    "started_local": "2026-11-14T02:04:40+08:00",
+    "ended_local": "2026-11-14T02:25:56+08:00",
+    "failed_case_count_in_feedback": 1,
+    "feedback": "正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。",
+    "prompt_evaluation_executed": false,
+    "failed_case_name": null,
+    "timed_out_sql": null,
+    "other_formal_cases_passed": null,
+    "source": "Read-only authenticated OceanBase task record UI and its own response; credentials and unrelated user identifiers omitted.",
+    "scope": "An aggregate timeout report; does not identify the slow statement or establish its cause."
   }
 }

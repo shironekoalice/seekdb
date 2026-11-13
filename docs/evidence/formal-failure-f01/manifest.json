@@ -1,0 +1,122 @@
+[
+  {
+    "file": "platform-feedback-redacted.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\platform-feedback-redacted.json",
+    "sha256": "d637e1eb6b49355a944ae5c0599ddb27bbc11841eb022ca40381d011b2de114f"
+  },
+  {
+    "file": "upstream-audit.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\upstream-audit.json",
+    "sha256": "a62fb6fa6d0f5eea3525a785bd9099db6d642d9eea76608944a52ba9bf5d45a8"
+  },
+  {
+    "file": "plan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\plan.json",
+    "sha256": "92b7dace734185d5527fa84c4fc215de59703cdb7f09f65aac115f62f87c7619"
+  },
+  {
+    "file": "large_point_paths-v1.py",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\large_point_paths-v1.py",
+    "sha256": "f111cc64470c85a6e00fc213655e6f11989f9faba2311d931bfbf2a371bb2dff"
+  },
+  {
+    "file": "p07-control-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\p07-docker-control\\public\\result.json",
+    "sha256": "0a0985bf69256a5189776ead0aeda6d01d2029713ed04f0403e443f6c73e9b51"
+  },
+  {
+    "file": "p07-control-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\p07-docker-control\\extended\\result.json",
+    "sha256": "55cde4eecb66f0f68e3783d056225f45076fb48bb32068485dd5ba61307b4765"
+  },
+  {
+    "file": "p07-control-identity.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\p07-docker-control\\result.json",
+    "sha256": "2546953ada8a8067b7f5cf428a7d0fb3046ac0f1458af11aa1d41e455c4184e7"
+  },
+  {
+    "file": "p07-many-rows-swap-failure.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\p07-many-rows\\result.json",
+    "sha256": "619243636234f4b55b7e37e56f0659a585ae22549da689b49b27dd5e75a53427"
+  },
+  {
+    "file": "p07-many-rows-swap-failure-retry.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\p07-many-rows-retry\\result.json",
+    "sha256": "141199232424f75bd2673f7ea183295c8f71cd2a6ba3a2cd33fd3fd233d54db2"
+  },
+  {
+    "file": "p02-many-rows-initial.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\p02-many-rows\\result.json",
+    "sha256": "6a261565a1625006cbd788dd489dceba167a4341f580c3d85b4ddeab17ea2ff0"
+  },
+  {
+    "file": "p07-many-rows-noswap.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\p07-many-rows-noswap\\result.json",
+    "sha256": "0c8439427bbbaccb5246681c0f6f98faacd8121f4cd0807e2982e579b4300435"
+  },
+  {
+    "file": "f01-many-rows-noswap.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-many-rows-noswap\\result.json",
+    "sha256": "46a76511f093f8ecab2c9e1746e1efc3bf06483d83ff71dd33cf1eb145d33caa"
+  },
+  {
+    "file": "f01-docker-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-docker\\public\\result.json",
+    "sha256": "643fa86ab476d05cb01cc29e1af701574061efd8662bbf2c40f791bdb9c8a172"
+  },
+  {
+    "file": "f01-docker-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-docker\\extended\\result.json",
+    "sha256": "5f96c4fa92a6f89b3d9293477f7b0ec8cafb32dde17647bac8cef9abdaf07cfa"
+  },
+  {
+    "file": "f01-docker-identity.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-docker\\result.json",
+    "sha256": "4fc6085c03f40a00319593b315f4135b128a934a2bef3de09507d5814feb067e"
+  },
+  {
+    "file": "f01-asan-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-asan\\public\\result.json",
+    "sha256": "d88ba03b616533ee3aa93cdcc8550dad7c862749d0ffd1f7d626e1067e4c0a78"
+  },
+  {
+    "file": "f01-asan-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-asan\\extended\\result.json",
+    "sha256": "1ab50833dab911eda9749b00a9c2c51ba9d47f58ff52d11510f6d35d9d476efc"
+  },
+  {
+    "file": "f01-asan-identity.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-asan\\result.json",
+    "sha256": "816eea7b671260995c62a8f0398ae16e053d38dd8ad8606219a34e242db9e84e"
+  },
+  {
+    "file": "f01-point-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-point-asan\\result.json",
+    "sha256": "cc18533bd57a6c5d4fbb0ff3f8e438daa3ccd48361bf83b2b1eebac350ad6407"
+  },
+  {
+    "file": "f01-query-native.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-query-native\\result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "f01-out-of-core-full.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\f01-out-of-core-full\\result.json",
+    "sha256": "024c53a95b45cd945c0825f6a7acdc2a2c9722a12552de88ee9ade2a50505580"
+  },
+  {
+    "file": "sanitizer-audit.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-failure-20261114-0238\\sanitizer-audit.json",
+    "sha256": "000bc821d03cfb2acdc41f71d41f39f94d3441dd3348e88b4ffab0f90e0153a3"
+  },
+  {
+    "file": "source-fingerprint.json",
+    "source": "generated from the actual F01 reports",
+    "sha256": "fc2dfdaafae73b733d256a6ce5cc4163210de59cf6a85d17e3ed2407f595a159"
+  },
+  {
+    "file": "summary.json",
+    "source": "generated from the actual F01 reports",
+    "sha256": "de03fe4bd41c2bf60575f4034e1245d0e257dc7591f4506d1785306231374a18"
+  }
+]
