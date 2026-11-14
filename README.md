@@ -54,3 +54,7 @@ docker run --rm -i --network=none --read-only --cpus=2 --memory=2g \
 最近一次正式超时的环境复核、四条SQL反例和文件名冲突修复见
 `docs/FORMAL_FAILURE_F02.md`。本地反例已修复；正式隐藏输入仍不可见，
 本地验证不能作为正式准入已通过的声明。
+
+F03按题干逐项核对、资源/结果边界修正和仍未公开的要求见
+`docs/ADMISSION_AUDIT_F03.md`。当前遵循“准入优先，之后再讨论优化”，
+未自动消耗正式提测机会。

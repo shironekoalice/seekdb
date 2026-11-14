@@ -1,0 +1,37 @@
+{
+  "scope": "local admission counterexamples; not official hidden cases",
+  "tool_sha256": "9eada7c2eda73cbf26bd6fd8636339994fc81f6c927d88645bc04ade8666d077",
+  "checks": [
+    {
+      "name": "final_topk",
+      "passed": false,
+      "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 40, in run\n    detail = method(session)\n             ^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 65, in final_topk\n    actual = ok(s, \"SELECT body FROM t ORDER BY g LIMIT 2;\")[\"rows\"]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 56, in ok\n    assert response[\"ok\"], (sql[:160], response)\n           ~~~~~~~~^^^^^^\nAssertionError: ('SELECT body FROM t ORDER BY g LIMIT 2;', {'error': {'code': 'resource_limit', 'message': 'result exceeds protocol size budget'}, 'id': 5, 'ok': False})\n",
+      "seconds": 0.970465920996503
+    },
+    {
+      "name": "response_boundary",
+      "passed": false,
+      "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 40, in run\n    detail = method(session)\n             ^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 80, in response_boundary\n    actual = ok(s, \"SELECT body FROM t WHERE id=1;\")\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 56, in ok\n    assert response[\"ok\"], (sql[:160], response)\n           ~~~~~~~~^^^^^^\nAssertionError: ('SELECT body FROM t WHERE id=1;', {'error': {'code': 'resource_limit', 'message': 'result exceeds protocol size budget'}, 'id': 3, 'ok': False})\n",
+      "seconds": 0.7630583540012594
+    },
+    {
+      "name": "identifier_literals",
+      "passed": false,
+      "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 40, in run\n    detail = method(session)\n             ^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 95, in identifier_literals\n    assert bad[\"ok\"] is False and bad[\"error\"][\"code\"], (sql, bad)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: (\"INSERT INTO t VALUES(1,`2`,'[0]');\", {'affected_rows': 1, 'id': 2, 'ok': True})\n",
+      "seconds": 0.0777216239948757
+    },
+    {
+      "name": "declared_size",
+      "passed": false,
+      "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 40, in run\n    detail = method(session)\n             ^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 104, in declared_size\n    ok(s, \"CREATE TABLE t(id BIGINT PRIMARY KEY,body VARCHAR(100000001));\")\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/admission_edges.py\", line 56, in ok\n    assert response[\"ok\"], (sql[:160], response)\n           ~~~~~~~~^^^^^^\nAssertionError: ('CREATE TABLE t(id BIGINT PRIMARY KEY,body VARCHAR(100000001));', {'error': {'code': 'invalid_schema', 'message': 'invalid declared size'}, 'id': 1, 'ok': False})\n",
+      "seconds": 0.027099480998003855
+    },
+    {
+      "name": "wide_key_ordering",
+      "passed": true,
+      "detail": "Wide keys cross 8KiB blocks, Unicode suffixes, prefix order, ASC/DESC ties, transaction and kill recovery.",
+      "seconds": 0.11796197399962693
+    }
+  ],
+  "passed": false
+}

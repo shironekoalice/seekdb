@@ -1,0 +1,14 @@
+[
+  {
+    "kind": "release",
+    "binary": "/opt/mvdb-f03-release/minivectordb",
+    "sha256": "cad79c44d98cec6948acd30e2b1a007b5f921d3aa5673a8d9c5ceb55ef5c1a69",
+    "seconds": 16.243420024009538
+  },
+  {
+    "kind": "asan",
+    "binary": "/opt/mvdb-f03-asan/minivectordb",
+    "sha256": "b7adf3456f586d896b3ae40d4541d7be453a25ab93accc81b48b96d718105610",
+    "seconds": 21.11251241400896
+  }
+]

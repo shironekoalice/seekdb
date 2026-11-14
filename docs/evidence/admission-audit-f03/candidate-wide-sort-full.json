@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "scope": "local cgroup out-of-core ORDER BY check",
+  "tool_sha256": "28bfe43bd0ad2428c29d9fb683488ab9b3433269e613cbda63e8717fc880fec7",
+  "image_id": "sha256:19e04bc89a12daa591e1a31a8559d559a75dbeda2ca76ac0b2892e039d5a21bf",
+  "logical_payload_bytes": 2415919104,
+  "memory_limit_bytes": 2147483648,
+  "actual_swap_max": 0,
+  "phase": "complete",
+  "load_seconds": 122.01693206900381,
+  "query_seconds": 30.041895911999745,
+  "metrics": {
+    "B_bytes": 27554213888,
+    "M_bytes": 2147483648,
+    "io_start": {
+      "8:80": {
+        "rbytes": 36864,
+        "wbytes": 0,
+        "rios": 2,
+        "wios": 0,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "io_end": {
+      "8:80": {
+        "rbytes": 10843865088,
+        "wbytes": 16710385664,
+        "rios": 162893,
+        "wios": 41097,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "memory_events": {
+      "low": "0",
+      "high": "0",
+      "max": "120888",
+      "oom": "0",
+      "oom_kill": "0",
+      "oom_group_kill": "0"
+    },
+    "memory_limit_bytes": 2147483648,
+    "memory_swap_max": "0",
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    }
+  },
+  "observed_memory_events": "low 0\nhigh 0\nmax 120888\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "observed_memory_peak": 2147483648,
+  "seconds": 215.8502631230076
+}

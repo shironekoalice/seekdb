@@ -1,0 +1,167 @@
+[
+  {
+    "file": "plan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\plan.json",
+    "sha256": "afbeae18f3030bcf8acff7475ec0e1b01ce41078ce12bd410a8d7bf2929a520d"
+  },
+  {
+    "file": "published-contract-audit.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\published-contract-audit.json",
+    "sha256": "ef2762ab313e04ca7f1a5790ac1f75f2a1cd2fe145d1d9ce2a8053df0a101dcb"
+  },
+  {
+    "file": "build-identities.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\build-identities-final.json",
+    "sha256": "cf421502a208a324c104216e85bc60bc205da33dccd0f9c75c76c95b4c562312"
+  },
+  {
+    "file": "build-identities-v1.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\build-identities-v1.json",
+    "sha256": "cfad1d5730fa56310fcb4b4c56c4746645595c6e38679718aa322b55912d3ef6"
+  },
+  {
+    "file": "control-edges-v1.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\control-edges\\result.json",
+    "sha256": "6b225b649c0e7d6cd9c6205d04dae8f1298496eb1aeca0ce1a691be7e24b4a12"
+  },
+  {
+    "file": "control-edges-final.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\control-edges-final\\result.json",
+    "sha256": "cf3c86aa14d1a36aeee43a34a3db52b22f69879f867531e899a2de88e282150f"
+  },
+  {
+    "file": "control-wide-sort.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\control-wide-sort\\result.json",
+    "sha256": "59ad82c68e0202af5068670de11212ad89f830db3e6aa31643f7d6a2b3335ee6"
+  },
+  {
+    "file": "candidate-edges-v1.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-edges-v1\\result.json",
+    "sha256": "63d2d64cc69ed6074edd80a574815a761f335dbcdfeca3859368196a72c091a5"
+  },
+  {
+    "file": "admission_edges-v1.py",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\admission_edges-v1.py",
+    "sha256": "9eada7c2eda73cbf26bd6fd8636339994fc81f6c927d88645bc04ade8666d077"
+  },
+  {
+    "file": "validation-run.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\validation-run.json",
+    "sha256": "9fb03233e0dcb82b594b906499d5336f474f792147538ad59fdf64138ba5279b"
+  },
+  {
+    "file": "sanitizer-audit.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\sanitizer-audit.json",
+    "sha256": "5df0422e3444311c27711bbb0fa1ab3cc009b971d36c851c681c0b40ad08b7ae"
+  },
+  {
+    "file": "long-names-control.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\long-names-control.json",
+    "sha256": "f236f0d9238b28faf62c027e6b59cb84efb6072ba88f165e2879242cde2d5f98"
+  },
+  {
+    "file": "long_names_control.py",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\long_names_control.py",
+    "sha256": "41e196bccffd9c50d9916d456a4388ba9f484aa23a340c0b5f2fde42348a2a22"
+  },
+  {
+    "file": "summary.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\summary.json",
+    "sha256": "288c3d8c30adf77bd7892761e08c068ebead948f2a0d8c08581ecbc6d71f97dc"
+  },
+  {
+    "file": "candidate-edges-native.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-edges-native\\result.json",
+    "sha256": "3989a11c3868833a37d8ea8c764ab1196e976cc1ae08579267c85e30b63fd64d"
+  },
+  {
+    "file": "candidate-edges-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-edges-asan\\result.json",
+    "sha256": "eb526511045472861ce51069fe2dc4e211859363d80b08c7e4772b70a36645b0"
+  },
+  {
+    "file": "candidate-verify-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-verify-asan\\result.json",
+    "sha256": "ac98f616e80a071c6438252237f501c3d68e6c8d9276c2f1659303f2ced7ec0a"
+  },
+  {
+    "file": "candidate-query-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-query-asan\\result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "candidate-point-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-point-asan\\result.json",
+    "sha256": "cc18533bd57a6c5d4fbb0ff3f8e438daa3ccd48361bf83b2b1eebac350ad6407"
+  },
+  {
+    "file": "candidate-namespace-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-namespace-asan\\result.json",
+    "sha256": "403947ed32d5a133bb0980ba2aacf956fc01ae5c189ffffc729345e3751a73cc"
+  },
+  {
+    "file": "candidate-verify-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-verify-docker\\result.json",
+    "sha256": "a4afdc72467101cfbd5b3482fd1971ca0df518b1b5965155d41e8fee55afd8e3"
+  },
+  {
+    "file": "candidate-edges-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-edges-docker\\result.json",
+    "sha256": "dea152deb8c540ee8371e20baee0ca620d6f7420afa9b1263b8cfcf11693cfb8"
+  },
+  {
+    "file": "candidate-environment.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-environment\\result.json",
+    "sha256": "a03023d070243e96c0f7eeb89b0fc369140fb4418145f8fc9d7718f116b2b4b7"
+  },
+  {
+    "file": "candidate-namespace-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-namespace-docker\\result.json",
+    "sha256": "0a3225948e5e1abcc893d0a1ab93a7d1090ab9785808ff54aa50c60af9a772e4"
+  },
+  {
+    "file": "candidate-wide-sort-small.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-wide-sort-small\\result.json",
+    "sha256": "870feae54b944c4a553ce67abee59f0bbc8b7920f9fe32b73280a22e2bbe0c25"
+  },
+  {
+    "file": "candidate-wide-sort-full.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-wide-sort-full\\result.json",
+    "sha256": "4c5523f37884a79a7f51dd9ab6f67c488d235a819d029bd7ac907ce0842afb57"
+  },
+  {
+    "file": "asan-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-verify-asan\\public\\result.json",
+    "sha256": "efb27291db2c481370d598c42114f7cb1ae1ff90d12b47458957dc92e2f11858"
+  },
+  {
+    "file": "asan-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-verify-asan\\extended\\result.json",
+    "sha256": "ac22103389a4ee844263c2fb683b38d919ac7d3220d0a6acc8d57145aacd7a13"
+  },
+  {
+    "file": "docker-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-verify-docker\\public\\result.json",
+    "sha256": "54d4d754e7120b0d7ebca3bd921a5231b5401d8d25742c5b273ee32bd0bab809"
+  },
+  {
+    "file": "docker-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\candidate-verify-docker\\extended\\result.json",
+    "sha256": "73796633e08c31867fefd52f1594aac1e799f11a82f48be50b53dd2fdb7462cc"
+  },
+  {
+    "file": "release-build-final.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\release-build-final.log",
+    "sha256": "fb1c7d8ff5edd1bb86ae4c672fec55af377043f12141677d3a88e084847061da"
+  },
+  {
+    "file": "asan-build-final.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\asan-build-final.log",
+    "sha256": "e871143c51a5f745cddc413dce664aa9348be13c6c96cc16300c3bc1354e3e0b"
+  },
+  {
+    "file": "docker-build-final.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\requirements-audit-f03-20261114-1102\\docker-build-final.log",
+    "sha256": "dcda047dfbad71b8bf5a5bbfd3cadf759f119db9b619f64b478393c6cf0a7355"
+  }
+]

@@ -37,7 +37,13 @@ int main(int argc, char** argv) {
       } catch (const Json::exception& e) {
         response["error"] = {{"code", "invalid_request"}, {"message", e.what()}};
       }
-      std::cout << response.dump() << std::endl;
+      std::string encoded = response.dump();
+      if (encoded.size() + 1 > MAX_RESPONSE_BYTES) {
+        response = {{"id", response["id"]}, {"ok", false},
+                    {"error", {{"code", "resource_limit"}, {"message", "response exceeds protocol byte limit"}}}};
+        encoded = response.dump();
+      }
+      std::cout << encoded << std::endl;
     }
     db.shutdown();
   } catch (const std::exception& e) {

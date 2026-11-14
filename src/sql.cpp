@@ -88,7 +88,7 @@ static std::string lower(std::string s) {
   return s;
 }
 static int64_t integer(const Token& token) {
-  if (token.quoted) throw Error("type_mismatch", "integer literal required");
+  if (token.quoted || token.identifier) throw Error("type_mismatch", "integer literal required");
   const char* start = token.text.data();
   const char* end = start + token.text.size();
   if (start < end && *start == '+') ++start;
@@ -98,6 +98,7 @@ static int64_t integer(const Token& token) {
   return value;
 }
 std::vector<float> vector_literal(const Token& token) {
+  if (token.identifier) throw Error("type_mismatch", "vector literal required");
   try {
     Json array = Json::parse(token.text);
     if (!array.is_array()) throw Error("invalid_vector", "expected vector array");
@@ -115,6 +116,7 @@ std::vector<float> vector_literal(const Token& token) {
   } catch (const Json::exception&) { throw Error("invalid_vector", "invalid vector JSON"); }
 }
 Cell literal(const Token& token, const Column& column, bool for_storage) {
+  if (token.identifier) throw Error("type_mismatch", "literal required, not an identifier");
   if (column.type == "bigint") return integer(token);
   if (column.type == "varchar") {
     if (!token.quoted) throw Error("type_mismatch", "quoted string required");
@@ -149,7 +151,8 @@ class Parser {
   }
   Token take() { Token t = peek(); ++pos; return t; }
   bool accept(const std::string& text) {
-    if (pos < tokens.size() && !tokens[pos].quoted && lower(tokens[pos].text) == text) { ++pos; return true; }
+    if (pos < tokens.size() && !tokens[pos].quoted && !tokens[pos].identifier &&
+        lower(tokens[pos].text) == text) { ++pos; return true; }
     return false;
   }
   void expect(const std::string& text) { if (!accept(text)) throw Error("syntax_error", "expected " + text); }
@@ -164,7 +167,7 @@ class Parser {
   }
   size_t positive() {
     int64_t n = integer(take());
-    if (n <= 0 || n > 100000000) throw Error("invalid_schema", "invalid declared size");
+    if (n <= 0) throw Error("invalid_schema", "invalid declared size");
     return static_cast<size_t>(n);
   }
   Expression expression() {
@@ -212,7 +215,7 @@ public:
         size_t start = ++i;
         while (i < sql.size() && sql[i] != '`') ++i;
         if (i == sql.size()) throw Error("syntax_error", "unterminated identifier");
-        tokens.push_back({sql.substr(start, i++ - start), false});
+        tokens.push_back({sql.substr(start, i++ - start), false, true});
       } else if (std::isalpha(c) || c == '_') {
         size_t start = i++;
         while (i < sql.size() && (std::isalnum(static_cast<unsigned char>(sql[i])) || sql[i] == '_')) ++i;

@@ -1,0 +1,18 @@
+[
+  {
+    "length": 248,
+    "target_binary": "fbcb91479d1ed98dfcbb639f23bba4cdea3b23f4f47ec24affb5e391c4ba198c",
+    "create": {
+      "id": 1,
+      "ok": true
+    },
+    "error": "database exited before response",
+    "restart_ready": true
+  },
+  {
+    "length": 260,
+    "target_binary": "fbcb91479d1ed98dfcbb639f23bba4cdea3b23f4f47ec24affb5e391c4ba198c",
+    "error": "database exited before response",
+    "restart_error": "database exited before response"
+  }
+]

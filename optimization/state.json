@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "phase": "formal_failure_triage",
-  "status": "local_timeout_reproduced_and_fixed_formal_input_unknown",
+  "status": "admission_audit_f03_passed_locally_long_name_defect_pending_f04",
   "updated_local_date": "2026-11-14",
   "workspace": "E:/develop/project_files/project/oceanbase",
   "project": "minivectordb",
@@ -20,17 +20,17 @@
     "local_E_vs_contemporary": "0.597888",
     "local_E_second_seed": "0.599353"
   },
-  "measured_image": "minivectordb:f02-namespace-fix",
-  "measured_image_id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b",
+  "measured_image": "minivectordb:f03-admission",
+  "measured_image_id": "sha256:19e04bc89a12daa591e1a31a8559d559a75dbeda2ca76ac0b2892e039d5a21bf",
   "baseline_report": "docs/evidence/benchmark-baseline.json",
   "next_batch": {
     "note": "The local statement-table self-cycle is fixed; actual formal input/environment remains unavailable.",
     "max_minutes": 45,
-    "action": "Obtain official failed case/SQL/phase/stderr or perform a user-authorized environment precheck; do not automatically submit or start P08.",
+    "action": "F04: isolate confirmed long-table-name filename failures; no benchmark or official submission.",
     "reserve_cleanup_minutes": 5,
     "suggested_queue": "formal-timeout-diagnostics",
     "max_candidates": 3,
-    "material_bytes_current": 122664,
+    "material_bytes_current": 125036,
     "material_limit_bytes": 131072
   },
   "permissions": {
@@ -53,7 +53,7 @@
   ],
   "stop_after_rehearsal": false,
   "continue_same_conversation": true,
-  "code_sha256": "52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e",
+  "code_sha256": "704f99a308b5cd646aeb0196032415b0c621f9026dccc1f7751ceb465b6bd04f",
   "rehearsal": {
     "completed": true,
     "report": "docs/REHEARSAL.md",
@@ -137,21 +137,20 @@
   },
   "best_candidate_role": "retained default-workload performance reference; not current submission runtime",
   "active_submission_candidate": {
-    "id": "F02",
-    "engine": "P07+P02+scratch_namespace_fix",
-    "code_sha256": "52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e",
-    "report": "docs/FORMAL_FAILURE_F02.md",
-    "evidence": "docs/evidence/formal-failure-f02/summary.json",
-    "reason": "Fix a reproduced 60-second INSERT hang caused by scratch/table primary-key file aliasing.",
-    "local_timeout_cause_confirmed": true,
+    "id": "F03",
+    "engine": "P07+P02+F02+admission_edges",
+    "code_sha256": "704f99a308b5cd646aeb0196032415b0c621f9026dccc1f7751ceb465b6bd04f",
+    "report": "docs/ADMISSION_AUDIT_F03.md",
+    "evidence": "docs/evidence/admission-audit-f03/summary.json",
+    "formal_result": "not_run",
     "formal_root_cause_confirmed": false,
-    "formal_result": "not_run"
+    "known_problem_pending": "long table names; F04 required before final delivery"
   },
   "last_triage": {
-    "id": "F02",
-    "tests_and_archive_completed_local": "2026-11-14T10:50:15.862527+08:00",
-    "evidence": "docs/evidence/formal-failure-f02",
-    "decision": "adopt_scratch_namespace_fix_after_reproduced_60s_timeout"
+    "id": "F03",
+    "tests_and_archive_completed_local": "2026-11-14T11:32:12.614663+08:00",
+    "evidence": "docs/evidence/admission-audit-f03",
+    "decision": "preserve verified repairs; continue a separate bounded F04 for confirmed long-name process/recovery failure"
   },
   "last_official_feedback": {
     "record_id": 47253416,
@@ -174,19 +173,18 @@
     "time_source": "Observed queryTestPlatformTaskRecordList own response"
   },
   "previous_submission_candidate": {
-    "id": "F01",
-    "engine": "P07+P02",
-    "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
-    "report": "docs/FORMAL_FAILURE_F01.md",
-    "evidence": "docs/evidence/formal-failure-f01/summary.json",
-    "reason": "Remove verified full-table PK equality reads after formal aggregate timeout feedback.",
+    "id": "F02",
+    "engine": "P07+P02+scratch_namespace_fix",
+    "code_sha256": "52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e",
+    "report": "docs/FORMAL_FAILURE_F02.md",
+    "evidence": "docs/evidence/formal-failure-f02/summary.json",
+    "reason": "Fix a reproduced 60-second INSERT hang caused by scratch/table primary-key file aliasing.",
+    "local_timeout_cause_confirmed": true,
     "formal_root_cause_confirmed": false,
-    "formal_result": "failed",
-    "commit": "3f784f1a089e86d84471a3ac8a48a57b3ec19670",
-    "formal_record_id": 47253416
+    "formal_result": "not_run"
   },
   "last_user_feedback": {
-    "verbatim": "JSON 响应超时大概率是准入没过，直接放弃后续步骤",
-    "context": "Admission gating discussion: performance and Agent were skipped; no repeated independent timeout inferred."
+    "verbatim": "继续阅读题干，查找所有可能不符合题目要求的存在，通过为优，然后再讨论优化",
+    "context": "User requested admission-first requirements audit; no performance optimization or official submission."
   }
 }

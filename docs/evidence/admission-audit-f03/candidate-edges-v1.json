@@ -1,0 +1,40 @@
+{
+  "scope": "local admission counterexamples; not official hidden cases",
+  "tool_sha256": "9eada7c2eda73cbf26bd6fd8636339994fc81f6c927d88645bc04ade8666d077",
+  "checks": [
+    {
+      "name": "final_topk",
+      "passed": true,
+      "detail": "Final two rows are 11 bytes although the initial two candidates exceed 16 MiB; oversize query leaves transaction usable.",
+      "seconds": 1.0827311120083323
+    },
+    {
+      "name": "response_boundary",
+      "passed": true,
+      "detail": {
+        "actual_response_bytes": 15761460,
+        "public_max_response_bytes": 16777216
+      },
+      "seconds": 1.0939247060014168
+    },
+    {
+      "name": "identifier_literals",
+      "passed": true,
+      "detail": "Reject identifier tokens used as scalar/vector literals; preserve keyword identifiers.",
+      "seconds": 0.08372249899548478
+    },
+    {
+      "name": "declared_size",
+      "passed": true,
+      "detail": "No published 100000000 limit exists for VARCHAR declarations; small stored value remains valid.",
+      "seconds": 0.06628036400070414
+    },
+    {
+      "name": "wide_key_ordering",
+      "passed": true,
+      "detail": "Wide keys cross 8KiB blocks, Unicode suffixes, prefix order, ASC/DESC ties, transaction and kill recovery.",
+      "seconds": 0.11092473300232086
+    }
+  ],
+  "passed": true
+}

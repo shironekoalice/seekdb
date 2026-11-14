@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <fcntl.h>
 #include <iostream>
+#include <limits>
 #include <queue>
 #include <set>
 #include <sys/file.h>
@@ -70,7 +71,8 @@ uint64_t bucket(int64_t key) {
 }
 uint64_t append(File& f, const Json& op, uint32_t type = 1) {
   std::vector<uint8_t> bytes = type == 1 ? Json::to_cbor(op) : std::vector<uint8_t>{};
-  if (bytes.size() > 64 * 1024 * 1024) throw Error("resource_limit", "individual WAL record too large");
+  if (bytes.size() > std::numeric_limits<uint32_t>::max())
+    throw Error("resource_limit", "individual WAL record exceeds frame format");
   Header h{MAGIC, static_cast<uint32_t>(bytes.size()), type, checksum(bytes, type)};
   uint64_t position = f.size();
   f.write(position, &h, sizeof(h));
@@ -81,7 +83,7 @@ bool frame(const File& f, uint64_t offset, Header& h, Json& op) {
   uint64_t end = f.size();
   if (end - offset < sizeof(h)) return false;
   f.read(offset, &h, sizeof(h));
-  if (h.magic != MAGIC || h.length > 64 * 1024 * 1024 || h.type < 1 || h.type > 2 ||
+  if (h.magic != MAGIC || h.type < 1 || h.type > 2 ||
       end - offset - sizeof(h) < h.length || (h.type == 2 && h.length != 0)) return false;
   std::vector<uint8_t> bytes(h.length);
   f.read(offset + sizeof(h), bytes.data(), bytes.size());
@@ -450,8 +452,48 @@ Json Database::select(Statement s) {
     auto value = literal(p.value, schema.columns[i], false);
     if (i == schema.pk && p.op == "=" && !point_key) point_key = std::get<int64_t>(value);
   }
-  using Key = std::variant<int64_t, std::string, double>;
-  struct Candidate { int64_t pk; std::vector<Key> keys; Json projection; size_t bytes; };
+  // Wide, unprojected ORDER BY values must not make the heap as large as the
+  // whole table. Keep small keys inline and stream longer keys from /data.
+  struct SortText { std::string text; uint64_t offset = 0; size_t length = 0; };
+  struct SortCleanup {
+    std::filesystem::path path;
+    bool used = false;
+    ~SortCleanup() {
+      if (used) { std::error_code ignored; std::filesystem::remove(path, ignored); }
+    }
+  } sort_cleanup{root_ / "query_order.tmp"};
+  std::unique_ptr<File> sort_file;
+  auto sort_text = [&](const std::string& text) {
+    SortText key;
+    key.length = text.size();
+    if (text.size() <= 256) key.text = text;
+    else {
+      if (!sort_file) {
+        sort_file = std::make_unique<File>(sort_cleanup.path, true);
+        sort_cleanup.used = true;
+      }
+      key.offset = sort_file->size();
+      sort_file->write(key.offset, text.data(), text.size());
+    }
+    return key;
+  };
+  auto compare_text = [&](const SortText& a, const SortText& b) {
+    std::array<char, 8192> left{}, right{};
+    const size_t common = std::min(a.length, b.length);
+    for (size_t pos = 0; pos < common;) {
+      size_t count = std::min(left.size(), common - pos);
+      if (a.length > 256) sort_file->read(a.offset + pos, left.data(), count);
+      else std::memcpy(left.data(), a.text.data() + pos, count);
+      if (b.length > 256) sort_file->read(b.offset + pos, right.data(), count);
+      else std::memcpy(right.data(), b.text.data() + pos, count);
+      int cmp = std::memcmp(left.data(), right.data(), count);
+      if (cmp) return cmp < 0 ? -1 : 1;
+      pos += count;
+    }
+    return (a.length > b.length) - (a.length < b.length);
+  };
+  using Key = std::variant<int64_t, SortText, double>;
+  struct Candidate { int64_t pk; std::vector<Key> keys; };
   auto less = [&](const Candidate& a, const Candidate& b) {
     for (size_t i = 0; i < s.order.size(); ++i) {
       int cmp = 0;
@@ -459,36 +501,31 @@ Json Database::select(Statement s) {
         auto y = std::get<int64_t>(b.keys[i]); cmp = (*x > y) - (*x < y);
       } else if (auto number = std::get_if<double>(&a.keys[i])) {
         auto y = std::get<double>(b.keys[i]); cmp = (*number > y) - (*number < y);
-      } else cmp = compare(Cell{std::get<std::string>(a.keys[i])}, Cell{std::get<std::string>(b.keys[i])});
+      } else cmp = compare_text(std::get<SortText>(a.keys[i]), std::get<SortText>(b.keys[i]));
       if (cmp) return s.order[i].second ? cmp > 0 : cmp < 0;
     }
     return a.pk < b.pk;
   };
   std::vector<Candidate> heap;
-  size_t result_bytes = 0;
   auto consume = [&](const Row& row) {
     if (s.limit == 0 || !matches(row, schema, s.where)) return;
-    Candidate c; c.pk = std::get<int64_t>(row[schema.pk]); c.projection = Json::array();
+    Candidate c; c.pk = std::get<int64_t>(row[schema.pk]);
     for (const auto& [e, desc] : s.order) {
       (void)desc; size_t i = schema.field(e.column);
       if (e.query) c.keys.emplace_back(distance(std::get<std::vector<float>>(row[i]), *e.query));
       else if (auto v = std::get_if<int64_t>(&row[i])) c.keys.emplace_back(*v);
-      else c.keys.emplace_back(std::get<std::string>(row[i]));
+      else c.keys.emplace_back(sort_text(std::get<std::string>(row[i])));
     }
     if (heap.size() == s.limit && !less(c, heap.front())) return;
-    for (const auto& e : s.projection) {
-      size_t i = schema.field(e.column);
-      if (e.query) c.projection.push_back(distance(std::get<std::vector<float>>(row[i]), *e.query));
-      else std::visit([&](const auto& value) { c.projection.push_back(value); }, row[i]);
-    }
-    c.bytes = c.projection.dump().size();
     if (heap.size() == s.limit) {
       std::pop_heap(heap.begin(), heap.end(), less);
-      result_bytes -= heap.back().bytes; heap.pop_back();
+      heap.pop_back();
     }
-    result_bytes += c.bytes;
-    if (result_bytes > 15 * 1024 * 1024) throw Error("resource_limit", "result exceeds protocol size budget");
     heap.push_back(std::move(c)); std::push_heap(heap.begin(), heap.end(), less);
+    // Every nonempty projected row needs at least four JSON bytes including
+    // its separator. More rows can never fit the published response limit.
+    if (heap.size() > MAX_RESPONSE_BYTES / 4)
+      throw Error("resource_limit", "too many rows for protocol byte limit");
   };
   // Flat vectors are a real derived index; the authoritative PK map removes
   // deleted/stale entries. An active transaction uses the merged row view.
@@ -517,7 +554,23 @@ Json Database::select(Statement s) {
   } else rows(s.table, consume);
   std::sort_heap(heap.begin(), heap.end(), less);
   Json output = Json::array();
-  for (auto& candidate : heap) output.push_back(std::move(candidate.projection));
+  size_t result_bytes = Json{{"columns", columns}, {"rows", output}}.dump().size();
+  for (const auto& candidate : heap) {
+    // A single-client SELECT cannot change visibility. Materialize only final
+    // winners, so large candidates that are later evicted cannot reject TopK.
+    auto row = lookup(s.table, candidate.pk);
+    if (!row) throw std::runtime_error("selected row disappeared");
+    Json projection = Json::array();
+    for (const auto& e : s.projection) {
+      size_t i = schema.field(e.column);
+      if (e.query) projection.push_back(distance(std::get<std::vector<float>>((*row)[i]), *e.query));
+      else std::visit([&](const auto& value) { projection.push_back(value); }, (*row)[i]);
+    }
+    result_bytes += projection.dump().size() + (output.empty() ? 0 : 1);
+    if (result_bytes > MAX_RESPONSE_BYTES)
+      throw Error("resource_limit", "result exceeds protocol byte limit");
+    output.push_back(std::move(projection));
+  }
   return {{"columns", columns}, {"rows", output}};
 }
 Json Database::execute(const std::string& sql, const std::string& mode) {

@@ -1,0 +1,59 @@
+{
+  "id": "F03",
+  "base_commit": "49cc9fe4c72addc3250ada1bf922f3ca3c2d7a97",
+  "source_code_sha256": "704f99a308b5cd646aeb0196032415b0c621f9026dccc1f7751ceb465b6bd04f",
+  "image_id": "sha256:19e04bc89a12daa591e1a31a8559d559a75dbeda2ca76ac0b2892e039d5a21bf",
+  "binaries": [
+    {
+      "kind": "release",
+      "binary": "/opt/mvdb-f03-release/minivectordb",
+      "sha256": "fbcb91479d1ed98dfcbb639f23bba4cdea3b23f4f47ec24affb5e391c4ba198c",
+      "seconds": 8.089097160991514
+    },
+    {
+      "kind": "asan",
+      "binary": "/opt/mvdb-f03-asan/minivectordb",
+      "sha256": "a5376faef834a63cebcdc04421a187695dc31fbf5f9fdacf70355a0c68a5dfcc",
+      "seconds": 11.653947072001756
+    }
+  ],
+  "validation_stages": 12,
+  "all_planned_local_checks_passed": true,
+  "old_native_counterexample_failures": 5,
+  "old_scaled_sort_oom_kills": 1,
+  "candidate_counterexamples_passed": 6,
+  "public_docker": 20,
+  "extended_docker": 5,
+  "public_asan": 20,
+  "extended_asan": 11,
+  "query_oracle_comparisons": 119,
+  "point_queries": 1218,
+  "scan_controls": 812,
+  "errors_checked": 90,
+  "random_operations": 120,
+  "namespace_tables": 6,
+  "sanitizer_logs_scanned": 40,
+  "sanitizer_findings": [],
+  "small_wide_sort": {
+    "active_body_bytes": 268435456,
+    "memory_limit_bytes": 134217728,
+    "passed": true
+  },
+  "full_wide_sort": {
+    "active_body_bytes": 2415919104,
+    "memory_limit_bytes": 2147483648,
+    "passed": true,
+    "seconds": 215.8502631230076,
+    "request_query_seconds": 30.041895911999745,
+    "swap_max": 0,
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    },
+    "oom_kills": "0"
+  },
+  "pending_confirmed_problem": "248-character table exits on INSERT; 260-character table fails CREATE and cannot restart because SQL name is used as filename. Recorded independently; fix in F04.",
+  "official_submission": false,
+  "formal_failure_root_cause_confirmed": false,
+  "new_performance_score": null
+}

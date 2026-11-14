@@ -1,0 +1,52 @@
+{
+  "scope": "local admission counterexamples; not official hidden cases",
+  "tool_sha256": "06aa792605fab9214bae55e43342bd10a30dbc3eefa7505bc54de00014a4f816",
+  "checks": [
+    {
+      "name": "final_topk",
+      "passed": true,
+      "detail": "Final two rows are 11 bytes although the initial two candidates exceed 16 MiB; oversize query leaves transaction usable.",
+      "seconds": 3.394655997006339
+    },
+    {
+      "name": "response_boundary",
+      "passed": true,
+      "detail": {
+        "actual_response_bytes": 15761460,
+        "exact_boundary_bytes": 16777216,
+        "one_byte_over_boundary": "rejected without breaking session",
+        "public_max_response_bytes": 16777216
+      },
+      "seconds": 5.6600624510028865
+    },
+    {
+      "name": "identifier_literals",
+      "passed": true,
+      "detail": "Reject identifier tokens used as scalar/vector literals; preserve keyword identifiers.",
+      "seconds": 2.4042988820001483
+    },
+    {
+      "name": "declared_size",
+      "passed": true,
+      "detail": "No published 100000000 limit exists for VARCHAR declarations; small stored value remains valid.",
+      "seconds": 2.267457223002566
+    },
+    {
+      "name": "wide_key_ordering",
+      "passed": true,
+      "detail": "Wide keys cross 8KiB blocks, Unicode suffixes, prefix order, ASC/DESC ties, transaction and kill recovery.",
+      "seconds": 4.640274399003829
+    },
+    {
+      "name": "large_record",
+      "passed": true,
+      "detail": {
+        "stored_body_bytes": 67109888,
+        "commit_kill_recovery_and_full_string_predicate": true
+      },
+      "seconds": 13.006750124011887
+    }
+  ],
+  "image_id": "sha256:19e04bc89a12daa591e1a31a8559d559a75dbeda2ca76ac0b2892e039d5a21bf",
+  "passed": true
+}

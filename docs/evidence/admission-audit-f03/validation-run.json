@@ -1,0 +1,78 @@
+{
+  "scope": "bounded local admission validation; no official submission or performance score",
+  "stages": [
+    {
+      "name": "candidate-edges-native",
+      "exit_code": 0,
+      "seconds": 14.13990480999928,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-edges-native/result.json"
+    },
+    {
+      "name": "candidate-edges-asan",
+      "exit_code": 0,
+      "seconds": 252.64009643199097,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-edges-asan/result.json"
+    },
+    {
+      "name": "candidate-verify-asan",
+      "exit_code": 0,
+      "seconds": 8.177497197990306,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-verify-asan/result.json"
+    },
+    {
+      "name": "candidate-query-asan",
+      "exit_code": 0,
+      "seconds": 1.0321119410073152,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-query-asan/result.json"
+    },
+    {
+      "name": "candidate-point-asan",
+      "exit_code": 0,
+      "seconds": 2.5621556599944597,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-point-asan/result.json"
+    },
+    {
+      "name": "candidate-namespace-asan",
+      "exit_code": 0,
+      "seconds": 5.748135433008429,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-namespace-asan/result.json"
+    },
+    {
+      "name": "candidate-verify-docker",
+      "exit_code": 0,
+      "seconds": 107.28889410500415,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-verify-docker/result.json"
+    },
+    {
+      "name": "candidate-edges-docker",
+      "exit_code": 0,
+      "seconds": 32.410830933004036,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-edges-docker/result.json"
+    },
+    {
+      "name": "candidate-environment",
+      "exit_code": 0,
+      "seconds": 11.647212811003556,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-environment/result.json"
+    },
+    {
+      "name": "candidate-namespace-docker",
+      "exit_code": 0,
+      "seconds": 11.490892750007333,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-namespace-docker/result.json"
+    },
+    {
+      "name": "candidate-wide-sort-small",
+      "exit_code": 0,
+      "seconds": 27.330047704002936,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-wide-sort-small/result.json"
+    },
+    {
+      "name": "candidate-wide-sort-full",
+      "exit_code": 0,
+      "seconds": 216.58563348499592,
+      "report": "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/requirements-audit-f03-20261114-1102/candidate-wide-sort-full/result.json"
+    }
+  ],
+  "passed": true
+}

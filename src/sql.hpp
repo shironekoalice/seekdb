@@ -3,7 +3,7 @@
 #include <optional>
 
 namespace mvdb {
-struct Token { std::string text; bool quoted = false; };
+struct Token { std::string text; bool quoted = false; bool identifier = false; };
 struct Expression {
   std::string column;
   std::optional<std::vector<float>> query;

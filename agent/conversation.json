@@ -95,6 +95,12 @@
       "source": "agent",
       "kind": "clarification",
       "content": "性能和Agent两项在准入失败后被直接跳过，页面重复显示同一个原因，并非发生三次独立超时。平台将JSON response timeout列为准入失败原因，但没有提供握手/SQL/恢复等具体阶段。本地反例根因已确认并修复，仍不等于确认正式隐藏用例的根因；只整理这次修复，不运行评分或再次正式提测。"
+    },
+    {
+      "id": "student-admission-audit-f03",
+      "source": "student",
+      "kind": "verbatim",
+      "content": "继续阅读题干，查找所有可能不符合题目要求的存在，通过为优，然后再讨论优化"
     }
   ],
   "experiments": [
@@ -200,6 +206,14 @@
       "artifact": "docs/evidence/formal-failure-f02/summary.json",
       "output": "{\"official_tested_commit\":\"3f784f1a089e86d84471a3ac8a48a57b3ec19670\",\"official_feedback\":\"正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。\",\"clean_submitted_binary_sha256\":\"d530fc51ae9b9e09020030a8dffbf489488b97a55ce9b8b6a6f44da9f5b85688\",\"old_ready_seconds\":1.2375329999922542,\"old_minimum_request_seconds\":60.04142515499552,\"old_minimum_error\":\"JSON response timeout\",\"self_cycle_node\":{\"offset\":65560,\"next\":65560},\"minimal_sql\":[\"CREATE TABLE statement(id BIGINT PRIMARY KEY,body VARCHAR(8));\",\"INSERT INTO statement VALUES(0,'a');\",\"INSERT INTO statement VALUES(18956,'b');\",\"INSERT INTO statement VALUES(26218,'c');\"],\"fixed_minimum_request_seconds\":0.006088690992328338,\"same_old_data_recovery\":true,\"checks\":{\"clean_submitted_public\":20,\"Docker_public\":20,\"Docker_extended\":5,\"sanitizer_public\":20,\"sanitizer_extended\":11,\"namespace_tables\":6,\"sanitizer_logs_scanned\":32,\"environment_matrix\":true},\"full_ooc_active_body_bytes\":2415919104,\"full_ooc_memory_limit_bytes\":2147483648,\"full_ooc_recovery_seconds\":27.158329543002765,\"full_ooc_seconds\":177.3698089489917,\"full_ooc_memory_swap_max\":\"0\",\"full_ooc_host_swap_io_delta\":{\"pswpin\":0,\"pswpout\":0},\"source_code_sha256\":\"52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e\",\"candidate_image_id\":\"sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b\",\"local_timeout_cause_confirmed\":true,\"formal_failure_cause_confirmed\":false,\"official_resubmission_executed\":false}",
       "note": "真实反例及修正记录，不代表学生已经解释其机制；没有新增评分实例或自评官方分。"
+    },
+    {
+      "id": "admission-requirements-audit-f03",
+      "source": "tool",
+      "kind": "actual_report_excerpt",
+      "artifact": "docs/evidence/admission-audit-f03/summary.json",
+      "output": "{\"id\":\"F03\",\"base_commit\":\"49cc9fe4c72addc3250ada1bf922f3ca3c2d7a97\",\"source_code_sha256\":\"704f99a308b5cd646aeb0196032415b0c621f9026dccc1f7751ceb465b6bd04f\",\"image_id\":\"sha256:19e04bc89a12daa591e1a31a8559d559a75dbeda2ca76ac0b2892e039d5a21bf\",\"binaries\":[{\"kind\":\"release\",\"binary\":\"/opt/mvdb-f03-release/minivectordb\",\"sha256\":\"fbcb91479d1ed98dfcbb639f23bba4cdea3b23f4f47ec24affb5e391c4ba198c\",\"seconds\":8.089097160991514},{\"kind\":\"asan\",\"binary\":\"/opt/mvdb-f03-asan/minivectordb\",\"sha256\":\"a5376faef834a63cebcdc04421a187695dc31fbf5f9fdacf70355a0c68a5dfcc\",\"seconds\":11.653947072001756}],\"validation_stages\":12,\"all_planned_local_checks_passed\":true,\"old_native_counterexample_failures\":5,\"old_scaled_sort_oom_kills\":1,\"candidate_counterexamples_passed\":6,\"public_docker\":20,\"extended_docker\":5,\"public_asan\":20,\"extended_asan\":11,\"query_oracle_comparisons\":119,\"point_queries\":1218,\"scan_controls\":812,\"errors_checked\":90,\"random_operations\":120,\"namespace_tables\":6,\"sanitizer_logs_scanned\":40,\"sanitizer_findings\":[],\"small_wide_sort\":{\"active_body_bytes\":268435456,\"memory_limit_bytes\":134217728,\"passed\":true},\"full_wide_sort\":{\"active_body_bytes\":2415919104,\"memory_limit_bytes\":2147483648,\"passed\":true,\"seconds\":215.8502631230076,\"request_query_seconds\":30.041895911999745,\"swap_max\":0,\"host_swap_io_delta\":{\"pswpin\":0,\"pswpout\":0},\"oom_kills\":\"0\"},\"pending_confirmed_problem\":\"248-character table exits on INSERT; 260-character table fails CREATE and cannot restart because SQL name is used as filename. Recorded independently; fix in F04.\",\"official_submission\":false,\"formal_failure_root_cause_confirmed\":false,\"new_performance_score\":null}",
+      "note": "延续F01/F02同一准入诊断链。没有新增评分实例、学生机制解释或官方分数；长表名负例仍待F04修正。"
     }
   ],
   "evidence_links": [

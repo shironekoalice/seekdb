@@ -1,0 +1,15 @@
+{
+  "passed": false,
+  "scope": "local cgroup out-of-core ORDER BY check",
+  "tool_sha256": "28bfe43bd0ad2428c29d9fb683488ab9b3433269e613cbda63e8717fc880fec7",
+  "image_id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b",
+  "logical_payload_bytes": 268435456,
+  "memory_limit_bytes": 134217728,
+  "actual_swap_max": 0,
+  "phase": "wide_order",
+  "load_seconds": 13.646542105998378,
+  "observed_memory_events": "low 0\nhigh 0\nmax 34827\noom 1\noom_kill 1\noom_group_kill 0\n",
+  "observed_memory_peak": 134217728,
+  "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tests/out_of_core_ordering.py\", line 51, in main\n    assert lab.sql(f\"SELECT id FROM t ORDER BY body LIMIT {count};\")[\"rows\"] == expected\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/tools/container_lab.py\", line 63, in sql\n    result = self.session.request(sql, mode)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/protocol_check/_transport.py\", line 131, in request\n    response = self.read(self.config[\"request_timeout\"])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f03/protocol_check/_transport.py\", line 97, in read\n    raise ProtocolError(\"database exited before response\")\n_transport.ProtocolError: database exited before response\n",
+  "seconds": 18.820387215004303
+}

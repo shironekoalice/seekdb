@@ -1,0 +1,32 @@
+[
+  {
+    "file": "STDIO_PROTOCOL.md",
+    "matches_published": true,
+    "upstream_sha256": "ca85bd31ab8dc61df50b44dedfe427764820aa84faa9036b3c00001b40c39f46",
+    "local_sha256": "ca85bd31ab8dc61df50b44dedfe427764820aa84faa9036b3c00001b40c39f46"
+  },
+  {
+    "file": "protocol_check/config.json",
+    "matches_published": true,
+    "upstream_sha256": "63fe51cac3aaaf45c3739b53b1de8420e5d001e8abb6cf88532d9f190d72d904",
+    "local_sha256": "63fe51cac3aaaf45c3739b53b1de8420e5d001e8abb6cf88532d9f190d72d904"
+  },
+  {
+    "file": "protocol_check/_transport.py",
+    "matches_published": true,
+    "upstream_sha256": "fb3a820105e6e94fc348167c7644ce23a270c63f57b026065f4b563d6ef0674f",
+    "local_sha256": "fb3a820105e6e94fc348167c7644ce23a270c63f57b026065f4b563d6ef0674f"
+  },
+  {
+    "file": "protocol_check/run.py",
+    "matches_published": true,
+    "upstream_sha256": "4e8c6ead177da7f9222b36bc04e819c777507e21f6adbe24eb679e238f02f513",
+    "local_sha256": "4e8c6ead177da7f9222b36bc04e819c777507e21f6adbe24eb679e238f02f513"
+  },
+  {
+    "file": "mysqltest/manifest.json",
+    "matches_published": true,
+    "upstream_sha256": "a05fc8ff810affb8c899df4a2c1e31c35450178635d62b3efd6ae6ac15056aae",
+    "local_sha256": "a05fc8ff810affb8c899df4a2c1e31c35450178635d62b3efd6ae6ac15056aae"
+  }
+]

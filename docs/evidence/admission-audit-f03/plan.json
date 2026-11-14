@@ -1,0 +1,39 @@
+{
+  "id": "F03",
+  "started_at": "2026-11-14T11:02:00+08:00",
+  "deadline": "2026-11-14T11:47:00+08:00",
+  "reserve_cleanup_minutes": 5,
+  "base_commit": "49cc9fe4c72addc3250ada1bf922f3ca3c2d7a97",
+  "scope": "requirement/admission audit and demonstrated correctness repairs; no performance comparison or official submission",
+  "hypotheses": [
+    {
+      "id": "result_budget",
+      "claim": "A valid final TopK or a response between 15 and 16 MiB can be rejected by the intermediate 15 MiB projection budget."
+    },
+    {
+      "id": "wide_sort_keys",
+      "claim": "ORDER BY an unprojected wide VARCHAR retains full keys, so small output may exhaust memory on out-of-core data."
+    },
+    {
+      "id": "strict_sql_literals",
+      "claim": "Backtick identifiers and oversized declarations need checking against the stated SQL and unsupported-statement rules."
+    }
+  ],
+  "required_validation": [
+    "independent old/new counterexamples",
+    "unchanged public driver",
+    "native sanitizer semantic and crash suite",
+    "Docker 2CPU/2GiB offline/read-only",
+    "out-of-core sort/resource checks where memory handling changes"
+  ],
+  "permissions": {
+    "local_changes": true,
+    "official_submission": false,
+    "performance_optimization": false
+  },
+  "stop_conditions": [
+    "unexplained correctness regression",
+    "45 minute total including evidence/cleanup",
+    "no actionable new evidence"
+  ]
+}

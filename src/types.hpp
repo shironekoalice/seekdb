@@ -8,6 +8,7 @@
 
 namespace mvdb {
 using Json = nlohmann::json;
+constexpr size_t MAX_RESPONSE_BYTES = 16 * 1024 * 1024;
 struct Error : std::runtime_error {
   std::string code;
   Error(std::string c, std::string message) : std::runtime_error(std::move(message)), code(std::move(c)) {}

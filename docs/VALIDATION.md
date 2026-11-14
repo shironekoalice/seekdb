@@ -116,6 +116,23 @@ python3 tests/storage_namespace.py --binary /opt/mvdb-f02-asan/minivectordb --ou
 原提交的最小四条SQL反例及修复后继续使用旧数据卷也已实测，记录在F02证据中。
 这确认本地bug，但正式失败SQL依然不可见，不应宣称已复现同一个隐藏输入。
 
+## 准入边界
+
+F03准入边界工具（不是性能比较）：
+
+```bash
+python3 tests/admission_edges.py --image minivectordb:f03-admission --output artifacts/admission-edges-new
+python3 tests/out_of_core_ordering.py --image minivectordb:f03-admission --output artifacts/order-small-new
+python3 tests/out_of_core_ordering.py --image minivectordb:f03-admission --memory-mib 2048 --data-mib 2304 --output artifacts/order-full-new
+```
+
+`admission_edges.py`覆盖最终TopK与中间候选大小的区别、精确16MiB响应及超一字节、
+反引号Token、大字段声明、超过64MiB的单行提交/强杀恢复及宽键Unicode排序。
+`out_of_core_ordering.py`以固定128MiB/256MiB或2GiB/2304MiB活跃正文，
+查询不投影正文的宽字符串排序、事务回滚与重启。只修改本次cgroup的swap.max并回读，
+要求实际0、无OOM、host无换出；启动120秒/单请求60秒保持公开值。
+题干逐项核对及未公开边界见 `ADMISSION_AUDIT_F03.md`。
+
 ## 性能
 
 ```bash
