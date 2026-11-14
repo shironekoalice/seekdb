@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "scope": "local long-name and derived-file oracle",
+  "tool_sha256": "90bded72a3f20fb3c98210ad06145df914c886b0821aa475ae6a334b4d7379f8",
+  "phases": [
+    {
+      "name": "created-in-nonlexical-order",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "multi-table-rollback",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "committed-kill-recovery",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "repeated-restart",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "repeated-restart",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "rollback-recreate-and-slot-reuse",
+      "tables": 11,
+      "passed": true
+    }
+  ],
+  "binary_sha256": "bd9c2785a576935adfd4579193465e029639d8ed77cf9f2361f532e35507cee6",
+  "sort_scratch_crash_recovery": true,
+  "table_name_lengths": [
+    260,
+    248,
+    1024,
+    4096,
+    308,
+    308,
+    7,
+    9,
+    9,
+    11,
+    11
+  ],
+  "seconds": 1.1387041450070683
+}

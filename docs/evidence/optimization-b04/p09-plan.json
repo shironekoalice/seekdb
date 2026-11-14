@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "id": "P09",
+  "status": "planned",
+  "base_commit": "3bb44d2237340bd84d30d11d1bc0ecd4584a3f0c",
+  "hypothesis": "F04 diagnostic profile records 10010000 Row copies for 1000 queries. Borrow a cache-hit row only for the synchronous scan callback, retaining owned values for lookup and modification staging.",
+  "change": "A private templated visit_row helper replaces copying loads in row scans and flat-index scans. Cache misses and pending rows retain owning temporary rows. Cache budgets, WAL and protocol unchanged.",
+  "minimum_checks": ["independent query and point models", "public and crash recovery suite", "ASAN/UBSAN", "cache eviction and large active data", "admission boundaries and file identities", "three-round Docker comparisons with two seeds"],
+  "stop_conditions": ["any correctness failure", "dangling borrowed row in sanitizer", "unrepeatable resource-adjusted gain", "insufficient time for validation"],
+  "decision": "not_evaluated"
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tools/benchmark.py",
+      "--image",
+      "minivectordb:b04-p10",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--seed",
+      "20261114",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p10-benchmark-s14"
+    ],
+    "name": "p10-benchmark-s14"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tools/benchmark.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--seed",
+      "20261114",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-benchmark-s14-post"
+    ],
+    "name": "p09-benchmark-s14-post"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "completed_local": "2026-11-15T02:13:22.209938+08:00",
+  "elapsed_seconds_through_evidence_audit": 3073.375494,
+  "minimum_seconds": 1800,
+  "budget_seconds": 3600,
+  "inside_budget_at_evidence_freeze": true,
+  "scope": "Includes preparation, experiments, validation and archive; final git receipt follows",
+  "official_submission": false,
+  "remote_push": false
+}

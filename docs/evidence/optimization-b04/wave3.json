@@ -1,0 +1,111 @@
+[
+  {
+    "name": "p01r2-configure",
+    "command": [
+      "cmake",
+      "-S",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2",
+      "-B",
+      "/opt/mvdb-b04-p01r2",
+      "-DCMAKE_BUILD_TYPE=Release"
+    ]
+  },
+  {
+    "name": "p01r2-build",
+    "command": [
+      "cmake",
+      "--build",
+      "/opt/mvdb-b04-p01r2",
+      "-j4",
+      "--target",
+      "minivectordb"
+    ]
+  },
+  {
+    "name": "p01r2-query-oracle",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2/tests/query_paths.py",
+      "--binary",
+      "/opt/mvdb-b04-p01r2/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01r2-query-oracle"
+    ]
+  },
+  {
+    "name": "p01r2-point-oracle",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2/tests/point_paths.py",
+      "--binary",
+      "/opt/mvdb-b04-p01r2/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01r2-point-oracle"
+    ]
+  },
+  {
+    "name": "p01r2-native",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2/tools/verify.py",
+      "--binary",
+      "/opt/mvdb-b04-p01r2/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01r2-native"
+    ]
+  },
+  {
+    "name": "p01r2-row-views",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2/tests/row_views.py",
+      "--binary",
+      "/opt/mvdb-b04-p01r2/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01r2-row-views"
+    ]
+  },
+  {
+    "name": "p01r2-docker-build",
+    "command": [
+      "docker",
+      "build",
+      "--platform=linux/amd64",
+      "-t",
+      "minivectordb:b04-p01r2",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2"
+    ]
+  },
+  {
+    "name": "p10-benchmark-s13",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2/tools/benchmark.py",
+      "--image",
+      "minivectordb:b04-p10",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p10-benchmark-s13"
+    ]
+  },
+  {
+    "name": "p01r2-screen",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2/tools/benchmark.py",
+      "--image",
+      "minivectordb:b04-p01r2",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--rows",
+      "1000",
+      "--queries",
+      "100",
+      "--rounds",
+      "1",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01r2-screen"
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "scope": "diagnostic gprof workload; not independent correctness validation",
+  "rows": 10000,
+  "dimensions": 128,
+  "queries": 1000,
+  "seed": 20261114,
+  "wall_seconds": 3.1962324059859384,
+  "binary": "/opt/mvdb-b04-p09-profile/minivectordb",
+  "binary_sha256": "5c224a20ae65a73edccc604ced9485ef02623961dd88e5855158c47292ede140",
+  "expected_vector_row_visits": 10000000
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "round": 1,
+    "role": "baseline",
+    "write_s": 2.4648213839973323,
+    "query_s": 2.898362153006019
+  },
+  {
+    "round": 1,
+    "role": "candidate",
+    "write_s": 2.4647455690137576,
+    "query_s": 2.1171218759845942
+  },
+  {
+    "round": 2,
+    "role": "candidate",
+    "write_s": 2.4188571049890015,
+    "query_s": 2.7031235710019246
+  },
+  {
+    "round": 2,
+    "role": "baseline",
+    "write_s": 2.497785476007266,
+    "query_s": 2.6656634579994716
+  },
+  {
+    "round": 3,
+    "role": "baseline",
+    "write_s": 2.497854412999004,
+    "query_s": 3.4495712339994498
+  },
+  {
+    "round": 3,
+    "role": "candidate",
+    "write_s": 2.459094722988084,
+    "query_s": 2.2159497480024584
+  }
+]

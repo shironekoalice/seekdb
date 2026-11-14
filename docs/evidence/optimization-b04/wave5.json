@@ -1,0 +1,98 @@
+[
+  {
+    "command": [
+      "cmake",
+      "-S",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct",
+      "-B",
+      "/opt/mvdb-b04-p01-direct",
+      "-DCMAKE_BUILD_TYPE=Release"
+    ],
+    "name": "p01-direct-configure"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "/opt/mvdb-b04-p01-direct",
+      "-j4",
+      "--target",
+      "minivectordb"
+    ],
+    "name": "p01-direct-build"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tests/query_paths.py",
+      "--binary",
+      "/opt/mvdb-b04-p01-direct/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01-direct-query-oracle"
+    ],
+    "name": "p01-direct-query-oracle"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tests/point_paths.py",
+      "--binary",
+      "/opt/mvdb-b04-p01-direct/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01-direct-point-oracle"
+    ],
+    "name": "p01-direct-point-oracle"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tools/verify.py",
+      "--binary",
+      "/opt/mvdb-b04-p01-direct/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01-direct-native"
+    ],
+    "name": "p01-direct-native"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tests/row_views.py",
+      "--binary",
+      "/opt/mvdb-b04-p01-direct/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01-direct-row-views"
+    ],
+    "name": "p01-direct-row-views"
+  },
+  {
+    "command": [
+      "docker",
+      "build",
+      "--platform=linux/amd64",
+      "-t",
+      "minivectordb:b04-p01-direct",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct"
+    ],
+    "name": "p01-direct-docker-build"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tools/benchmark.py",
+      "--image",
+      "minivectordb:b04-p01-direct",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--rows",
+      "1000",
+      "--queries",
+      "100",
+      "--rounds",
+      "1",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01-direct-screen"
+    ],
+    "name": "p01-direct-screen"
+  }
+]

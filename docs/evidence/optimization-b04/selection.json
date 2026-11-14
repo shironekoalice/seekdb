@@ -1,0 +1,17 @@
+{
+  "recorded_at": "2026-11-15T01:52:01.5877953+08:00",
+  "selected": "P09_pending_final_validation",
+  "engine_commit": "fc9b4c6",
+  "current_candidate_commit": "4fc01b39cb969793cd9f674e3a9225cabe86be58",
+  "candidate_code_sha256": "f05e32ffe7dbfa0d6c2e7ae4e0dace7035a224c898adef75f985a3354735052c",
+  "decisions": {
+    "P01R2": "not adopted: paired incremental E 0.485437 and 0.505663; repeatable gain not established",
+    "P10": "not adopted: incremental E 0.493630 and 0.485137",
+    "P09": "two seed gains; final validation underway"
+  },
+  "public_protocol_changes": false,
+  "wal_format_changes": false,
+  "cache_budget_increase": false,
+  "remote_push": false,
+  "official_submission": false
+}

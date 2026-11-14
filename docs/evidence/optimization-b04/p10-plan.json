@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "id": "P10",
+  "status": "planned",
+  "parent": "P09",
+  "hypothesis": "F04 and P09 execute 5500000 passing-row ORDER BY evaluations in the diagnostic workload. Each constructs a fresh vector of sort keys before the rejection check. Reuse one owned candidate buffer and exchange it with an evicted heap candidate.",
+  "expected_effect": "Remove per-row sort-key vector allocations on rejected rows while keeping the same comparator, distances, final projection, wide-key spill and heap size.",
+  "minimum_checks": ["independent multi-order query oracle", "row views with cache churn", "wide key and exact response boundaries", "public/extended Docker and sanitizer", "three-round comparisons against F04 and P09"],
+  "stop_conditions": ["incorrect tie ordering or transaction visibility", "ASAN lifetime issue", "unrepeatable incremental gain", "validation budget insufficient"],
+  "decision": "not_evaluated"
+}

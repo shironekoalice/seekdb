@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "scope": "independent state and full-sort oracle",
+  "cache_budgets": [
+    0,
+    1024,
+    65536,
+    1048576
+  ],
+  "queries": 1728,
+  "phases": [
+    {
+      "name": "0:before-index",
+      "passed": true
+    },
+    {
+      "name": "0:indexed-warm",
+      "passed": true
+    },
+    {
+      "name": "0:transaction-overlay",
+      "passed": true
+    },
+    {
+      "name": "0:rollback",
+      "passed": true
+    },
+    {
+      "name": "0:scan-update-commit",
+      "passed": true
+    },
+    {
+      "name": "0:kill-recovery",
+      "passed": true
+    },
+    {
+      "name": "1024:before-index",
+      "passed": true
+    },
+    {
+      "name": "1024:indexed-warm",
+      "passed": true
+    },
+    {
+      "name": "1024:transaction-overlay",
+      "passed": true
+    },
+    {
+      "name": "1024:rollback",
+      "passed": true
+    },
+    {
+      "name": "1024:scan-update-commit",
+      "passed": true
+    },
+    {
+      "name": "1024:kill-recovery",
+      "passed": true
+    },
+    {
+      "name": "65536:before-index",
+      "passed": true
+    },
+    {
+      "name": "65536:indexed-warm",
+      "passed": true
+    },
+    {
+      "name": "65536:transaction-overlay",
+      "passed": true
+    },
+    {
+      "name": "65536:rollback",
+      "passed": true
+    },
+    {
+      "name": "65536:scan-update-commit",
+      "passed": true
+    },
+    {
+      "name": "65536:kill-recovery",
+      "passed": true
+    },
+    {
+      "name": "1048576:before-index",
+      "passed": true
+    },
+    {
+      "name": "1048576:indexed-warm",
+      "passed": true
+    },
+    {
+      "name": "1048576:transaction-overlay",
+      "passed": true
+    },
+    {
+      "name": "1048576:rollback",
+      "passed": true
+    },
+    {
+      "name": "1048576:scan-update-commit",
+      "passed": true
+    },
+    {
+      "name": "1048576:kill-recovery",
+      "passed": true
+    }
+  ]
+}

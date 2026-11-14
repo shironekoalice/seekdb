@@ -1,0 +1,2817 @@
+{
+  "keys": [
+    0,
+    18956,
+    26218,
+    29048
+  ],
+  "config": {
+    "startup_timeout": 120,
+    "request_timeout": 60,
+    "case_timeout": 600,
+    "max_response_bytes": 16777216,
+    "cpus": "2",
+    "memory": "2g",
+    "pids_limit": 128,
+    "abs_tol": 1e-05,
+    "rel_tol": 1e-05,
+    "error_codes": {}
+  },
+  "events": [
+    {
+      "phase": "start_without_input",
+      "sql": null,
+      "status": "PASS",
+      "elapsed_seconds": 1.1829620029893704
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE ordinary_control(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 1,
+        "ok": true
+      },
+      "elapsed_seconds": 0.016839435003930703
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 2,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01625475299078971
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 3,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01852143497671932
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(26218,'row2','[2,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 4,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021198222995735705
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 5,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "row0"
+          ],
+          [
+            18956,
+            "row1"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.015087432984728366
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE VECTOR INDEX vi_ordinary_control ON ordinary_control(v);",
+      "status": "PASS",
+      "response": {
+        "id": 6,
+        "ok": true
+      },
+      "elapsed_seconds": 0.025055689009604976
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE ordinary_control SET body='updated',v='[3,1]' WHERE id=18956;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 7,
+        "ok": true
+      },
+      "elapsed_seconds": 0.015284505003364757
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM ordinary_control WHERE id=0;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 8,
+        "ok": true
+      },
+      "elapsed_seconds": 0.014314100990304723
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 9,
+        "ok": true
+      },
+      "elapsed_seconds": 0.011730933998478577
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(0,'rolled','[9,9]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 10,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01804287897539325
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE ordinary_control SET body='rolled' WHERE id=26218;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 11,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02008350400137715
+    },
+    {
+      "phase": "execute",
+      "sql": "ROLLBACK;",
+      "status": "PASS",
+      "response": {
+        "id": 12,
+        "ok": true
+      },
+      "elapsed_seconds": 0.018932370003312826
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 13,
+        "ok": true,
+        "rows": [
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02381306601455435
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 14,
+        "ok": true
+      },
+      "elapsed_seconds": 0.020047235011588782
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(0,'committed','[0,0]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 15,
+        "ok": true
+      },
+      "elapsed_seconds": 0.019524811999872327
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(29048,'must_not_appear','[8,8]'),(18956,'duplicate','[8,8]');",
+      "status": "PASS",
+      "response": {
+        "error": {
+          "code": "duplicate_key",
+          "message": "duplicate primary key"
+        },
+        "id": 16,
+        "ok": false
+      },
+      "elapsed_seconds": 0.013565941015258431
+    },
+    {
+      "phase": "execute",
+      "sql": "COMMIT;",
+      "status": "PASS",
+      "response": {
+        "id": 17,
+        "ok": true
+      },
+      "elapsed_seconds": 0.017263220011955127
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 18,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.015978857001755387
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE statement(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 19,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02140182300354354
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 20,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02635059700696729
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 21,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02958657397539355
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(26218,'row2','[2,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 22,
+        "ok": true
+      },
+      "elapsed_seconds": 0.029436759010422975
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 23,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "row0"
+          ],
+          [
+            18956,
+            "row1"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.011106368998298422
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 24,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            18956
+          ],
+          [
+            26218
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.013279012026032433
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE VECTOR INDEX vi_statement ON statement(v);",
+      "status": "PASS",
+      "response": {
+        "id": 25,
+        "ok": true
+      },
+      "elapsed_seconds": 0.018122074019629508
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE statement SET body='updated',v='[3,1]' WHERE id=18956;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 26,
+        "ok": true
+      },
+      "elapsed_seconds": 0.018914288986707106
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM statement WHERE id=0;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 27,
+        "ok": true
+      },
+      "elapsed_seconds": 0.0340595789893996
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 28,
+        "ok": true
+      },
+      "elapsed_seconds": 0.013808350980980322
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(0,'rolled','[9,9]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 29,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01597941800719127
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE statement SET body='rolled' WHERE id=26218;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 30,
+        "ok": true
+      },
+      "elapsed_seconds": 0.011809051997261122
+    },
+    {
+      "phase": "execute",
+      "sql": "ROLLBACK;",
+      "status": "PASS",
+      "response": {
+        "id": 31,
+        "ok": true
+      },
+      "elapsed_seconds": 0.015733695006929338
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 32,
+        "ok": true,
+        "rows": [
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.018681104003917426
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 33,
+        "ok": true,
+        "rows": [
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.018292488995939493
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 34,
+        "ok": true
+      },
+      "elapsed_seconds": 0.022396329994080588
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(0,'committed','[0,0]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 35,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021461255993926898
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(29048,'must_not_appear','[8,8]'),(18956,'duplicate','[8,8]');",
+      "status": "PASS",
+      "response": {
+        "error": {
+          "code": "duplicate_key",
+          "message": "duplicate primary key"
+        },
+        "id": 36,
+        "ok": false
+      },
+      "elapsed_seconds": 0.014560314011760056
+    },
+    {
+      "phase": "execute",
+      "sql": "COMMIT;",
+      "status": "PASS",
+      "response": {
+        "id": 37,
+        "ok": true
+      },
+      "elapsed_seconds": 0.020704736991319805
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 38,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02374322700779885
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 39,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.022051351988920942
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE transaction(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 40,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02650398199330084
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO transaction VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 41,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02047334300004877
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO transaction VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 42,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03146671599824913
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO transaction VALUES(26218,'row2','[2,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 43,
+        "ok": true
+      },
+      "elapsed_seconds": 0.026947598002152517
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM transaction ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 44,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "row0"
+          ],
+          [
+            18956,
+            "row1"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.020671767997555435
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM transaction ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 45,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            18956
+          ],
+          [
+            26218
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.011057456984417513
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE VECTOR INDEX vi_transaction ON transaction(v);",
+      "status": "PASS",
+      "response": {
+        "id": 46,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02393536700401455
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE transaction SET body='updated',v='[3,1]' WHERE id=18956;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 47,
+        "ok": true
+      },
+      "elapsed_seconds": 0.019455676985671744
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM transaction WHERE id=0;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 48,
+        "ok": true
+      },
+      "elapsed_seconds": 0.034189342986792326
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 49,
+        "ok": true
+      },
+      "elapsed_seconds": 0.010123999003553763
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO transaction VALUES(0,'rolled','[9,9]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 50,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02017886398243718
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE transaction SET body='rolled' WHERE id=26218;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 51,
+        "ok": true
+      },
+      "elapsed_seconds": 0.011872611998114735
+    },
+    {
+      "phase": "execute",
+      "sql": "ROLLBACK;",
+      "status": "PASS",
+      "response": {
+        "id": 52,
+        "ok": true
+      },
+      "elapsed_seconds": 0.010596337000606582
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM transaction ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 53,
+        "ok": true,
+        "rows": [
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.010577211010968313
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM transaction ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 54,
+        "ok": true,
+        "rows": [
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.014405284018721431
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 55,
+        "ok": true
+      },
+      "elapsed_seconds": 0.020134877995587885
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO transaction VALUES(0,'committed','[0,0]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 56,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02279578399611637
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO transaction VALUES(29048,'must_not_appear','[8,8]'),(18956,'duplicate','[8,8]');",
+      "status": "PASS",
+      "response": {
+        "error": {
+          "code": "duplicate_key",
+          "message": "duplicate primary key"
+        },
+        "id": 57,
+        "ok": false
+      },
+      "elapsed_seconds": 0.017251418001251295
+    },
+    {
+      "phase": "execute",
+      "sql": "COMMIT;",
+      "status": "PASS",
+      "response": {
+        "id": 58,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02684606399270706
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM transaction ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 59,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.01990170602221042
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM transaction ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 60,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.013785020011710003
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE journal(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 61,
+        "ok": true
+      },
+      "elapsed_seconds": 0.027871391997905448
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO journal VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 62,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021883326990064234
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO journal VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 63,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02308477699989453
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO journal VALUES(26218,'row2','[2,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 64,
+        "ok": true
+      },
+      "elapsed_seconds": 0.017318619007710367
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM journal ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 65,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "row0"
+          ],
+          [
+            18956,
+            "row1"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02080077599384822
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM journal ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 66,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            18956
+          ],
+          [
+            26218
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.025236268003936857
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE VECTOR INDEX vi_journal ON journal(v);",
+      "status": "PASS",
+      "response": {
+        "id": 67,
+        "ok": true
+      },
+      "elapsed_seconds": 0.026207994989817962
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE journal SET body='updated',v='[3,1]' WHERE id=18956;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 68,
+        "ok": true
+      },
+      "elapsed_seconds": 0.023010030010482296
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM journal WHERE id=0;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 69,
+        "ok": true
+      },
+      "elapsed_seconds": 0.027880211971933022
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 70,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021615947014652193
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO journal VALUES(0,'rolled','[9,9]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 71,
+        "ok": true
+      },
+      "elapsed_seconds": 0.0179597029928118
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE journal SET body='rolled' WHERE id=26218;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 72,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02321261601173319
+    },
+    {
+      "phase": "execute",
+      "sql": "ROLLBACK;",
+      "status": "PASS",
+      "response": {
+        "id": 73,
+        "ok": true
+      },
+      "elapsed_seconds": 0.010796672984724864
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM journal ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 74,
+        "ok": true,
+        "rows": [
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.03050371300196275
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM journal ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 75,
+        "ok": true,
+        "rows": [
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02647206699475646
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 76,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02271534298779443
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO journal VALUES(0,'committed','[0,0]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 77,
+        "ok": true
+      },
+      "elapsed_seconds": 0.025999264005804434
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO journal VALUES(29048,'must_not_appear','[8,8]'),(18956,'duplicate','[8,8]');",
+      "status": "PASS",
+      "response": {
+        "error": {
+          "code": "duplicate_key",
+          "message": "duplicate primary key"
+        },
+        "id": 78,
+        "ok": false
+      },
+      "elapsed_seconds": 0.01429015098256059
+    },
+    {
+      "phase": "execute",
+      "sql": "COMMIT;",
+      "status": "PASS",
+      "response": {
+        "id": 79,
+        "ok": true
+      },
+      "elapsed_seconds": 0.035397561005083844
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM journal ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 80,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.01493721199221909
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM journal ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 81,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.020817462005652487
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE lock(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 82,
+        "ok": true
+      },
+      "elapsed_seconds": 0.0405951619904954
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO lock VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 83,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03100845101289451
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO lock VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 84,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03307038499042392
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO lock VALUES(26218,'row2','[2,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 85,
+        "ok": true
+      },
+      "elapsed_seconds": 0.0256591220095288
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM lock ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 86,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "row0"
+          ],
+          [
+            18956,
+            "row1"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.035041480005020276
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM lock ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 87,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            18956
+          ],
+          [
+            26218
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.028495697013568133
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE VECTOR INDEX vi_lock ON lock(v);",
+      "status": "PASS",
+      "response": {
+        "id": 88,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03411830999539234
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE lock SET body='updated',v='[3,1]' WHERE id=18956;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 89,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03200204501627013
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM lock WHERE id=0;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 90,
+        "ok": true
+      },
+      "elapsed_seconds": 0.034221870999317616
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 91,
+        "ok": true
+      },
+      "elapsed_seconds": 0.018809462984791026
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO lock VALUES(0,'rolled','[9,9]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 92,
+        "ok": true
+      },
+      "elapsed_seconds": 0.025157146010315046
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE lock SET body='rolled' WHERE id=26218;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 93,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01690095500089228
+    },
+    {
+      "phase": "execute",
+      "sql": "ROLLBACK;",
+      "status": "PASS",
+      "response": {
+        "id": 94,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021848795004189014
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM lock ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 95,
+        "ok": true,
+        "rows": [
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.013710676023038104
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM lock ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 96,
+        "ok": true,
+        "rows": [
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.01866250898456201
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 97,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01595687202643603
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO lock VALUES(0,'committed','[0,0]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 98,
+        "ok": true
+      },
+      "elapsed_seconds": 0.026378398993983865
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO lock VALUES(29048,'must_not_appear','[8,8]'),(18956,'duplicate','[8,8]');",
+      "status": "PASS",
+      "response": {
+        "error": {
+          "code": "duplicate_key",
+          "message": "duplicate primary key"
+        },
+        "id": 99,
+        "ok": false
+      },
+      "elapsed_seconds": 0.027054857986513525
+    },
+    {
+      "phase": "execute",
+      "sql": "COMMIT;",
+      "status": "PASS",
+      "response": {
+        "id": 100,
+        "ok": true
+      },
+      "elapsed_seconds": 0.047375619993545115
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM lock ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 101,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.03386202498222701
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM lock ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 102,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02562354298424907
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE statement_keys(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 103,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03510061799897812
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement_keys VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 104,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03395474998978898
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement_keys VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 105,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02852726000128314
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement_keys VALUES(26218,'row2','[2,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 106,
+        "ok": true
+      },
+      "elapsed_seconds": 0.03163450499414466
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement_keys ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 107,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "row0"
+          ],
+          [
+            18956,
+            "row1"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.01976039700093679
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement_keys ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 108,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            18956
+          ],
+          [
+            26218
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.011678832990583032
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE VECTOR INDEX vi_statement_keys ON statement_keys(v);",
+      "status": "PASS",
+      "response": {
+        "id": 109,
+        "ok": true
+      },
+      "elapsed_seconds": 0.028196375002153218
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE statement_keys SET body='updated',v='[3,1]' WHERE id=18956;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 110,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02942631399491802
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM statement_keys WHERE id=0;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 111,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01860661301179789
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 112,
+        "ok": true
+      },
+      "elapsed_seconds": 0.013251076015876606
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement_keys VALUES(0,'rolled','[9,9]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 113,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021315645979484543
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE statement_keys SET body='rolled' WHERE id=26218;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 114,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01763347999076359
+    },
+    {
+      "phase": "execute",
+      "sql": "ROLLBACK;",
+      "status": "PASS",
+      "response": {
+        "id": 115,
+        "ok": true
+      },
+      "elapsed_seconds": 0.01690724497893825
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement_keys ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 116,
+        "ok": true,
+        "rows": [
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02212764901923947
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement_keys ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 117,
+        "ok": true,
+        "rows": [
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.024265263986308128
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 118,
+        "ok": true
+      },
+      "elapsed_seconds": 0.02786450501298532
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement_keys VALUES(0,'committed','[0,0]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 119,
+        "ok": true
+      },
+      "elapsed_seconds": 0.018880974006606266
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement_keys VALUES(29048,'must_not_appear','[8,8]'),(18956,'duplicate','[8,8]');",
+      "status": "PASS",
+      "response": {
+        "error": {
+          "code": "duplicate_key",
+          "message": "duplicate primary key"
+        },
+        "id": 120,
+        "ok": false
+      },
+      "elapsed_seconds": 0.023433216992998496
+    },
+    {
+      "phase": "execute",
+      "sql": "COMMIT;",
+      "status": "PASS",
+      "response": {
+        "id": 121,
+        "ok": true
+      },
+      "elapsed_seconds": 0.029538962990045547
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement_keys ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 122,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.020594689005520195
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement_keys ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 123,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02480008697602898
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 124,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.03851514798589051
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 125,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.03012072600540705
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 126,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.031178911012830213
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM transaction ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 127,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.020779927988769487
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM transaction ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 128,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.016831206012284383
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM journal ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 129,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.017867388989543542
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM journal ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 130,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02670427499106154
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM lock ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 131,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.021494985005119815
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM lock ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 132,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.09724714199546725
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement_keys ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 133,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.027765861013904214
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement_keys ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 134,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.026778251980431378
+    },
+    {
+      "phase": "shutdown",
+      "sql": null,
+      "status": "PASS",
+      "elapsed_seconds": 0.5929286300088279
+    },
+    {
+      "phase": "restart",
+      "sql": null,
+      "status": "PASS",
+      "elapsed_seconds": 0.6786750009923708
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 136,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.0124491149908863
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 137,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.01150353200500831
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 138,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.014151277981000021
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM transaction ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 139,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.0284869970055297
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM transaction ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 140,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.027122218976728618
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM journal ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 141,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.015725012024631724
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM journal ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 142,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.020127130002947524
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM lock ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 143,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02472197698079981
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM lock ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 144,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.029276883986312896
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement_keys ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 145,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.020931901002768427
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement_keys ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 146,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.018693433987209573
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 147,
+        "ok": true
+      },
+      "elapsed_seconds": 0.017081076017348096
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM ordinary_control;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 3,
+        "id": 148,
+        "ok": true
+      },
+      "elapsed_seconds": 0.015617864002706483
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM statement;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 3,
+        "id": 149,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021636395016685128
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM transaction;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 3,
+        "id": 150,
+        "ok": true
+      },
+      "elapsed_seconds": 0.014633964980021119
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM journal;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 3,
+        "id": 151,
+        "ok": true
+      },
+      "elapsed_seconds": 0.020124288013903424
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM lock;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 3,
+        "id": 152,
+        "ok": true
+      },
+      "elapsed_seconds": 0.011040463985409588
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM statement_keys;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 3,
+        "id": 153,
+        "ok": true
+      },
+      "elapsed_seconds": 0.0195362470112741
+    },
+    {
+      "phase": "kill_uncommitted_transaction",
+      "sql": null,
+      "status": "PASS",
+      "elapsed_seconds": 1.023756377020618
+    },
+    {
+      "phase": "recover",
+      "sql": null,
+      "status": "PASS",
+      "elapsed_seconds": 0.6254765610210598
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 154,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.01195547400857322
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 155,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.014455179974902421
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 156,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.026393328997073695
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM transaction ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 157,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.025157508993288502
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM transaction ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 158,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.014479016012046486
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM journal ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 159,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.02117864799220115
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM journal ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 160,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.026844490988878533
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM lock ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 161,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.01661420799791813
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM lock ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 162,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.012285637989407405
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM statement_keys ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 163,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.014495728013571352
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id FROM statement_keys ORDER BY L2_DISTANCE(v,'[0,0]') LIMIT 10;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id"
+        ],
+        "id": 164,
+        "ok": true,
+        "rows": [
+          [
+            0
+          ],
+          [
+            26218
+          ],
+          [
+            18956
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.036706404003780335
+    },
+    {
+      "phase": "final_shutdown",
+      "sql": null,
+      "status": "PASS",
+      "elapsed_seconds": 0.5223964010074269
+    }
+  ],
+  "passed": true,
+  "scope": "Known local counterexample; not proof of the hidden formal failing input.",
+  "image_id": "sha256:92db31b22cc68da0b953d5f6a82ede275a974a47ca8ec5525d3aba03a2dd5985",
+  "pk_diagnostic_path": "/data/table-1.pk",
+  "statement_pk_after_second_insert": [
+    {
+      "offset": 65536,
+      "key": 0,
+      "value": 1192,
+      "next": 0,
+      "self_cycle": false
+    },
+    {
+      "offset": 65560,
+      "key": 18956,
+      "value": 1275,
+      "next": 65536,
+      "self_cycle": false
+    }
+  ],
+  "tables_verified": 6,
+  "test_tool_sha256": "954063d2980e934577f044b04c33fe33b347087a7b788efba169abe4d250a5fe"
+}

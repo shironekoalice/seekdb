@@ -1,0 +1,12 @@
+{
+  "batch": "B04",
+  "started_local": "2026-11-15T01:22:08.8344445+08:00",
+  "min_seconds": 1800,
+  "target_seconds": 3600,
+  "cleanup_reserve_seconds": 300,
+  "base_commit": "3bb44d2237340bd84d30d11d1bc0ecd4584a3f0c",
+  "base_code_sha256": "aafc29ee0418bf5cfd91c29f938791c0a34fedbe87893d6237a4a80ba8689d6e",
+  "authorization": "你现在再符合要求的情况下进行性能优化，不断进行迭代一小时（最少半小时）",
+  "scope": "local bounded performance iteration; preserve admission repairs; no push or official submission",
+  "status": "profiling"
+}

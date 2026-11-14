@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "id": "P01R2-direct",
+  "parent": "P09",
+  "status": "planned",
+  "reason_for_parent_change": "P10 incremental E versus P09 was 0.493630 / 0.485137 across two full three-round seeds with reversed second pair order. Reject P10 and evaluate the same SELECT predicate-binding hypothesis independently on the retained faster P09.",
+  "archived_prototype": {
+    "commit": "1cf294557be3ba04ebf8c376af26f1e789e27099",
+    "parent": "P10",
+    "code_sha256": "d74cc2d8e44f5ea9a365404d7b14bb728eb6779ea72841e60796667e3adfb985",
+    "image": "minivectordb:b04-p01r2",
+    "status": "native checks and one screening round passed; no full comparison or adoption"
+  },
+  "hypothesis_unchanged": "SELECT-only predicate binding removes repeated literal parsing while preserving eager validation and all AND predicates.",
+  "validation": "Rebuild distinct native/Docker identities, revalidate query/state/error boundaries, screen then two-seed three-round comparison; no reuse of prototype outcomes as direct-version passes."
+}

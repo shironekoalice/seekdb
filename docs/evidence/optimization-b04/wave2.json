@@ -1,0 +1,95 @@
+[
+  {
+    "name": "p10-query-oracle",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tests/query_paths.py",
+      "--binary",
+      "/opt/mvdb-b04-p10/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p10-query-oracle"
+    ]
+  },
+  {
+    "name": "p10-native",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tools/verify.py",
+      "--binary",
+      "/opt/mvdb-b04-p10/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p10-native"
+    ]
+  },
+  {
+    "name": "p10-row-views",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tests/row_views.py",
+      "--binary",
+      "/opt/mvdb-b04-p10/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p10-row-views"
+    ]
+  },
+  {
+    "name": "p10-docker-build",
+    "command": [
+      "docker",
+      "build",
+      "--platform=linux/amd64",
+      "-t",
+      "minivectordb:b04-p10",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10"
+    ]
+  },
+  {
+    "name": "p09-benchmark-s14",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tools/benchmark.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--seed",
+      "20261114",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-benchmark-s14"
+    ]
+  },
+  {
+    "name": "control-benchmark-s14",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tools/benchmark.py",
+      "--image",
+      "minivectordb:f04-admission",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--seed",
+      "20261114",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/control-benchmark-s14"
+    ]
+  },
+  {
+    "name": "p10-screen",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p10/tools/benchmark.py",
+      "--image",
+      "minivectordb:b04-p10",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--rows",
+      "1000",
+      "--queries",
+      "100",
+      "--rounds",
+      "1",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p10-screen"
+    ]
+  }
+]

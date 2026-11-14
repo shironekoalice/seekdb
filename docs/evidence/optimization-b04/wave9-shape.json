@@ -1,0 +1,17 @@
+[
+  {
+    "name": "p09-shape-paired",
+    "timeout": 180,
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tools/paired_benchmark.py",
+      "--baseline-image", "minivectordb:f04-admission",
+      "--candidate-image", "minivectordb:b04-p09",
+      "--oracle", "/opt/minivectordb-build/mvdb_oracle",
+      "--rows", "2000", "--dimensions", "512", "--queries", "500",
+      "--seed", "20261115",
+      "--first", "baseline",
+      "--output", "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-shape-paired"
+    ]
+  }
+]

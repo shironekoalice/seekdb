@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "scope": "local cgroup-v2 comparison; not official score",
+  "passed": true,
+  "image": "minivectordb:f04-admission",
+  "image_id": "sha256:278d5132b68a2607c2a85d4a063f17236d3cd42259d61c5a7749322a259c2baf",
+  "workload": {
+    "rows": 10000,
+    "dimensions": 128,
+    "queries": 1000,
+    "seed": 20261113,
+    "mode": "exact",
+    "k": 10,
+    "batch": 100,
+    "sha256": "6df3df853280073341e2b39942cb6c769f128f149c3b536cb430b2f9797efdcf"
+  },
+  "environment": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+    "quota_cpus": 2,
+    "memory": "2g",
+    "swap_limit_requested": true,
+    "swap_limit_supported": "false",
+    "docker": "29.9.3"
+  },
+  "measurement": {
+    "resources": "cgroup v2 io.stat and memory.peak, page cache included",
+    "io_devices": "sum of local cgroup devices; no dedicated contest data device",
+    "T": "client wall time of all write batches or query series, response parsing included",
+    "BM": "startup + load + index + warmup + requests + shutdown + sync -f",
+    "cache": "fresh named volumes; host page cache is NOT globally reset",
+    "overhead": "sleep supervisor and docker exec/sync included in cgroup"
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "passed": true,
+      "write": {
+        "B_bytes": 35348480,
+        "M_bytes": 14135296,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 35348480,
+            "rios": 0,
+            "wios": 611,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.5567804489983246,
+        "persisted_rows_verified": 10000
+      },
+      "query": {
+        "B_bytes": 40714240,
+        "M_bytes": 22835200,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 40714240,
+            "rios": 0,
+            "wios": 624,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.880096089997096,
+        "recall": {
+          "filtered": 1.0,
+          "unfiltered": 1.0
+        }
+      }
+    },
+    {
+      "round": 2,
+      "passed": true,
+      "write": {
+        "B_bytes": 35348480,
+        "M_bytes": 14192640,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 35348480,
+            "rios": 0,
+            "wios": 611,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.598686703000567,
+        "persisted_rows_verified": 10000
+      },
+      "query": {
+        "B_bytes": 40644608,
+        "M_bytes": 22740992,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 40644608,
+            "rios": 0,
+            "wios": 619,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.7309163229947444,
+        "recall": {
+          "filtered": 1.0,
+          "unfiltered": 1.0
+        }
+      }
+    },
+    {
+      "round": 3,
+      "passed": true,
+      "write": {
+        "B_bytes": 35348480,
+        "M_bytes": 13500416,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 35348480,
+            "rios": 0,
+            "wios": 611,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 2.421245421995991,
+        "persisted_rows_verified": 10000
+      },
+      "query": {
+        "B_bytes": 40714240,
+        "M_bytes": 23265280,
+        "io_start": {},
+        "io_end": {
+          "8:80": {
+            "rbytes": 0,
+            "wbytes": 40714240,
+            "rios": 0,
+            "wios": 624,
+            "dbytes": 0,
+            "dios": 0
+          }
+        },
+        "memory_events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "memory_limit_bytes": 2147483648,
+        "memory_swap_max": "max",
+        "host_swap_io_delta": {
+          "pswpin": 0,
+          "pswpout": 0
+        },
+        "T_seconds": 4.187207548995502,
+        "recall": {
+          "filtered": 1.0,
+          "unfiltered": 1.0
+        }
+      }
+    }
+  ]
+}

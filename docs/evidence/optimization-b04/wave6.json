@@ -1,0 +1,61 @@
+[
+  {
+    "name": "paired-harness-control",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tools/paired_benchmark.py",
+      "--baseline-image",
+      "minivectordb:b04-p09",
+      "--candidate-image",
+      "minivectordb:b04-p09",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--rows",
+      "100",
+      "--dimensions",
+      "8",
+      "--queries",
+      "8",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/paired-harness-control"
+    ]
+  },
+  {
+    "name": "p01-direct-paired-s13",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tools/paired_benchmark.py",
+      "--baseline-image",
+      "minivectordb:b04-p09",
+      "--candidate-image",
+      "minivectordb:b04-p01-direct",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--seed",
+      "20261113",
+      "--first",
+      "baseline",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01-direct-paired-s13"
+    ]
+  },
+  {
+    "name": "p01-direct-paired-s14",
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04-p01r2-direct/tools/paired_benchmark.py",
+      "--baseline-image",
+      "minivectordb:b04-p09",
+      "--candidate-image",
+      "minivectordb:b04-p01-direct",
+      "--oracle",
+      "/opt/minivectordb-build/mvdb_oracle",
+      "--seed",
+      "20261114",
+      "--first",
+      "candidate",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p01-direct-paired-s14"
+    ]
+  }
+]

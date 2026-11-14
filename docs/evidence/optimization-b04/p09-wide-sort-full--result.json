@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "scope": "local cgroup out-of-core ORDER BY check",
+  "tool_sha256": "28bfe43bd0ad2428c29d9fb683488ab9b3433269e613cbda63e8717fc880fec7",
+  "image_id": "sha256:92db31b22cc68da0b953d5f6a82ede275a974a47ca8ec5525d3aba03a2dd5985",
+  "logical_payload_bytes": 2415919104,
+  "memory_limit_bytes": 2147483648,
+  "actual_swap_max": 0,
+  "phase": "complete",
+  "load_seconds": 100.69758998701582,
+  "query_seconds": 23.5282131889835,
+  "metrics": {
+    "B_bytes": 27687882752,
+    "M_bytes": 2147483648,
+    "io_start": {},
+    "io_end": {
+      "8:80": {
+        "rbytes": 10843516928,
+        "wbytes": 16844365824,
+        "rios": 162125,
+        "wios": 42790,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "memory_events": {
+      "low": "0",
+      "high": "0",
+      "max": "119322",
+      "oom": "0",
+      "oom_kill": "0",
+      "oom_group_kill": "0"
+    },
+    "memory_limit_bytes": 2147483648,
+    "memory_swap_max": "0",
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    }
+  },
+  "observed_memory_events": "low 0\nhigh 0\nmax 119322\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "observed_memory_peak": 2147483648,
+  "seconds": 180.18187347601634
+}

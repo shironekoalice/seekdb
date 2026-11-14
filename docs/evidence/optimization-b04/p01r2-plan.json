@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "id": "P01R2",
+  "status": "planned",
+  "parent": "P10",
+  "prior_result": "P01 on the pre-P07 baseline was inconclusive (contemporary local E 0.503032) and was not adopted.",
+  "new_evidence": "F04/P09 profile still records approximately five million integer literal parses and ten million schema lookups for 1000 queries, after P07 eliminated much of the map I/O and P09 removed cached Row copies.",
+  "hypothesis": "Re-evaluate SELECT-only predicate binding on the materially changed engine. Parse literals and resolve columns during the existing eager validation, then compare immutable values during the row scan.",
+  "invariants": ["same eager errors on empty tables/absent keys/LIMIT 0", "all AND clauses retained", "same int64 and UTF-8 comparison", "no UPDATE/DELETE or commit behavior changes"],
+  "minimum_checks": ["independent query and point oracles", "string/int64/invalid-literal and empty-input cases", "public and extended recovery", "ASAN/UBSAN", "two-seed three-round incremental comparison"],
+  "stop_conditions": ["any validation timing or result regression", "no repeatable incremental benefit", "validation time exhausted"],
+  "decision": "not_evaluated"
+}

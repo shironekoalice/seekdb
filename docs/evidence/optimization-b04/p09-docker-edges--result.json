@@ -1,0 +1,56 @@
+{
+  "scope": "local admission counterexamples; not official hidden cases",
+  "tool_sha256": "f9f8a7d5621f508cade95590fcfff88bc484728adfe6b81fca5e658c86a95fde",
+  "checks": [
+    {
+      "name": "final_topk",
+      "passed": true,
+      "detail": {
+        "final_rows_json_bytes": 13,
+        "initial_candidates_exceed_16_mib": true,
+        "oversize_query_leaves_transaction_usable": true
+      },
+      "seconds": 2.998723330994835
+    },
+    {
+      "name": "response_boundary",
+      "passed": true,
+      "detail": {
+        "actual_response_bytes": 15761460,
+        "exact_boundary_bytes": 16777216,
+        "one_byte_over_boundary": "rejected without breaking session",
+        "public_max_response_bytes": 16777216
+      },
+      "seconds": 4.9532948400010355
+    },
+    {
+      "name": "identifier_literals",
+      "passed": true,
+      "detail": "Reject identifier tokens used as scalar/vector literals; preserve keyword identifiers.",
+      "seconds": 2.181871309003327
+    },
+    {
+      "name": "declared_size",
+      "passed": true,
+      "detail": "No published 100000000 limit exists for VARCHAR declarations; small stored value remains valid.",
+      "seconds": 2.0574453989975154
+    },
+    {
+      "name": "wide_key_ordering",
+      "passed": true,
+      "detail": "Wide keys cross 8KiB blocks, Unicode suffixes, prefix order, ASC/DESC ties, transaction and kill recovery.",
+      "seconds": 3.977388837025501
+    },
+    {
+      "name": "large_record",
+      "passed": true,
+      "detail": {
+        "stored_body_bytes": 67109888,
+        "commit_kill_recovery_and_full_string_predicate": true
+      },
+      "seconds": 12.09732952300692
+    }
+  ],
+  "image_id": "sha256:92db31b22cc68da0b953d5f6a82ede275a974a47ca8ec5525d3aba03a2dd5985",
+  "passed": true
+}

@@ -148,6 +148,27 @@ F04再次运行F03边界、公开/扩展、独立查询及完整超内存排序�
 
 ## 性能
 
+B04新增两种工具。行借用检查通过公开JSONL对独立完整状态及全排序结果作比较：
+
+```bash
+python3 tests/row_views.py --binary /opt/mvdb-b04-p09/minivectordb --output artifacts/row-views-new
+```
+
+同一工具可指定ASAN二进制。实际使用0/1024/65536/1048576字节行缓存、
+两表、多种投影/过滤/升降序/并列/TopK，包含扫描更新、事务回滚与kill恢复。
+不读取被测缓存内部状态，不能以实际通过代替更大规模的内存验证。
+
+在存在先后顺序波动时，完整轮次可以交错运行：
+
+```bash
+python3 tools/paired_benchmark.py --baseline-image minivectordb:f04-admission --candidate-image minivectordb:b04-p09 --oracle /opt/minivectordb-build/mvdb_oracle --seed 20261113 --first baseline --output artifacts/paired-new
+```
+
+默认仍是10000×128、1000查询、三轮、独立全排序oracle与逐轮重启核对写入。
+每轮两个镜像各有独立数据卷，顺序AB/BA/AB；第二种子用`--first candidate`反转。
+两个子目录各保存原有格式的T/B/M报告，`order.json`记录实际顺序，
+`comparison.json`沿用既有公式与换页拒绝条件。没有改变公开驱动或断言。
+
 ```bash
 python3 tools/benchmark.py --image minivectordb:candidate --oracle /opt/minivectordb-build/mvdb_oracle --output artifacts/bench-new
 python3 tools/compare.py docs/evidence/benchmark-baseline.json artifacts/bench-new/result.json --output artifacts/bench-new/comparison.json

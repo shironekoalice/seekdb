@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "phase": "admission_requirements_audit",
-  "status": "f04_known_local_defects_fixed_and_validated_formal_admission_pending",
-  "updated_local_date": "2026-11-14",
+  "phase": "bounded_performance_iteration_completed",
+  "status": "b04_p09_adopted_local_validation_passed_formal_admission_unconfirmed",
+  "updated_local_date": "2026-11-15",
   "workspace": "E:/develop/project_files/project/oceanbase",
   "project": "minivectordb",
   "wsl_distribution": "Ubuntu-24.04",
@@ -11,31 +11,32 @@
   "baseline_tag": "prep-baseline-20261113",
   "baseline_commit": "86adad6257aa425c7f1985fa964457fe7390dbfe",
   "best_candidate": {
-    "kind": "candidate",
-    "id": "P07",
-    "commit": "eeb4fe9ae9bdbe90f0b71c2ce7ed4415619f6f5e",
-    "snapshot_tag": "best-b02-20261114",
-    "code_sha256": "81b6fc0dec77f560b06a2cabefae9c84f427184467f0f8442e5cd77bd7e7f309",
-    "report": "docs/OPTIMIZATION_B02.md",
-    "local_E_vs_contemporary": "0.597888",
-    "local_E_second_seed": "0.599353"
+    "kind": "locally_validated_candidate",
+    "id": "P09",
+    "commit": "fc9b4c6948ced96e51439a2156fd8ad266af242a",
+    "snapshot_tag": "best-b04-20261115",
+    "code_sha256": "f05e32ffe7dbfa0d6c2e7ae4e0dace7035a224c898adef75f985a3354735052c",
+    "report": "docs/OPTIMIZATION_B04.md",
+    "comparison_base": "3bb44d2237340bd84d30d11d1bc0ecd4584a3f0c",
+    "local_E_vs_F04_interleaved": [
+      "0.527777",
+      "0.511351"
+    ]
   },
-  "measured_image": "minivectordb:f04-admission",
-  "measured_image_id": "sha256:278d5132b68a2607c2a85d4a063f17236d3cd42259d61c5a7749322a259c2baf",
+  "measured_image": "minivectordb:b04-p09",
+  "measured_image_id": "sha256:92db31b22cc68da0b953d5f6a82ede275a974a47ca8ec5525d3aba03a2dd5985",
   "baseline_report": "docs/evidence/benchmark-baseline.json",
   "next_batch": {
-    "note": "The local statement-table self-cycle is fixed; actual formal input/environment remains unavailable.",
-    "max_minutes": 45,
-    "action": "Obtain platform precheck/admission feedback for the new complete commit; no performance experiment or official submission automatically.",
+    "action": "Stop after the requested bounded run. A further local cycle or external submission needs a new user request.",
+    "suggested_queue": "cache-threshold/data-shape profile or user-initiated platform admission precheck",
     "reserve_cleanup_minutes": 5,
-    "suggested_queue": "formal-timeout-diagnostics",
     "max_candidates": 3,
-    "material_bytes_current": 127414,
+    "material_bytes_current": 128960,
     "material_limit_bytes": 131072
   },
   "permissions": {
     "local_preparation_and_rehearsal": true,
-    "long_optimization": "authorized by user same-conversation resume on 2026-11-13",
+    "long_optimization": "Latest user authorized this one local hour (minimum 30 minutes), not an unattended loop.",
     "remote_push": false,
     "official_submission": false,
     "scoped_repository_push": {
@@ -54,7 +55,7 @@
   ],
   "stop_after_rehearsal": false,
   "continue_same_conversation": true,
-  "code_sha256": "aafc29ee0418bf5cfd91c29f938791c0a34fedbe87893d6237a4a80ba8689d6e",
+  "code_sha256": "f05e32ffe7dbfa0d6c2e7ae4e0dace7035a224c898adef75f985a3354735052c",
   "rehearsal": {
     "completed": true,
     "report": "docs/REHEARSAL.md",
@@ -65,16 +66,22 @@
   },
   "background_optimization_running": false,
   "last_batch": {
+    "id": "b04-20261115",
     "status": "completed",
-    "conservative_elapsed_seconds_through_evidence_audit": 1927.668,
-    "completed_local": "2026-11-14T01:47:07.6681854+08:00",
-    "id": "b03-20261114",
-    "evidence": "docs/evidence/optimization-b03",
+    "completed_local": "2026-11-15T02:13:22.209938+08:00",
+    "elapsed_seconds_through_evidence_audit": 3073.375494,
+    "report": "docs/OPTIMIZATION_B04.md",
+    "evidence": "docs/evidence/optimization-b04",
+    "adopted": [
+      "P09"
+    ],
     "candidate_decisions": {
-      "P02": "point_gain_verified_not_promoted_default_E_inconclusive"
+      "P09": "adopted after final validation",
+      "P10": "not adopted; no repeatable gain",
+      "P01R2": "inconclusive incremental gain; not adopted"
     },
-    "adopted": [],
-    "report": "docs/OPTIMIZATION_B03.md"
+    "official_submission": false,
+    "remote_push": false
   },
   "completed_batches": [
     {
@@ -113,9 +120,27 @@
       },
       "adopted": [],
       "report": "docs/OPTIMIZATION_B03.md"
+    },
+    {
+      "id": "b04-20261115",
+      "status": "completed",
+      "completed_local": "2026-11-15T02:13:22.209938+08:00",
+      "elapsed_seconds_through_evidence_audit": 3073.375494,
+      "report": "docs/OPTIMIZATION_B04.md",
+      "evidence": "docs/evidence/optimization-b04",
+      "adopted": [
+        "P09"
+      ],
+      "candidate_decisions": {
+        "P09": "adopted after final validation",
+        "P10": "not adopted; no repeatable gain",
+        "P01R2": "inconclusive incremental gain; not adopted"
+      },
+      "official_submission": false,
+      "remote_push": false
     }
   ],
-  "best_report": "docs/evidence/optimization-b02/p07-benchmark.json",
+  "best_report": "docs/evidence/optimization-b04/summary.json",
   "evaluated_point_candidate": {
     "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
     "point_select_speedup": [
@@ -136,16 +161,17 @@
     "id": "P02",
     "report": "docs/OPTIMIZATION_B03.md"
   },
-  "best_candidate_role": "retained default-workload performance reference; not current submission runtime",
+  "best_candidate_role": "current local runtime, F04 fixes retained; official admission unconfirmed",
   "active_submission_candidate": {
-    "id": "F04",
-    "engine": "P07+P02+F02+F03+internal_file_identities",
-    "code_sha256": "aafc29ee0418bf5cfd91c29f938791c0a34fedbe87893d6237a4a80ba8689d6e",
-    "report": "docs/ADMISSION_AUDIT_F04.md",
-    "evidence": "docs/evidence/admission-audit-f04/summary.json",
+    "id": "B04-P09",
+    "engine": "F04+P09",
+    "engine_commit": "fc9b4c6948ced96e51439a2156fd8ad266af242a",
+    "code_sha256": "f05e32ffe7dbfa0d6c2e7ae4e0dace7035a224c898adef75f985a3354735052c",
+    "report": "docs/OPTIMIZATION_B04.md",
+    "evidence": "docs/evidence/optimization-b04/summary.json",
     "formal_result": "not_run",
-    "local_counterexamples_repaired": true,
-    "formal_root_cause_confirmed": false
+    "formal_root_cause_confirmed": false,
+    "local_counterexamples_repaired": true
   },
   "last_triage": {
     "id": "F04",
@@ -185,7 +211,27 @@
     "known_problem_resolved_in": "F04"
   },
   "last_user_feedback": {
-    "verbatim": "继续阅读题干，查找所有可能不符合题目要求的存在，通过为优，然后再讨论优化",
-    "context": "User requested admission-first requirements audit; no performance optimization or official submission."
+    "verbatim": "你现在再符合要求的情况下进行性能优化，不断进行迭代一小时（最少半小时）",
+    "context": "Bounded local performance iteration; no push/formal submission."
+  },
+  "previous_best_candidate": {
+    "kind": "candidate",
+    "id": "P07",
+    "commit": "eeb4fe9ae9bdbe90f0b71c2ce7ed4415619f6f5e",
+    "snapshot_tag": "best-b02-20261114",
+    "code_sha256": "81b6fc0dec77f560b06a2cabefae9c84f427184467f0f8442e5cd77bd7e7f309",
+    "report": "docs/OPTIMIZATION_B02.md",
+    "local_E_vs_contemporary": "0.597888",
+    "local_E_second_seed": "0.599353"
+  },
+  "prior_admission_candidate": {
+    "id": "F04",
+    "engine": "P07+P02+F02+F03+internal_file_identities",
+    "code_sha256": "aafc29ee0418bf5cfd91c29f938791c0a34fedbe87893d6237a4a80ba8689d6e",
+    "report": "docs/ADMISSION_AUDIT_F04.md",
+    "evidence": "docs/evidence/admission-audit-f04/summary.json",
+    "formal_result": "not_run",
+    "local_counterexamples_repaired": true,
+    "formal_root_cause_confirmed": false
   }
 }

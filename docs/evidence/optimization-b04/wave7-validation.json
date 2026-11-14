@@ -1,0 +1,247 @@
+[
+  {
+    "command": [
+      "cmake",
+      "-S",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04",
+      "-B",
+      "/opt/mvdb-b04-p09-asan",
+      "-DCMAKE_BUILD_TYPE=Debug",
+      "-DSANITIZE=ON"
+    ],
+    "name": "p09-asan-configure"
+  },
+  {
+    "command": [
+      "cmake",
+      "--build",
+      "/opt/mvdb-b04-p09-asan",
+      "-j4",
+      "--target",
+      "minivectordb"
+    ],
+    "name": "p09-asan-build"
+  },
+  {
+    "command": [
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tools/verify.py",
+      "--binary",
+      "/opt/mvdb-b04-p09-asan/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-asan"
+    ],
+    "name": "p09-asan"
+  },
+  {
+    "command": [
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/row_views.py",
+      "--binary",
+      "/opt/mvdb-b04-p09-asan/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-asan-row-views"
+    ],
+    "name": "p09-asan-row-views"
+  },
+  {
+    "command": [
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/query_paths.py",
+      "--binary",
+      "/opt/mvdb-b04-p09-asan/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-asan-query"
+    ],
+    "name": "p09-asan-query"
+  },
+  {
+    "command": [
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/point_paths.py",
+      "--binary",
+      "/opt/mvdb-b04-p09-asan/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-asan-points"
+    ],
+    "name": "p09-asan-points"
+  },
+  {
+    "command": [
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/cache_eviction.py",
+      "--binary",
+      "/opt/mvdb-b04-p09-asan/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-asan-cache"
+    ],
+    "name": "p09-asan-cache"
+  },
+  {
+    "command": [
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/admission_edges.py",
+      "--binary",
+      "/opt/mvdb-b04-p09-asan/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-asan-edges"
+    ],
+    "name": "p09-asan-edges"
+  },
+  {
+    "command": [
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/file_identities.py",
+      "--binary",
+      "/opt/mvdb-b04-p09-asan/minivectordb",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-asan-files"
+    ],
+    "name": "p09-asan-files"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tools/verify.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-docker"
+    ],
+    "name": "p09-docker"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/query_paths.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-docker-query"
+    ],
+    "name": "p09-docker-query"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/point_paths.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-docker-points"
+    ],
+    "name": "p09-docker-points"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/admission_edges.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-docker-edges"
+    ],
+    "name": "p09-docker-edges"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/file_identities.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-docker-files"
+    ],
+    "name": "p09-docker-files"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/environment_contract.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-docker-environment"
+    ],
+    "name": "p09-docker-environment"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/storage_namespace.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-docker-namespace"
+    ],
+    "name": "p09-docker-namespace"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tools/out_of_core.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--memory-mib",
+      "128",
+      "--data-mib",
+      "256",
+      "--enforce-no-swap",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-ooc-small"
+    ],
+    "name": "p09-ooc-small"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tools/out_of_core.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--memory-mib",
+      "2048",
+      "--data-mib",
+      "2304",
+      "--enforce-no-swap",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-ooc-full"
+    ],
+    "name": "p09-ooc-full"
+  },
+  {
+    "command": [
+      "python3",
+      "/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-b04/tests/out_of_core_ordering.py",
+      "--image",
+      "minivectordb:b04-p09",
+      "--memory-mib",
+      "2048",
+      "--data-mib",
+      "2304",
+      "--output",
+      "/mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/optimization-b04-20261115/p09-wide-sort-full"
+    ],
+    "name": "p09-wide-sort-full"
+  }
+]
