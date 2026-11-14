@@ -1,0 +1,142 @@
+[
+  {
+    "file": "plan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\plan.json",
+    "sha256": "2f8ced9a17add09dc5673893d39298b9f809ede4cc635cfc6c9b1bdfbee17b3c"
+  },
+  {
+    "file": "build-identities.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\build-identities.json",
+    "sha256": "033b9d57dbb0587da611f9439574fa957acd378a928b97a8143a56712c86abab"
+  },
+  {
+    "file": "control-long-names.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\control-long-names\\result.json",
+    "sha256": "1c0745d6fea0ee4ce66a6e1b0506cc8a850b0e51f18029dcb922909ee07d3530"
+  },
+  {
+    "file": "control-long-names.stderr.txt",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\control-long-names\\database.log",
+    "sha256": "4081c140abbf4988647680b6c2cbe4706b780e55361f94404fbec50322057a6d"
+  },
+  {
+    "file": "validation-run.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\validation-run.json",
+    "sha256": "7d12fc7d363d7ae950eb18204818961819723c18793e91876b7a5308855d0401"
+  },
+  {
+    "file": "sanitizer-audit.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\sanitizer-audit.json",
+    "sha256": "351a1ed45dadbeb0a860c107ee8d709abd81212bded126832bf85e980dc9bb16"
+  },
+  {
+    "file": "summary.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\summary.json",
+    "sha256": "4f879fc6eeaec552af5a4ebf84d664f46e098e652f5897fc3922cf8f55d2e04a"
+  },
+  {
+    "file": "candidate-names-native.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-names-native\\result.json",
+    "sha256": "05dd78e92be1c292b55255bbab63b0ecd18ea0d2eeb7c0fc838628660cb4bddb"
+  },
+  {
+    "file": "candidate-names-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-names-asan\\result.json",
+    "sha256": "802fd15abd5c79fa933461b020d6c9b23cc067c72b53a740b66f79b93dd31b68"
+  },
+  {
+    "file": "candidate-verify-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-verify-asan\\result.json",
+    "sha256": "8977e0f9f7b0465964779c73211de677d886d29a5fa139844e006cd10ec6e027"
+  },
+  {
+    "file": "candidate-query-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-query-asan\\result.json",
+    "sha256": "81954f7750a16d24e2acb37e64c15342d93880a72fab927b4e81d36ed1207bd7"
+  },
+  {
+    "file": "candidate-point-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-point-asan\\result.json",
+    "sha256": "cc18533bd57a6c5d4fbb0ff3f8e438daa3ccd48361bf83b2b1eebac350ad6407"
+  },
+  {
+    "file": "candidate-namespace-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-namespace-asan\\result.json",
+    "sha256": "ef3895ace41d04c24eab6076baac5d8c97a10e14b753f5b492beed13e6eb7e8d"
+  },
+  {
+    "file": "candidate-edges-native.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-edges-native\\result.json",
+    "sha256": "953a5ddbc5563153aced0130d5cccf59c5cfdfde5069de3126cfd17f1462b736"
+  },
+  {
+    "file": "candidate-verify-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-verify-docker\\result.json",
+    "sha256": "815ea7124c805db5334656b97b2b8a4f86cc1965b9282dedce123aff3ec3456f"
+  },
+  {
+    "file": "candidate-names-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-names-docker\\result.json",
+    "sha256": "53236b38b9bb0a4501edcdf9c504ba379222f6192de34b2b6dbf60b7404e7c72"
+  },
+  {
+    "file": "candidate-edges-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-edges-docker\\result.json",
+    "sha256": "78ca441cf34d3eb88af9a1e65036f2cc03a71a88fade0496dd3c81fcc26e257d"
+  },
+  {
+    "file": "candidate-environment.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-environment\\result.json",
+    "sha256": "763d5451447f4e8d51cee454fc704710c0f5ace38264d27b79f741e61ef6b3aa"
+  },
+  {
+    "file": "candidate-namespace-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-namespace-docker\\result.json",
+    "sha256": "3bb1c9cd3232ae8552dc8961f601b4fd9ef50cb7e1670e67f521b121d783c2ed"
+  },
+  {
+    "file": "candidate-wide-sort-small.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-wide-sort-small\\result.json",
+    "sha256": "1907c7655c52fe489fda0031c81cc04dcbe336b33573deeb017267ff50e3aaae"
+  },
+  {
+    "file": "candidate-wide-sort-full.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-wide-sort-full\\result.json",
+    "sha256": "aa95b0282ce65fda0653d543e3a742032ee5fed6b2d3617e6f774b3392c33cd1"
+  },
+  {
+    "file": "asan-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-verify-asan\\public\\result.json",
+    "sha256": "9f396d01bd36ebd6e407f8e14f9e2327c3e5730d0f42501c738dc91d5cc293b8"
+  },
+  {
+    "file": "asan-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-verify-asan\\extended\\result.json",
+    "sha256": "9306a7ccf6d5989b6d2469b9d6d04990b13150f5d2a745aea830ee76058b2111"
+  },
+  {
+    "file": "docker-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-verify-docker\\public\\result.json",
+    "sha256": "f091ab2e250f1da5fbfb9c5b04452bac27056c63e30d3f7edfca198717bb8ace"
+  },
+  {
+    "file": "docker-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\candidate-verify-docker\\extended\\result.json",
+    "sha256": "e4604ba36cfb829f98906f8351ee420b81452a3b93762a01b36507a1c365d08b"
+  },
+  {
+    "file": "release-build.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\release-build.log",
+    "sha256": "bc7de2eafb12bda3ae0f00d19434e1ea2560ff16a0d1aa14d1db0a88930a3838"
+  },
+  {
+    "file": "asan-build.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\asan-build.log",
+    "sha256": "72801e01241f0d7a90fb569f7d9dedbdee6a6a53b1cf369d3911b59f251ae617"
+  },
+  {
+    "file": "docker-build.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\admission-f04-20261114-1134\\docker-build.log",
+    "sha256": "22e076b7cce06423acfd4e45386d98ae0521559578ad4f9574a31179a3ad9230"
+  }
+]

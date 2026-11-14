@@ -214,6 +214,14 @@
       "artifact": "docs/evidence/admission-audit-f03/summary.json",
       "output": "{\"id\":\"F03\",\"base_commit\":\"49cc9fe4c72addc3250ada1bf922f3ca3c2d7a97\",\"source_code_sha256\":\"704f99a308b5cd646aeb0196032415b0c621f9026dccc1f7751ceb465b6bd04f\",\"image_id\":\"sha256:19e04bc89a12daa591e1a31a8559d559a75dbeda2ca76ac0b2892e039d5a21bf\",\"binaries\":[{\"kind\":\"release\",\"binary\":\"/opt/mvdb-f03-release/minivectordb\",\"sha256\":\"fbcb91479d1ed98dfcbb639f23bba4cdea3b23f4f47ec24affb5e391c4ba198c\",\"seconds\":8.089097160991514},{\"kind\":\"asan\",\"binary\":\"/opt/mvdb-f03-asan/minivectordb\",\"sha256\":\"a5376faef834a63cebcdc04421a187695dc31fbf5f9fdacf70355a0c68a5dfcc\",\"seconds\":11.653947072001756}],\"validation_stages\":12,\"all_planned_local_checks_passed\":true,\"old_native_counterexample_failures\":5,\"old_scaled_sort_oom_kills\":1,\"candidate_counterexamples_passed\":6,\"public_docker\":20,\"extended_docker\":5,\"public_asan\":20,\"extended_asan\":11,\"query_oracle_comparisons\":119,\"point_queries\":1218,\"scan_controls\":812,\"errors_checked\":90,\"random_operations\":120,\"namespace_tables\":6,\"sanitizer_logs_scanned\":40,\"sanitizer_findings\":[],\"small_wide_sort\":{\"active_body_bytes\":268435456,\"memory_limit_bytes\":134217728,\"passed\":true},\"full_wide_sort\":{\"active_body_bytes\":2415919104,\"memory_limit_bytes\":2147483648,\"passed\":true,\"seconds\":215.8502631230076,\"request_query_seconds\":30.041895911999745,\"swap_max\":0,\"host_swap_io_delta\":{\"pswpin\":0,\"pswpout\":0},\"oom_kills\":\"0\"},\"pending_confirmed_problem\":\"248-character table exits on INSERT; 260-character table fails CREATE and cannot restart because SQL name is used as filename. Recorded independently; fix in F04.\",\"official_submission\":false,\"formal_failure_root_cause_confirmed\":false,\"new_performance_score\":null}",
       "note": "延续F01/F02同一准入诊断链。没有新增评分实例、学生机制解释或官方分数；长表名负例仍待F04修正。"
+    },
+    {
+      "id": "admission-file-identities-f04",
+      "source": "tool",
+      "kind": "actual_report_excerpt",
+      "artifact": "docs/evidence/admission-audit-f04/summary.json",
+      "output": "{\"id\":\"F04\",\"base_commit\":\"195bf89d9ad06ee10e842c42d03d3a776118ea44\",\"source_code_sha256\":\"aafc29ee0418bf5cfd91c29f938791c0a34fedbe87893d6237a4a80ba8689d6e\",\"image_id\":\"sha256:278d5132b68a2607c2a85d4a063f17236d3cd42259d61c5a7749322a259c2baf\",\"binaries\":[{\"kind\":\"release\",\"binary\":\"/opt/mvdb-f04-release/minivectordb\",\"sha256\":\"89b8202087f36465829719f24a095b4466698bb7c3ccd70a908dcfa02284c6ef\",\"seconds\":16.357585944002494},{\"kind\":\"asan\",\"binary\":\"/opt/mvdb-f04-asan/minivectordb\",\"sha256\":\"817898ecf3719262fb37a8db58a29aa0c35d186e94546e470ee18589275a055a\",\"seconds\":23.458469630000764}],\"validation_stages\":14,\"all_planned_local_checks_passed\":true,\"public_docker\":20,\"extended_docker\":5,\"public_asan\":20,\"extended_asan\":11,\"long_name_tables\":11,\"max_name_characters\":4096,\"same_old_failed_directory_recovered\":true,\"old_committed_short_table_and_vector_index_preserved\":true,\"sort_scratch_crash_recovery\":true,\"candidate_F03_boundary_checks\":6,\"query_oracle_comparisons\":119,\"point_queries\":1218,\"scan_controls\":812,\"errors_checked\":90,\"namespace_tables\":6,\"sanitizer_logs_scanned\":36,\"sanitizer_findings\":[],\"full_wide_sort\":{\"active_body_bytes\":2415919104,\"memory_limit_bytes\":2147483648,\"passed\":true,\"seconds\":189.65456384699792,\"request_query_seconds\":27.052672773002996,\"swap_max\":0,\"host_swap_io_delta\":{\"pswpin\":0,\"pswpout\":0},\"oom_kills\":\"0\"},\"small_wide_sort_passed\":true,\"remaining_boundaries\":[\"official failed case/SQL/phase/stderr not provided\",\"unpublished SQL grammar/resource freeze details\",\"long-history WAL replay and very large K metadata require scale-specific validation\",\"student learning evidence remains incomplete\"],\"official_submission\":false,\"formal_failure_root_cause_confirmed\":false,\"new_performance_score\":null}",
+      "note": "同一准入诊断链的后续；真实旧版失败和新版本复测，不是新评分实例。学生机制解释仍未提供。"
     }
   ],
   "evidence_links": [
@@ -238,6 +246,7 @@
     "没有官方隐藏用例、正式性能基线或冻结 Agent 评审器；本地材料校验不能预测成绩。",
     "不含访问密钥、令牌或隐藏思维链。未记录的历史内容不补写为实际发生。",
     "F01：真实学生报告正式失败，Agent读到聚合超时并完成本地缓解验证；没有失败SQL、根因确认、再次正式结果或新的学生技术解释。",
-    "F02：学生质疑环境；公开配置被实际重建并检查，定位并修复文件名冲突引发的本地60秒超时。正式失败SQL/阶段/stderr仍缺失，不能确认隐藏用例根因或正式通过。"
+    "F02：学生质疑环境；公开配置被实际重建并检查，定位并修复文件名冲突引发的本地60秒超时。正式失败SQL/阶段/stderr仍缺失，不能确认隐藏用例根因或正式通过。",
+    "F03/F04按用户准入优先指令逐条核对并修正本地反例；没有正式隐藏SQL、正式通过结果或新的学生技术解释。"
   ]
 }

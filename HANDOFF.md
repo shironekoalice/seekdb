@@ -1,6 +1,15 @@
 # 同一会话接续入口
 
-最新F03（2026-11-14）：用户要求全面重读题干，以准入优先，之后再讨论优化。
+最新F04（2026-11-14）：完整题干审查之后继续修复长名称使数据库退出/无法恢复的问题。
+物理文件改用WAL建表顺序的内部id，覆盖层用事务内编号，SQL名字不再成为文件名。
+排序强杀残留在启动恢复前清理。详见 `docs/ADMISSION_AUDIT_F04.md`和对应证据。
+当前Release `/opt/mvdb-f04-release/minivectordb`、ASAN `/opt/mvdb-f04-asan/minivectordb`，
+镜像 `minivectordb:f04-admission`；不把F03/F04的二进制测试身份混在一起。
+保持用户的“准入优先，之后再讨论优化”；没有再次正式提测或性能benchmark。
+F04计划的14个本地阶段全部通过，实际计数/原始路径/身份见其summary；
+不能据此宣称正式29例通过。下一步优先取得新commit的平台准入反馈。
+
+此前F03（2026-11-14）：用户要求全面重读题干，以准入优先，之后再讨论优化。
 逐条审查见 `docs/ADMISSION_AUDIT_F03.md`。修正最终TopK提前超限、15MiB人为限制、
 宽字符串排序内存随正文增长、反引号误作字面量，以及未发布的字段/日志大小上限。
 当前引擎为 `/opt/mvdb-f03-release/minivectordb`、
@@ -9,9 +18,9 @@
 正式隐藏输入和失败阶段仍不可见，不据本地通过断言正式准入通过。
 本轮没有性能benchmark/E比较或正式提测；接续继续遵循用户的准入优先指令。
 F03末尾发现248/260字符表名导致进程退出/重启失败，反例已保存，
-仍待独立F04修复；不把F03当作无已知问题的最终准入候选。
+该问题已由最新F04修复；F03保留当时的负例与二进制身份。
 
-最新 F02（2026-11-14）：用户再次反馈 `3f784f1...` 失败并质疑环境。
+此前 F02（2026-11-14）：用户再次反馈 `3f784f1...` 失败并质疑环境。
 已从实际提交干净构建amd64镜像，公开配置下的入口/JSONL/权限/依赖检查通过；
 详见 `docs/FORMAL_FAILURE_F02.md`。发现并实际复现 `statement.pk` 同时充当临时
 重复键映射和合法 `statement` 表主键文件，导致自环及60秒JSON超时。
@@ -52,20 +61,20 @@ B03当时只追加工具和材料，没有替换P07；F01新增大数据证据�
 
 Windows 根：`E:\develop\project_files\project\oceanbase\minivectordb`。
 WSL：`Ubuntu-24.04`；Linux 路径 `/mnt/e/develop/project_files/project/oceanbase/minivectordb`。
-当前原生 Release `/opt/mvdb-f03-release/minivectordb`，
-ASAN `/opt/mvdb-f03-asan/minivectordb`；
+当前原生 Release `/opt/mvdb-f04-release/minivectordb`，
+ASAN `/opt/mvdb-f04-asan/minivectordb`；
 冻结原生基线 `/opt/minivectordb-build/minivectordb`，
 oracle `/opt/minivectordb-build/mvdb_oracle`。
 
 PowerShell 可直接调用：
 
 ```powershell
-wsl -d Ubuntu-24.04 -- python3 /mnt/e/develop/project_files/project/oceanbase/minivectordb/tools/verify.py --binary /opt/mvdb-f03-release/minivectordb --output /mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/resume-check-01
+wsl -d Ubuntu-24.04 -- python3 /mnt/e/develop/project_files/project/oceanbase/minivectordb/tools/verify.py --binary /opt/mvdb-f04-release/minivectordb --output /mnt/e/develop/project_files/project/oceanbase/minivectordb/artifacts/resume-check-01
 ```
 
 命令/完整 Docker/benchmark 入口见 `docs/VALIDATION.md`。当前基线镜像标签
 `minivectordb:baseline`；P07性能参考为 `minivectordb:b02-p07`，
-当前修复候选为 `minivectordb:f03-admission`，按 image ID 核对身份。
+当前修复候选为 `minivectordb:f04-admission`，按 image ID 核对身份。
 输出目录必须是新目录。已有完整测试通过且身份未变时不需要为“接手”重跑全套；
 可先检查报告、二进制 hash、git diff 和一次短验证。
 

@@ -96,10 +96,20 @@ def main():
                 model[key] = ("row" + str(number), [number, 1])
                 if name == "statement" and number == 1:
                     if args.image:
+                        physical = "/data/table-1.pk"
+                        present = subprocess.run(
+                            ["docker", "exec", session.name, "test", "-f", physical],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
+                        if present.returncode:
+                            physical = "/data/statement.pk"
                         raw = subprocess.check_output(
-                            ["docker", "exec", session.name, "cat", "/data/statement.pk"], timeout=10)
+                            ["docker", "exec", session.name, "cat", physical], timeout=10)
                     else:
-                        raw = (Path(session.temp.name) / "statement.pk").read_bytes()
+                        physical = Path(session.temp.name) / "table-1.pk"
+                        if not physical.exists():
+                            physical = Path(session.temp.name) / "statement.pk"
+                        raw = physical.read_bytes()
+                    report["pk_diagnostic_path"] = str(physical)
                     nodes = []
                     for offset in range(65536, len(raw) - 23, 24):
                         key_at_node, value, next_at_node = struct.unpack_from("<qQQ", raw, offset)

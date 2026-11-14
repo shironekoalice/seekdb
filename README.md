@@ -58,3 +58,5 @@ docker run --rm -i --network=none --read-only --cpus=2 --memory=2g \
 F03按题干逐项核对、资源/结果边界修正和仍未公开的要求见
 `docs/ADMISSION_AUDIT_F03.md`。当前遵循“准入优先，之后再讨论优化”，
 未自动消耗正式提测机会。
+F04进一步修复长表名导致的进程退出/恢复失败，并验证同一旧目录升级恢复，
+见 `docs/ADMISSION_AUDIT_F04.md`。当前镜像标签为`minivectordb:f04-admission`。

@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "scope": "local long-name and derived-file oracle",
+  "tool_sha256": "90bded72a3f20fb3c98210ad06145df914c886b0821aa475ae6a334b4d7379f8",
+  "phases": [
+    {
+      "name": "created-in-nonlexical-order",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "multi-table-rollback",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "committed-kill-recovery",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "repeated-restart",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "repeated-restart",
+      "tables": 11,
+      "passed": true
+    },
+    {
+      "name": "rollback-recreate-and-slot-reuse",
+      "tables": 11,
+      "passed": true
+    }
+  ],
+  "binary_sha256": "817898ecf3719262fb37a8db58a29aa0c35d186e94546e470ee18589275a055a",
+  "sort_scratch_crash_recovery": true,
+  "old_failed_directory_upgrade": {
+    "previous_binary_sha256": "fbcb91479d1ed98dfcbb639f23bba4cdea3b23f4f47ec24affb5e391c4ba198c",
+    "previous_error": "database exited before response",
+    "same_directory_recovery_passed": true
+  },
+  "table_name_lengths": [
+    260,
+    248,
+    1024,
+    4096,
+    308,
+    308,
+    7,
+    9,
+    9,
+    11,
+    11
+  ],
+  "seconds": 1.449175968999043
+}

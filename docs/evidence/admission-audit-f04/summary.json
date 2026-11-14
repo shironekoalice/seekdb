@@ -1,0 +1,62 @@
+{
+  "id": "F04",
+  "base_commit": "195bf89d9ad06ee10e842c42d03d3a776118ea44",
+  "source_code_sha256": "aafc29ee0418bf5cfd91c29f938791c0a34fedbe87893d6237a4a80ba8689d6e",
+  "image_id": "sha256:278d5132b68a2607c2a85d4a063f17236d3cd42259d61c5a7749322a259c2baf",
+  "binaries": [
+    {
+      "kind": "release",
+      "binary": "/opt/mvdb-f04-release/minivectordb",
+      "sha256": "89b8202087f36465829719f24a095b4466698bb7c3ccd70a908dcfa02284c6ef",
+      "seconds": 16.357585944002494
+    },
+    {
+      "kind": "asan",
+      "binary": "/opt/mvdb-f04-asan/minivectordb",
+      "sha256": "817898ecf3719262fb37a8db58a29aa0c35d186e94546e470ee18589275a055a",
+      "seconds": 23.458469630000764
+    }
+  ],
+  "validation_stages": 14,
+  "all_planned_local_checks_passed": true,
+  "public_docker": 20,
+  "extended_docker": 5,
+  "public_asan": 20,
+  "extended_asan": 11,
+  "long_name_tables": 11,
+  "max_name_characters": 4096,
+  "same_old_failed_directory_recovered": true,
+  "old_committed_short_table_and_vector_index_preserved": true,
+  "sort_scratch_crash_recovery": true,
+  "candidate_F03_boundary_checks": 6,
+  "query_oracle_comparisons": 119,
+  "point_queries": 1218,
+  "scan_controls": 812,
+  "errors_checked": 90,
+  "namespace_tables": 6,
+  "sanitizer_logs_scanned": 36,
+  "sanitizer_findings": [],
+  "full_wide_sort": {
+    "active_body_bytes": 2415919104,
+    "memory_limit_bytes": 2147483648,
+    "passed": true,
+    "seconds": 189.65456384699792,
+    "request_query_seconds": 27.052672773002996,
+    "swap_max": 0,
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    },
+    "oom_kills": "0"
+  },
+  "small_wide_sort_passed": true,
+  "remaining_boundaries": [
+    "official failed case/SQL/phase/stderr not provided",
+    "unpublished SQL grammar/resource freeze details",
+    "long-history WAL replay and very large K metadata require scale-specific validation",
+    "student learning evidence remains incomplete"
+  ],
+  "official_submission": false,
+  "formal_failure_root_cause_confirmed": false,
+  "new_performance_score": null
+}

@@ -1,0 +1,22 @@
+{
+  "passed": false,
+  "scope": "local long-name and derived-file oracle",
+  "tool_sha256": "90bded72a3f20fb3c98210ad06145df914c886b0821aa475ae6a334b4d7379f8",
+  "phases": [],
+  "binary_sha256": "fbcb91479d1ed98dfcbb639f23bba4cdea3b23f4f47ec24affb5e391c4ba198c",
+  "error": "Traceback (most recent call last):\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f04/tests/file_identities.py\", line 62, in main\n    ok(f\"CREATE TABLE {name}(id BIGINT PRIMARY KEY,body VARCHAR(20),v VECTOR(2));\")\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f04/tests/file_identities.py\", line 47, in ok\n    result = session.request(sql)\n             ^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f04/protocol_check/_transport.py\", line 131, in request\n    response = self.read(self.config[\"request_timeout\"])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/e/develop/project_files/project/oceanbase/worktrees/minivectordb-f04/protocol_check/_transport.py\", line 97, in read\n    raise ProtocolError(\"database exited before response\")\n_transport.ProtocolError: database exited before response\n",
+  "table_name_lengths": [
+    260,
+    248,
+    1024,
+    4096,
+    308,
+    308,
+    7,
+    9,
+    9,
+    11,
+    11
+  ],
+  "seconds": 0.08746526201139204
+}

@@ -38,6 +38,7 @@ public:
 class Database {
   struct Table {
     Schema schema;
+    size_t file_id = 0;
     std::unique_ptr<DiskMap> map;
     std::unique_ptr<File> vectors;
   };

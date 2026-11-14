@@ -77,7 +77,9 @@ def main():
         assert bad["ok"] is False and bad["error"]["code"], bad
         ok(s, "COMMIT;")
         assert ok(s, "SELECT g FROM t WHERE id=0;")["rows"] == [[8]]
-        return "Final two rows are 11 bytes although the initial two candidates exceed 16 MiB; oversize query leaves transaction usable."
+        return {"final_rows_json_bytes": len(json.dumps(actual, separators=(",", ":")).encode()),
+                "initial_candidates_exceed_16_mib": True,
+                "oversize_query_leaves_transaction_usable": True}
 
     def response_boundary(s):
         size = 15 * 1048576 + 32768

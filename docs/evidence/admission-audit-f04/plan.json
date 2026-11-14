@@ -1,0 +1,20 @@
+{
+  "id": "F04",
+  "started_at": "2026-11-14T11:34:00+08:00",
+  "deadline": "2026-11-14T12:19:00+08:00",
+  "reserve_cleanup_minutes": 5,
+  "max_candidates": 1,
+  "base_commit": "195bf89d9ad06ee10e842c42d03d3a776118ea44",
+  "confirmed_problem": "SQL table names are used as physical filenames; 248-char INSERT exits, 260-char CREATE exits and recovery cannot ready.",
+  "change": "Use internal deterministic table ordinals for reconstructible map/vector filenames, transaction-local ordinals for pending maps. No arbitrary SQL identifier length cap.",
+  "required_checks": [
+    "long-name multi-table CRUD/index/rollback/repeated recovery",
+    "same old failed-directory recovery",
+    "ASAN public+extended crash checks",
+    "Docker public+extended and original name regression",
+    "F03 admission counterexamples",
+    "cgroup out-of-core sorting at 2GiB/2304MiB"
+  ],
+  "official_submission": false,
+  "performance_benchmark": false
+}

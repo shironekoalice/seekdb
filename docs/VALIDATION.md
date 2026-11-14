@@ -133,6 +133,19 @@ python3 tests/out_of_core_ordering.py --image minivectordb:f03-admission --memor
 要求实际0、无OOM、host无换出；启动120秒/单请求60秒保持公开值。
 题干逐项核对及未公开边界见 `ADMISSION_AUDIT_F03.md`。
 
+F04内部文件身份与长名称检查：
+
+```bash
+python3 tests/file_identities.py --image minivectordb:f04-admission --output artifacts/file-identity-new
+python3 tests/file_identities.py --binary /opt/mvdb-f04-release/minivectordb --previous-binary /opt/mvdb-f03-release/minivectordb --output artifacts/file-upgrade-new
+```
+
+覆盖11张表、长达4096字符的名称、相同长前缀、覆盖层复用、多表事务和重复恢复；
+可选previous-binary实际用旧版产生失败目录，再交给新版恢复。
+原生检查还真实在排序键写入后exit86，确认重启清理非权威临时文件。
+F04再次运行F03边界、公开/扩展、独立查询及完整超内存排序；
+详见 `ADMISSION_AUDIT_F04.md`。
+
 ## 性能
 
 ```bash

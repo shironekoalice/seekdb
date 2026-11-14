@@ -188,6 +188,9 @@ Database::Database(const std::filesystem::path& root) : root_(root), lock_(root 
     cache_limit_ = std::stoull(limit);
     if (cache_limit_ > 512 * 1024 * 1024) throw std::runtime_error("cache limit exceeds 512 MiB");
   }
+  // Interrupted queries may leave only this derived scratch file behind.
+  std::error_code ignored;
+  std::filesystem::remove(root_ / "query_order.tmp", ignored);
   recover();
 }
 Row Database::load(const File& f, uint64_t ref, const Schema& schema, bool cached) {
@@ -247,12 +250,16 @@ void Database::apply(uint64_t offset, const Json& op) {
     Schema schema = decode_schema(op.at("schema"));
     if (!tables_.contains(name)) {
       Table t; t.schema = schema;
-      t.map = std::make_unique<DiskMap>(root_ / (name + ".pk"));
+      // WAL creation order is stable across recovery; no DROP is supported.
+      // SQL identifiers must not inherit the filesystem's filename limit.
+      t.file_id = tables_.size();
+      t.map = std::make_unique<DiskMap>(root_ / ("table-" + std::to_string(t.file_id) + ".pk"));
       tables_.emplace(name, std::move(t));
     } else tables_.at(name).schema = schema;
     auto& table = tables_.at(name);
     if (!schema.index.empty() && !table.vectors) {
-      table.vectors = std::make_unique<File>(root_ / (name + ".flat"), true);
+      table.vectors = std::make_unique<File>(
+          root_ / ("table-" + std::to_string(table.file_id) + ".flat"), true);
       table.map->scan([&](int64_t key, uint64_t ref) {
         if (!ref) return;
         Row row = load(log_, ref, schema, false);
@@ -332,7 +339,10 @@ void Database::merge_statement(File& statement) {
     uint64_t offset = append(*transaction_, op);
     if (op.at("op") != "schema") {
       std::string name = op.at("table");
-      if (!pending_.contains(name)) pending_[name] = std::make_unique<DiskMap>(root_ / (name + ".pending"));
+      if (!pending_.contains(name)) {
+        auto path = root_ / ("pending-" + std::to_string(pending_.size()) + ".tmp");
+        pending_[name] = std::make_unique<DiskMap>(path);
+      }
       pending_.at(name)->set(op.at("key"), op.at("op") == "delete" ? 0 : offset + 1);
     }
   });
@@ -380,8 +390,7 @@ Json Database::modify(const Statement& s) {
       }
       if (order.size() != schema.columns.size()) throw Error("missing_column", "all columns required");
     }
-    // Table maps use <table>.pk. Scratch must have a different suffix so a
-    // legal table named "statement" cannot be truncated by INSERT validation.
+    // Scratch and internal table-map names occupy separate namespaces.
     DiskMap inserted(root_ / "statement_keys.tmp");
     for (const auto& values : s.values) {
       if (values.size() != order.size()) throw Error("column_count", "INSERT arity mismatch");
@@ -474,6 +483,7 @@ Json Database::select(Statement s) {
       }
       key.offset = sort_file->size();
       sort_file->write(key.offset, text.data(), text.size());
+      failpoint("sort_after_key_write");
     }
     return key;
   };
