@@ -219,6 +219,22 @@ Row Database::load(const File& f, uint64_t ref, const Schema& schema, bool cache
   }
   return row;
 }
+template<class Consumer>
+void Database::visit_row(const File& file, uint64_t ref, const Schema& schema,
+                         bool cached, Consumer&& consume) {
+  if (cached) {
+    auto found = cache_.find(ref);
+    if (found != cache_.end()) {
+      ages_.splice(ages_.begin(), ages_, found->second.age);
+      // Scan callbacks finish before the next row load and never retain this
+      // reference. Neither the query heap nor modification staging borrows it.
+      consume(found->second.row);
+      return;
+    }
+  }
+  Row row = load(file, ref, schema, cached);
+  consume(row);
+}
 std::optional<Row> Database::lookup(const std::string& name, int64_t key) {
   const Schema& schema = schemas_.at(name);
   if (auto p = pending_.find(name); p != pending_.end()) {
@@ -237,11 +253,11 @@ void Database::rows(const std::string& name, const std::function<void(const Row&
   if (auto table = tables_.find(name); table != tables_.end()) {
     table->second.map->scan([&](int64_t key, uint64_t ref) {
       if (pending != pending_.end() && pending->second->find(key)) return;
-      if (ref) fn(load(log_, ref, schema, true));
+      if (ref) visit_row(log_, ref, schema, true, fn);
     });
   }
   if (pending != pending_.end()) pending->second->scan([&](int64_t, uint64_t ref) {
-    if (ref) fn(load(*transaction_, ref, schema, false));
+    if (ref) visit_row(*transaction_, ref, schema, false, fn);
   });
 }
 void Database::apply(uint64_t offset, const Json& op) {
@@ -557,7 +573,7 @@ Json Database::select(Statement s) {
         int64_t key; uint64_t ref;
         std::memcpy(&key, buffer.data() + p, 8); std::memcpy(&ref, buffer.data() + p + 8, 8);
         auto current = table.map->find(key);
-        if (current && *current == ref) consume(load(log_, ref, schema, true));
+        if (current && *current == ref) visit_row(log_, ref, schema, true, consume);
       }
       off += size;
     }

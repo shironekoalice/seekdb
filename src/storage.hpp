@@ -55,6 +55,9 @@ class Database {
   size_t recovery_count_ = 0;
 
   Row load(const File& file, uint64_t reference, const Schema& schema, bool cached);
+  template<class Consumer>
+  void visit_row(const File& file, uint64_t reference, const Schema& schema,
+                 bool cached, Consumer&& consume);
   std::optional<Row> lookup(const std::string& table, int64_t key);
   void rows(const std::string& table, const std::function<void(const Row&)>& fn);
   void apply(uint64_t offset, const Json& op);
