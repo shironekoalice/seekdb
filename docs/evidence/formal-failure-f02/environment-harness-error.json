@@ -1,0 +1,21 @@
+{
+  "image": "minivectordb:f02-clean-3f784f1",
+  "config": {
+    "startup_timeout": 120,
+    "request_timeout": 60,
+    "case_timeout": 600,
+    "max_response_bytes": 16777216,
+    "cpus": "2",
+    "memory": "2g",
+    "pids_limit": 128,
+    "abs_tol": 1e-05,
+    "rel_tol": 1e-05,
+    "error_codes": {}
+  },
+  "checks": [],
+  "events": [],
+  "scope": "Local environment diagnosis; formal host and hidden SQL unknown.",
+  "passed": false,
+  "error": "KeyError: 'User'",
+  "test_tool_sha256": "90c93d5c49a617ec4b7b86c4d9830fe79c976aadbd6e9108f3a43f29cab73d22"
+}

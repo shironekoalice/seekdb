@@ -1,0 +1,154 @@
+{
+  "id": "F02-20261114",
+  "archived_local": "2026-11-14T10:50:15.862527+08:00",
+  "cycle_start_conservative": "2026-11-14T10:21:00+08:00",
+  "cycle_limit_seconds": 2700,
+  "decision": "adopt_scratch_namespace_fix_after_reproduced_60s_timeout",
+  "source": {
+    "code_sha256": "52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e",
+    "files": {
+      "CMakeLists.txt": "4fa8edc015d871c520a70666c436dbb408069d74e8fad31f51c18f2cf271a316",
+      "Dockerfile": "a6c5bc7cb03fc0e0ebb34bf107230ffc98824379852e96a33d091f8720d894a7",
+      "src/main.cpp": "88b39e37409beae13ffc3d74cd26909a055750bc7956875c3faefffd8fdbe9d0",
+      "src/sql.cpp": "65cc828206dcce39b1b08b6a7eff1e8ffff8b18462e6b4f1bff34c3132189649",
+      "src/sql.hpp": "748f621ce074c998f645f3a52dadcaa0be82be45375ae72b0797d563880e2f3a",
+      "src/storage.cpp": "7eb17f3ed65a5e6189ca780b11b511c3d6135e1eda4ba2bb455438f176c11009",
+      "src/storage.hpp": "dca1ee38bb7e49eb055d49d62b7dca10857d16750a071dbb417726bac57a07a9",
+      "src/types.hpp": "003ceb93b211cb7ceb21e0a345500e2ef77b7b3dbfd95efc1800f21d72d44d5f",
+      "third_party/apt-build.lock": "42863465d249a9383c3047d8aecc43b9cba99b144782b327227cdc2cbd42ad15",
+      "third_party/DEPENDENCIES.md": "7062492b04fbb26ee50c53c14fc8a8994819acbe91fbef21f76f2fbee103d5e0",
+      "third_party/nlohmann/json.hpp": "9bea4c8066ef4a1c206b2be5a36302f8926f7fdc6087af5d20b417d0cf103ea6",
+      "third_party/nlohmann/LICENSE.MIT": "86b998c792894ccb911a1cb7994f7a9652894e7a094c0b5e45be2f553f45cf14"
+    }
+  },
+  "build": {
+    "stages": [
+      {
+        "stage": "release-configure",
+        "exit_code": 0,
+        "elapsed_seconds": 2.6412757210055133
+      },
+      {
+        "stage": "release-build",
+        "exit_code": 0,
+        "elapsed_seconds": 14.268789964989992
+      },
+      {
+        "stage": "asan-configure",
+        "exit_code": 0,
+        "elapsed_seconds": 3.0273536320019048
+      },
+      {
+        "stage": "asan-build",
+        "exit_code": 0,
+        "elapsed_seconds": 17.453109291003784
+      },
+      {
+        "stage": "docker-build",
+        "exit_code": 0,
+        "elapsed_seconds": 21.916283214988653
+      }
+    ],
+    "release_sha256": "f5af5bd0c049851cf835c56b17853cfea7156e0e34c3ed3b79abd2f1abd38e35",
+    "asan_sha256": "e66d93a8aa6f98c1621630b178769e35f7fbc117a604fce3606bc75edabd0661",
+    "image_id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b"
+  },
+  "formal_feedback": {
+    "record_id": 47253416,
+    "question_id": 600081,
+    "repository": "https://github.com/shironekoalice/seekdb",
+    "branch": "2026-competition-round2",
+    "commit": "3f784f1a089e86d84471a3ac8a48a57b3ec19670",
+    "submitted_local": "2026-11-14T03:19:00+08:00",
+    "submitted_time_precision": "minute from UI",
+    "failed_case_count_in_feedback": 1,
+    "feedback": "正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。",
+    "prompt_evaluation_executed": false,
+    "failed_case_name": null,
+    "timed_out_sql": null,
+    "timeout_phase": null,
+    "source": "Read-only authenticated task record UI and its own queryTaskRecordDetail response. Only aggregate rows exposed; repository credentials omitted.",
+    "started_local": "2026-11-14T03:19:55+08:00",
+    "ended_local": "2026-11-14T03:40:47+08:00",
+    "elapsed_seconds_including_platform_overhead": 1252,
+    "time_source": "Observed queryTestPlatformTaskRecordList own response"
+  },
+  "published_environment_recreated": true,
+  "formal_host_environment_verified": false,
+  "local_timeout_cause_confirmed": true,
+  "formal_failure_root_cause_confirmed": false,
+  "official_resubmission_executed": false,
+  "root_cause": "INSERT duplicate-check scratch statement.pk aliases legal table statement's PK map; truncation plus stale bucket head creates self-cycle.",
+  "minimal_sql": [
+    "CREATE TABLE statement(id BIGINT PRIMARY KEY,body VARCHAR(8));",
+    "INSERT INTO statement VALUES(0,'a');",
+    "INSERT INTO statement VALUES(18956,'b');",
+    "INSERT INTO statement VALUES(26218,'c');"
+  ],
+  "old_minimal_request_seconds": 60.04142515499552,
+  "fixed_minimal_request_seconds": 0.006088690992328338,
+  "old_data_recovery_passed": true,
+  "checks": {
+    "clean_submitted_public": 20,
+    "Docker_public": 20,
+    "Docker_extended": 5,
+    "sanitizer_public": 20,
+    "sanitizer_extended": 11,
+    "namespace_tables": 6,
+    "sanitizer_logs_scanned": 32,
+    "environment_matrix": true
+  },
+  "full_ooc": {
+    "passed": true,
+    "logical_payload_bytes": 2415919104,
+    "memory_limit_bytes": 2147483648,
+    "recovery_seconds": 27.158329543002765,
+    "seconds": 177.3698089489917,
+    "metrics": {
+      "B_bytes": 19588923392,
+      "M_bytes": 2147483648,
+      "io_start": {
+        "8:80": {
+          "rbytes": 36864,
+          "wbytes": 0,
+          "rios": 2,
+          "wios": 0,
+          "dbytes": 0,
+          "dios": 0
+        }
+      },
+      "io_end": {
+        "8:80": {
+          "rbytes": 12094390272,
+          "wbytes": 7494569984,
+          "rios": 92664,
+          "wios": 31003,
+          "dbytes": 0,
+          "dios": 0
+        }
+      },
+      "memory_events": {
+        "low": "0",
+        "high": "0",
+        "max": "77390",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "memory_limit_bytes": 2147483648,
+      "memory_swap_max": "0",
+      "host_swap_io_delta": {
+        "pswpin": 0,
+        "pswpout": 0
+      }
+    }
+  },
+  "limits": [
+    "Formal feedback remains aggregate only; no failed case name, SQL, phase or stderr.",
+    "A local counterexample reproduces the same timeout class, not a known hidden input.",
+    "Clean Docker build and local environment controls do not inspect the actual formal host.",
+    "No new benchmark E or official score claim; P07 performance reference remains preserved.",
+    "The first environment inspection harness failed on omitted Docker Config.User; corrected to the documented empty/default user and retained both reports and v1 tool.",
+    "F01 and F02 belong to the same formal-timeout investigation; no invented student explanation or duplicated learning scoring."
+  ]
+}

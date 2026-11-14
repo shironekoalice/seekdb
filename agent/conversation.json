@@ -70,6 +70,31 @@
       "source": "agent",
       "kind": "development_summary",
       "content": "只读查看平台本次提交，完整汇总为1个JSON response timeout；没有用例名、SQL或阶段，不能据此宣称其他28例通过。原镜像公开20例和扩展5项重跑通过，上游协议未漂移。以20万行/每行1024字节正文、128MiB内存检查P07主键CRUD；发现连PK未命中也加载全表。最初P07两次运行数据断言完成，但host pswpout增加10/23页，资源检查失败，均保留。增加仅设置本任务新容器swap.max=0并回读核实的工具选项，不改主机或其他cgroup，仍检查host换页。相同新工具下P07/F01均通过、换页0；F01复用B03的P02代码，所有提前校验与AND条件、事务覆盖层不变。采用为明确全表扫描风险的缓解候选；没有复现或定位正式失败，不承诺重测通过。P07最佳快照、原始基线、B03的E=0.494849/0.531551不确定结果保持原样。这整段是一次平台反馈后的诊断/资源检查修正链，不拆分多个计分实例。"
+    },
+    {
+      "id": "student-formal-failure-f02",
+      "source": "student",
+      "kind": "verbatim",
+      "content": "仍然没通过。你再次仔细阅读题目，看一下是不是环境配置错误",
+      "attachment_observation": "截图显示MySQL正式用例未通过，性能和Agent项都因1个JSON响应超时未执行。"
+    },
+    {
+      "id": "agent-formal-failure-f02",
+      "source": "agent",
+      "kind": "development_summary",
+      "content": "重新完整阅读赛题和计分规则，对照实际题包。题目3.1与JSONL协议文档有表述冲突，但公开驱动和平台错误明确读取JSON；不据冲突擅改纯SQL。只读核实第二次记录47253416实际测3f784f1，仍为聚合1个JSON response timeout，没有失败SQL/阶段/stderr。将该提交git archive到新Linux目录，指定amd64、无缓存构建Docker成功，二进制SHA与上次被测Release相同。原镜像公开20例、默认入口主动ready、大UTF8分片/CRLF输入、超过管道容量的响应、事务/重启/kill恢复、root与非root可写挂载均通过；不可写挂载负对照快速退出并非超时。环境检查工具首次因Docker省略User字段KeyError失败，修正读取默认空User后保留原工具及失败报告。未验证实际正式主机。代码审查发现statement.pk同时是INSERT重复键临时映射和合法statement表的主键文件。两个旧镜像均在同桶键0/18956/26218的第三次INSERT达到默认60秒JSON超时，磁盘节点65560的next等于65560。最小四条SQL单独再次复现。只把临时文件改成statement_keys.tmp，不改WAL/缓存/查询/提交算法。新镜像同序列通过，也实际复用旧版超时后留下的同一数据卷恢复并继续插入。本地超时根因已确认并修复，但平台没给隐藏输入，不能断言正是同一个正式用例或保证提测通过。F01/F02保留为同一条正式超时诊断链，不拆分重复计分；学生提出环境质疑，技术分析/实现/实验均来自Agent和工具。"
+    },
+    {
+      "id": "student-admission-gating-f02",
+      "source": "student",
+      "kind": "verbatim",
+      "content": "JSON 响应超时大概率是准入没过，直接放弃后续步骤"
+    },
+    {
+      "id": "agent-admission-gating-f02",
+      "source": "agent",
+      "kind": "clarification",
+      "content": "性能和Agent两项在准入失败后被直接跳过，页面重复显示同一个原因，并非发生三次独立超时。平台将JSON response timeout列为准入失败原因，但没有提供握手/SQL/恢复等具体阶段。本地反例根因已确认并修复，仍不等于确认正式隐藏用例的根因；只整理这次修复，不运行评分或再次正式提测。"
     }
   ],
   "experiments": [
@@ -167,6 +192,14 @@
       "artifact": "docs/evidence/formal-failure-f01/summary.json",
       "output": "{\"formal_feedback\":\"正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。\",\"comparisons\":[{\"label\":\"select-first\",\"P07_seconds\":1.3489363249973394,\"F01_seconds\":0.001060552996932529,\"P07_read_bytes\":215564288,\"F01_read_bytes\":16384},{\"label\":\"select-last\",\"P07_seconds\":1.5975059519987553,\"F01_seconds\":0.0005889370004297234,\"P07_read_bytes\":215564288,\"F01_read_bytes\":0},{\"label\":\"select-missing\",\"P07_seconds\":1.496710492996499,\"F01_seconds\":0.0006174519949126989,\"P07_read_bytes\":215564288,\"F01_read_bytes\":0},{\"label\":\"update-hit\",\"P07_seconds\":1.5250110249980935,\"F01_seconds\":0.007051653003145475,\"P07_read_bytes\":215547904,\"F01_read_bytes\":32768},{\"label\":\"delete-hit\",\"P07_seconds\":1.4700185660040006,\"F01_seconds\":0.006338442995911464,\"P07_read_bytes\":215539712,\"F01_read_bytes\":0},{\"label\":\"range-control\",\"P07_seconds\":1.3885043560003396,\"F01_seconds\":1.4514468999987002,\"P07_read_bytes\":171233280,\"F01_read_bytes\":172056576}],\"valid_pair_swap_max\":0,\"valid_pair_host_swap_out_pages\":[0,0],\"retained_failed_controls_host_swap_out_pages\":[10,23],\"checks\":{\"Docker_public\":20,\"Docker_extended\":5,\"sanitizer_public\":20,\"sanitizer_extended\":11,\"point_queries\":1218,\"range_controls\":812,\"error_cases\":90,\"seeded_operations\":120,\"independent_vector_queries\":119,\"sanitizer_logs_scanned\":32},\"full_ooc_passed\":true,\"active_body_bytes\":2415919104,\"memory_limit_bytes\":2147483648,\"full_ooc_recovery_seconds\":32.040747488994384,\"full_ooc_seconds\":186.0128282460064,\"full_ooc_swap_max\":0,\"full_ooc_host_swap_io_delta\":{\"pswpin\":0,\"pswpout\":0},\"source_code_sha256\":\"4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff\",\"official_resubmission\":false,\"formal_root_cause_confirmed\":false}",
       "note": "单次有效扩展性对照不是正式E或隐藏用例复现；结果来自实际工具，未推断学生已经理解其技术原因。"
+    },
+    {
+      "id": "formal-environment-and-namespace-f02",
+      "source": "tool",
+      "kind": "actual_report_excerpt",
+      "artifact": "docs/evidence/formal-failure-f02/summary.json",
+      "output": "{\"official_tested_commit\":\"3f784f1a089e86d84471a3ac8a48a57b3ec19670\",\"official_feedback\":\"正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。\",\"clean_submitted_binary_sha256\":\"d530fc51ae9b9e09020030a8dffbf489488b97a55ce9b8b6a6f44da9f5b85688\",\"old_ready_seconds\":1.2375329999922542,\"old_minimum_request_seconds\":60.04142515499552,\"old_minimum_error\":\"JSON response timeout\",\"self_cycle_node\":{\"offset\":65560,\"next\":65560},\"minimal_sql\":[\"CREATE TABLE statement(id BIGINT PRIMARY KEY,body VARCHAR(8));\",\"INSERT INTO statement VALUES(0,'a');\",\"INSERT INTO statement VALUES(18956,'b');\",\"INSERT INTO statement VALUES(26218,'c');\"],\"fixed_minimum_request_seconds\":0.006088690992328338,\"same_old_data_recovery\":true,\"checks\":{\"clean_submitted_public\":20,\"Docker_public\":20,\"Docker_extended\":5,\"sanitizer_public\":20,\"sanitizer_extended\":11,\"namespace_tables\":6,\"sanitizer_logs_scanned\":32,\"environment_matrix\":true},\"full_ooc_active_body_bytes\":2415919104,\"full_ooc_memory_limit_bytes\":2147483648,\"full_ooc_recovery_seconds\":27.158329543002765,\"full_ooc_seconds\":177.3698089489917,\"full_ooc_memory_swap_max\":\"0\",\"full_ooc_host_swap_io_delta\":{\"pswpin\":0,\"pswpout\":0},\"source_code_sha256\":\"52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e\",\"candidate_image_id\":\"sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b\",\"local_timeout_cause_confirmed\":true,\"formal_failure_cause_confirmed\":false,\"official_resubmission_executed\":false}",
+      "note": "真实反例及修正记录，不代表学生已经解释其机制；没有新增评分实例或自评官方分。"
     }
   ],
   "evidence_links": [
@@ -190,6 +223,7 @@
     "尚无可核对的学生对 WAL、过滤 TopK、资源测量结果的技术解释；不能用自动化工具日志代替学生理解。",
     "没有官方隐藏用例、正式性能基线或冻结 Agent 评审器；本地材料校验不能预测成绩。",
     "不含访问密钥、令牌或隐藏思维链。未记录的历史内容不补写为实际发生。",
-    "F01：真实学生报告正式失败，Agent读到聚合超时并完成本地缓解验证；没有失败SQL、根因确认、再次正式结果或新的学生技术解释。"
+    "F01：真实学生报告正式失败，Agent读到聚合超时并完成本地缓解验证；没有失败SQL、根因确认、再次正式结果或新的学生技术解释。",
+    "F02：学生质疑环境；公开配置被实际重建并检查，定位并修复文件名冲突引发的本地60秒超时。正式失败SQL/阶段/stderr仍缺失，不能确认隐藏用例根因或正式通过。"
   ]
 }

@@ -1,0 +1,168 @@
+{
+  "passed": true,
+  "logs_scanned": 32,
+  "matching_logs": [],
+  "files": [
+    {
+      "file": "candidate-asan\\extended\\session-1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-10.log",
+      "sha256": "57e85adaf53cd63a2ccee1d57d551f08ff332b8cfa69aaae3e2dfa81a743ac03",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-11.log",
+      "sha256": "d5520afbb3f81debc80ee11fb440948298f632cf1bc26d0b1e9734c8d08738f3",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-3.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-4.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-5.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-6.log",
+      "sha256": "56890ffd84c655638fefbe3b9e8bcbf8a622cca49fe9ef33355eb58e9ccf78a3",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-7.log",
+      "sha256": "1e5fb85fc2ac5f5948bdeec59fe6f028989fb0bfa716f688de76b0c50c7d63a7",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-8.log",
+      "sha256": "e186901cdc7216b3389d0713859b4f68e1b84e18588907e82521b95798e56165",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\extended\\session-9.log",
+      "sha256": "70768cf4d532d46dac259047a50b12626cb11a892130abb7ced4aa80ba2ec296",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_bigint.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_comparisons.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_crud.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_empty.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_ordering.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_primary_key.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_unicode.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\sql_unsupported.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\storage_multiple_tables.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\storage_mutations.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\storage_restart.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\transaction_autocommit_atomic.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\transaction_commit.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\transaction_failed_insert.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\transaction_rollback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\transaction_shutdown_rollback.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\vector_euclidean.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\vector_float32.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\vector_index_maintenance.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "candidate-asan\\public\\vector_ties_and_filter.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    },
+    {
+      "file": "namespace-candidate-asan\\database.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sanitizer_finding": false
+    }
+  ],
+  "scope": "All actual .log files in candidate sanitizer public/extended and namespace regression output directories; contract stderr uses session-N.log names."
+}

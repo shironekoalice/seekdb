@@ -1,0 +1,152 @@
+[
+  {
+    "file": "plan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\plan.json",
+    "sha256": "dd20ec476c763bd89e2d02d3b257651cfcccf21acd38621af4e439376efef05f"
+  },
+  {
+    "file": "plan-extension.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\plan-extension.json",
+    "sha256": "3db38f0c50992ab88184ebb40039f529b5459a091ab547c9f1b217365e87a0fd"
+  },
+  {
+    "file": "platform-feedback-redacted.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\platform-feedback-redacted.json",
+    "sha256": "f1164ab24eb7d3a6a55502663c90a2997a534a76dd3a47dfc55e07fb6c92221a"
+  },
+  {
+    "file": "upstream-audit.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\upstream-audit.json",
+    "sha256": "aa1b82be15746a6a6c9eb9f6cdc8f7233e6e95f9a80939d59373998ef33fcb1d"
+  },
+  {
+    "file": "candidate-build.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-build.json",
+    "sha256": "94edf893f0da36cc7d0ef631567fb8f5cc0ef43f6c41b4a42aea0643c48388dc"
+  },
+  {
+    "file": "environment_contract-v1.py",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\environment_contract-v1.py",
+    "sha256": "90c93d5c49a617ec4b7b86c4d9830fe79c976aadbd6e9108f3a43f29cab73d22"
+  },
+  {
+    "file": "environment-harness-error.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\environment-contract\\result.json",
+    "sha256": "f0bd3ddf9f06c0defd6fb48845f68d969231fb173cb6d212cc776982f21ea96c"
+  },
+  {
+    "file": "submitted-environment.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\environment-contract-v2\\result.json",
+    "sha256": "f243cd1593dff3aec8e0b4f3984fe47e11e00169ee71640d84f08b048c2b3643"
+  },
+  {
+    "file": "clean-submitted-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\clean-public\\result.json",
+    "sha256": "750fdf7641ecc0663bf0883ae194bab5a9559dd8ae812d3d1543febef6904758"
+  },
+  {
+    "file": "namespace-submitted.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\namespace-submitted\\result.json",
+    "sha256": "710af0209951c5a2d50e7b74fd54d248b185a2917341126a868d59c5dc09ca84"
+  },
+  {
+    "file": "namespace-p07.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\namespace-p07\\result.json",
+    "sha256": "eb14ec77f9a81ec0212fbd6aa757836317d3ae88d27f89297d57eac31764f9c0"
+  },
+  {
+    "file": "namespace-candidate-docker.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\namespace-candidate-docker\\result.json",
+    "sha256": "6e6ff32d456bc0a2ea393fc04acea2b4046fbf4859e1c2a198eab313a894af1c"
+  },
+  {
+    "file": "namespace-candidate-asan.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\namespace-candidate-asan\\result.json",
+    "sha256": "89ab3b688b8b0876e283d4ef6c3bf6bea55ae5791cedbe758b19adc46e471ccb"
+  },
+  {
+    "file": "candidate-docker-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-docker\\public\\result.json",
+    "sha256": "7fb4d9eb62605de3174febeeaef4bd2ee506ecdb84c907457ba1859a1ca5805d"
+  },
+  {
+    "file": "candidate-docker-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-docker\\extended\\result.json",
+    "sha256": "d21f81429f742111e863f7174085e1af300a1cc23ccbc13a3660778636e012f4"
+  },
+  {
+    "file": "candidate-docker-identity.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-docker\\result.json",
+    "sha256": "c0ce6f77adf9038e516d914b348c606bc48e3d00b79c959a3287bdf5d20229be"
+  },
+  {
+    "file": "candidate-asan-public.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-asan\\public\\result.json",
+    "sha256": "d63a401c759876b7cd0311eaa482525fea63e88b69559f2cf5a3f4524f8a4bff"
+  },
+  {
+    "file": "candidate-asan-extended.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-asan\\extended\\result.json",
+    "sha256": "cdbbddd90f3df1a5a52f5fa3cdb5f308b031b29229725fb25ebe1351451cce93"
+  },
+  {
+    "file": "candidate-asan-identity.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-asan\\result.json",
+    "sha256": "9cf4661ce0a2f6d11f7ee43572239b51ce4217f3d2481e44a5f84e73e3c265ec"
+  },
+  {
+    "file": "candidate-environment.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-environment\\result.json",
+    "sha256": "a0a50a398a6d7c06b7f817607213239e48c9f5e4ae14c4d8925b1efa970b82b4"
+  },
+  {
+    "file": "sanitizer-audit.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\sanitizer-audit.json",
+    "sha256": "25f74b75bd4520a3c498238043e29a655edb8f1868907c7c38109afb61d693d0"
+  },
+  {
+    "file": "minimized_repro.py",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\minimized_repro.py",
+    "sha256": "b4c1091078236320532d57a24981e6cc3ffd68c891a4a10d8f1792c078c0df05"
+  },
+  {
+    "file": "minimized-repro.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\minimized-repro.json",
+    "sha256": "bc5d59dd015eb45a4c2e04a54496f05ddac0300cda0347b01666da59615e5246"
+  },
+  {
+    "file": "candidate-full-ooc.json",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-full-ooc\\result.json",
+    "sha256": "71256393938ad0dbda348429de9a0d1ff78ccfa02d321e3581a034e81cfa78b9"
+  },
+  {
+    "file": "submitted-runtime-ldd.txt",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\environment-contract-v2\\runtime-ldd.txt",
+    "sha256": "b2038c921c2848aa9cd79bca4e1cd23bf1b10b9af657c2c3fdac03253d707b44"
+  },
+  {
+    "file": "candidate-runtime-ldd.txt",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\candidate-environment\\runtime-ldd.txt",
+    "sha256": "76e2d4b18d4938ce33f6df7f0083ed2fa1d775b2744478321424f9aa6fc0bda9"
+  },
+  {
+    "file": "docker-clean-build.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\docker-clean-build.log",
+    "sha256": "97449acd0773bde76b08f13283313b73191583f78cf825d506167d2c4a57c3b7"
+  },
+  {
+    "file": "docker-build.log.gz",
+    "source": "E:\\develop\\project_files\\project\\oceanbase\\minivectordb\\artifacts\\formal-environment-f02-20261114-1021\\docker-build.log",
+    "sha256": "16cd422ae8727fd99d4b1ea615bd5bd2b0b994bfec4be8ac0060734c66d15007"
+  },
+  {
+    "file": "source-fingerprint.json",
+    "source": "generated from actual F02 reports",
+    "sha256": "cb2dc9edbc121d7ffe5937fa25606016650915c40cc82b3db884118897352c1e"
+  },
+  {
+    "file": "summary.json",
+    "source": "generated from actual F02 reports",
+    "sha256": "afc3edd394a073aa9928d5f868de3413bfdb315964a38fdc3b1d63c578fa8545"
+  }
+]

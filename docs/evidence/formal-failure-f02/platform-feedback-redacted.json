@@ -1,0 +1,20 @@
+{
+  "record_id": 47253416,
+  "question_id": 600081,
+  "repository": "https://github.com/shironekoalice/seekdb",
+  "branch": "2026-competition-round2",
+  "commit": "3f784f1a089e86d84471a3ac8a48a57b3ec19670",
+  "submitted_local": "2026-11-14T03:19:00+08:00",
+  "submitted_time_precision": "minute from UI",
+  "failed_case_count_in_feedback": 1,
+  "feedback": "正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。",
+  "prompt_evaluation_executed": false,
+  "failed_case_name": null,
+  "timed_out_sql": null,
+  "timeout_phase": null,
+  "source": "Read-only authenticated task record UI and its own queryTaskRecordDetail response. Only aggregate rows exposed; repository credentials omitted.",
+  "started_local": "2026-11-14T03:19:55+08:00",
+  "ended_local": "2026-11-14T03:40:47+08:00",
+  "elapsed_seconds_including_platform_overhead": 1252,
+  "time_source": "Observed queryTestPlatformTaskRecordList own response"
+}

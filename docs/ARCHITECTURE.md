@@ -21,8 +21,10 @@ float32 和 Unicode 语义；`src/storage.cpp` 负责执行、磁盘文件、提
 现阶段扫描 flat 后仍加载行来执行过滤/距离，保留了明显的优化空间。
 
 `transaction.tmp`、`<table>.pending` 是未提交覆盖层；`statement.tmp`、
-`statement.pk` 用于一条语句验证和重复检测。它们都位于 `/data`，
+`statement_keys.tmp` 用于一条语句验证和重复检测。它们都位于 `/data`，
 启动时不作为已提交权威。LOCK 文件防止并发打开同一目录。
+F02修复了旧临时名 `statement.pk` 与合法表 `statement` 的主键文件冲突；
+同桶键插入会制造链表自环。新临时名与所有表主键文件的后缀不同。
 
 ## 语句与事务
 

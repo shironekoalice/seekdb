@@ -1,0 +1,229 @@
+{
+  "config": {
+    "startup_timeout": 120,
+    "request_timeout": 60,
+    "case_timeout": 600,
+    "max_response_bytes": 16777216,
+    "cpus": "2",
+    "memory": "2g",
+    "pids_limit": 128,
+    "abs_tol": 1e-05,
+    "rel_tol": 1e-05,
+    "error_codes": {}
+  },
+  "minimal_sql": [
+    "CREATE TABLE statement(id BIGINT PRIMARY KEY,body VARCHAR(8));",
+    "INSERT INTO statement VALUES(0,'a');",
+    "INSERT INTO statement VALUES(18956,'b');",
+    "INSERT INTO statement VALUES(26218,'c');"
+  ],
+  "events": [
+    {
+      "phase": "old.start",
+      "response": null,
+      "status": "PASS",
+      "seconds": 1.16889531200286
+    },
+    {
+      "phase": "old.sql.1",
+      "response": {
+        "id": 1,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.005367749996366911
+    },
+    {
+      "phase": "old.sql.2",
+      "response": {
+        "affected_rows": 1,
+        "id": 2,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.025615770995500498
+    },
+    {
+      "phase": "old.sql.3",
+      "response": {
+        "affected_rows": 1,
+        "id": 3,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.005361456001992337
+    },
+    {
+      "phase": "old.sql.4",
+      "status": "FAIL",
+      "exception": "TimeoutError",
+      "message": "JSON response timeout",
+      "seconds": 60.04142515499552
+    },
+    {
+      "phase": "old.kill",
+      "response": null,
+      "status": "PASS",
+      "seconds": 1.403235775011126
+    },
+    {
+      "phase": "fixed.open_same_old_data",
+      "response": null,
+      "status": "PASS",
+      "seconds": 0.8519299650070025
+    },
+    {
+      "phase": "fixed.old_data",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 5,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "a"
+          ],
+          [
+            18956,
+            "b"
+          ]
+        ]
+      },
+      "status": "PASS",
+      "seconds": 0.0008336939936270937
+    },
+    {
+      "phase": "fixed.third_insert_on_old_data",
+      "response": {
+        "affected_rows": 1,
+        "id": 6,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.01889132198994048
+    },
+    {
+      "phase": "fixed.old_data_plus_third",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 7,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "a"
+          ],
+          [
+            18956,
+            "b"
+          ],
+          [
+            26218,
+            "c"
+          ]
+        ]
+      },
+      "status": "PASS",
+      "seconds": 0.0007167870062403381
+    },
+    {
+      "phase": "fixed.upgraded_shutdown",
+      "response": null,
+      "status": "PASS",
+      "seconds": 0.5302675290004117
+    },
+    {
+      "phase": "fixed.fresh_start",
+      "response": null,
+      "status": "PASS",
+      "seconds": 1.5292094890028238
+    },
+    {
+      "phase": "fixed.fresh_sql.1",
+      "response": {
+        "id": 1,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.00963179100654088
+    },
+    {
+      "phase": "fixed.fresh_sql.2",
+      "response": {
+        "affected_rows": 1,
+        "id": 2,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.028050501001416706
+    },
+    {
+      "phase": "fixed.fresh_sql.3",
+      "response": {
+        "affected_rows": 1,
+        "id": 3,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.005377331995987333
+    },
+    {
+      "phase": "fixed.fresh_sql.4",
+      "response": {
+        "affected_rows": 1,
+        "id": 4,
+        "ok": true
+      },
+      "status": "PASS",
+      "seconds": 0.006088690992328338
+    },
+    {
+      "phase": "fixed.fresh_rows",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 5,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "a"
+          ],
+          [
+            18956,
+            "b"
+          ],
+          [
+            26218,
+            "c"
+          ]
+        ]
+      },
+      "status": "PASS",
+      "seconds": 0.0007434490107698366
+    },
+    {
+      "phase": "fixed.fresh_shutdown",
+      "response": null,
+      "status": "PASS",
+      "seconds": 0.6794843340030639
+    }
+  ],
+  "formal_input_known": false,
+  "official_submission_performed": false,
+  "minimal_timeout_reproduced": true,
+  "same_old_data_recovery_passed": true,
+  "fixed_minimal_sequence_passed": true,
+  "image_ids": {
+    "minivectordb:f02-clean-3f784f1": "sha256:f3ddf3195e177f701dae9dfa035c33488f67eefe8d0e790d3fbb954c90ed9f4d",
+    "minivectordb:f02-namespace-fix": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b"
+  }
+}

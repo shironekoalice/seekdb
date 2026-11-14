@@ -1,0 +1,32 @@
+{
+  "stages": [
+    {
+      "stage": "release-configure",
+      "exit_code": 0,
+      "elapsed_seconds": 2.6412757210055133
+    },
+    {
+      "stage": "release-build",
+      "exit_code": 0,
+      "elapsed_seconds": 14.268789964989992
+    },
+    {
+      "stage": "asan-configure",
+      "exit_code": 0,
+      "elapsed_seconds": 3.0273536320019048
+    },
+    {
+      "stage": "asan-build",
+      "exit_code": 0,
+      "elapsed_seconds": 17.453109291003784
+    },
+    {
+      "stage": "docker-build",
+      "exit_code": 0,
+      "elapsed_seconds": 21.916283214988653
+    }
+  ],
+  "release_sha256": "f5af5bd0c049851cf835c56b17853cfea7156e0e34c3ed3b79abd2f1abd38e35",
+  "asan_sha256": "e66d93a8aa6f98c1621630b178769e35f7fbc117a604fce3606bc75edabd0661",
+  "image_id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b"
+}

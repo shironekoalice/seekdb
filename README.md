@@ -50,3 +50,7 @@ docker run --rm -i --network=none --read-only --cpus=2 --memory=2g \
 本地工具只用于开发验证；官方 29 case、冻结负载/基线及 Agent 评审不在公开题包中。
 当前 ANN 使用精确检索回退。交接入口是 `HANDOFF.md`，正式学习材料入口是
 `agent/conversation.json`，不是上游遗留的根目录空文件。
+
+最近一次正式超时的环境复核、四条SQL反例和文件名冲突修复见
+`docs/FORMAL_FAILURE_F02.md`。本地反例已修复；正式隐藏输入仍不可见，
+本地验证不能作为正式准入已通过的声明。

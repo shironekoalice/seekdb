@@ -1,0 +1,235 @@
+{
+  "image": "minivectordb:f02-namespace-fix",
+  "config": {
+    "startup_timeout": 120,
+    "request_timeout": 60,
+    "case_timeout": 600,
+    "max_response_bytes": 16777216,
+    "cpus": "2",
+    "memory": "2g",
+    "pids_limit": 128,
+    "abs_tol": 1e-05,
+    "rel_tol": 1e-05,
+    "error_codes": {}
+  },
+  "checks": [
+    "linux_amd64_elf_and_runtime_libraries",
+    "default_entrypoint_fragmented_pipes_transactions_and_recovery",
+    "bind_root",
+    "bind_nobody_writable",
+    "bind_nobody_denied_negative_control"
+  ],
+  "events": [
+    {
+      "phase": "default.start_without_any_input",
+      "status": "PASS",
+      "elapsed_seconds": 1.3226144619984552
+    },
+    {
+      "phase": "default.create",
+      "status": "PASS",
+      "elapsed_seconds": 0.028615176008315757
+    },
+    {
+      "phase": "default.fragmented_large_utf8_crlf_request",
+      "status": "PASS",
+      "elapsed_seconds": 0.014443795997067355
+    },
+    {
+      "phase": "default.response_larger_than_pipe_buffer",
+      "status": "PASS",
+      "elapsed_seconds": 0.0037690690078306943
+    },
+    {
+      "phase": "default.index",
+      "status": "PASS",
+      "elapsed_seconds": 0.010184643004322425
+    },
+    {
+      "phase": "default.begin_rollback",
+      "status": "PASS",
+      "elapsed_seconds": 0.0006593790021724999
+    },
+    {
+      "phase": "default.update_rollback",
+      "status": "PASS",
+      "elapsed_seconds": 0.001102198992157355
+    },
+    {
+      "phase": "default.rollback",
+      "status": "PASS",
+      "elapsed_seconds": 0.0009073060064110905
+    },
+    {
+      "phase": "default.rollback_visibility",
+      "status": "PASS",
+      "elapsed_seconds": 0.003355811000801623
+    },
+    {
+      "phase": "default.begin_commit",
+      "status": "PASS",
+      "elapsed_seconds": 0.0007713410013820976
+    },
+    {
+      "phase": "default.update_commit",
+      "status": "PASS",
+      "elapsed_seconds": 0.0010305870091542602
+    },
+    {
+      "phase": "default.commit",
+      "status": "PASS",
+      "elapsed_seconds": 0.003935497006750666
+    },
+    {
+      "phase": "default.shutdown",
+      "status": "PASS",
+      "elapsed_seconds": 0.6976870840007905
+    },
+    {
+      "phase": "default.restart_without_input",
+      "status": "PASS",
+      "elapsed_seconds": 0.8318978470051661
+    },
+    {
+      "phase": "default.recovered_data",
+      "status": "PASS",
+      "elapsed_seconds": 0.0007280680001713336
+    },
+    {
+      "phase": "default.recovered_vector",
+      "status": "PASS",
+      "elapsed_seconds": 0.0006841430003987625
+    },
+    {
+      "phase": "default.begin_before_kill",
+      "status": "PASS",
+      "elapsed_seconds": 0.000863705005031079
+    },
+    {
+      "phase": "default.update_before_kill",
+      "status": "PASS",
+      "elapsed_seconds": 0.0008490839973092079
+    },
+    {
+      "phase": "default.kill",
+      "status": "PASS",
+      "elapsed_seconds": 1.189901720994385
+    },
+    {
+      "phase": "default.crash_recovery_without_input",
+      "status": "PASS",
+      "elapsed_seconds": 0.7239021729910746
+    },
+    {
+      "phase": "default.crash_recovery_data",
+      "status": "PASS",
+      "elapsed_seconds": 0.010807865008246154
+    },
+    {
+      "phase": "default.final_shutdown",
+      "status": "PASS",
+      "elapsed_seconds": 0.8180468679929618
+    },
+    {
+      "phase": "bind_root.start",
+      "status": "PASS",
+      "elapsed_seconds": 0.7626137129991548
+    },
+    {
+      "phase": "bind_root.write",
+      "status": "PASS",
+      "elapsed_seconds": 0.014884064992656931
+    },
+    {
+      "phase": "bind_root.insert",
+      "status": "PASS",
+      "elapsed_seconds": 0.006305667993729003
+    },
+    {
+      "phase": "bind_root.read",
+      "status": "PASS",
+      "elapsed_seconds": 0.0007125529955374077
+    },
+    {
+      "phase": "bind_root.shutdown",
+      "status": "PASS",
+      "elapsed_seconds": 0.11688339700049255
+    },
+    {
+      "phase": "bind_nobody_writable.start",
+      "status": "PASS",
+      "elapsed_seconds": 0.7041748920019018
+    },
+    {
+      "phase": "bind_nobody_writable.write",
+      "status": "PASS",
+      "elapsed_seconds": 0.010800097996252589
+    },
+    {
+      "phase": "bind_nobody_writable.insert",
+      "status": "PASS",
+      "elapsed_seconds": 0.02757922900491394
+    },
+    {
+      "phase": "bind_nobody_writable.read",
+      "status": "PASS",
+      "elapsed_seconds": 0.0005868660082342103
+    },
+    {
+      "phase": "bind_nobody_writable.shutdown",
+      "status": "PASS",
+      "elapsed_seconds": 0.17115774500416592
+    }
+  ],
+  "scope": "Local environment diagnosis; formal host and hidden SQL unknown.",
+  "image_metadata": {
+    "id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b",
+    "architecture": "amd64",
+    "os": "linux",
+    "entrypoint": [
+      "/app/minivectordb"
+    ],
+    "cmd": [
+      "--data-dir",
+      "/data"
+    ],
+    "user": "",
+    "working_dir": "/app"
+  },
+  "binary_sha256": "f5af5bd0c049851cf835c56b17853cfea7156e0e34c3ed3b79abd2f1abd38e35",
+  "actual_container": {
+    "image_id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b",
+    "path": "/app/minivectordb",
+    "args": [
+      "--data-dir",
+      "/data"
+    ],
+    "readonly_root": true,
+    "network_mode": "none",
+    "nano_cpus": 2000000000,
+    "memory": 2147483648,
+    "pids_limit": 128,
+    "cap_drop": [
+      "ALL"
+    ],
+    "security_opt": [
+      "no-new-privileges"
+    ],
+    "open_stdin": true,
+    "tty": false,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Destination": "/data",
+        "RW": true
+      }
+    ]
+  },
+  "permission_negative_control": {
+    "observed": "database exited before response",
+    "elapsed_seconds": 0.8023653699929127,
+    "timed_out": false
+  },
+  "passed": true,
+  "test_tool_sha256": "4db34dcd56fcce699fcd63ec883b4795ea0d930e92bfd5336f00a5b78a96f3b8"
+}

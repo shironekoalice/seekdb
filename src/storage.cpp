@@ -378,7 +378,9 @@ Json Database::modify(const Statement& s) {
       }
       if (order.size() != schema.columns.size()) throw Error("missing_column", "all columns required");
     }
-    DiskMap inserted(root_ / "statement.pk");
+    // Table maps use <table>.pk. Scratch must have a different suffix so a
+    // legal table named "statement" cannot be truncated by INSERT validation.
+    DiskMap inserted(root_ / "statement_keys.tmp");
     for (const auto& values : s.values) {
       if (values.size() != order.size()) throw Error("column_count", "INSERT arity mismatch");
       Row row(order.size());

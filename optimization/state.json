@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "phase": "formal_failure_triage",
-  "status": "local_mitigation_validated_formal_root_unknown",
+  "status": "local_timeout_reproduced_and_fixed_formal_input_unknown",
   "updated_local_date": "2026-11-14",
   "workspace": "E:/develop/project_files/project/oceanbase",
   "project": "minivectordb",
@@ -20,17 +20,17 @@
     "local_E_vs_contemporary": "0.597888",
     "local_E_second_seed": "0.599353"
   },
-  "measured_image": "minivectordb:f01-point-fix",
-  "measured_image_id": "sha256:5485d87fd5f9e43c91353feb8644bdcb2accea09e71a3d8fb3335f492d9e0ba2",
+  "measured_image": "minivectordb:f02-namespace-fix",
+  "measured_image_id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b",
   "baseline_report": "docs/evidence/benchmark-baseline.json",
   "next_batch": {
-    "note": "Prioritize the formal timeout diagnosis. P07 performance snapshot remains preserved.",
+    "note": "The local statement-table self-cycle is fixed; actual formal input/environment remains unavailable.",
     "max_minutes": 45,
-    "action": "Obtain failed case name, timeout phase/SQL, stderr and resource configuration; do not assume F01 fixed the unidentified case or start P08 automatically.",
+    "action": "Obtain official failed case/SQL/phase/stderr or perform a user-authorized environment precheck; do not automatically submit or start P08.",
     "reserve_cleanup_minutes": 5,
     "suggested_queue": "formal-timeout-diagnostics",
     "max_candidates": 3,
-    "material_bytes_current": 117659,
+    "material_bytes_current": 122664,
     "material_limit_bytes": 131072
   },
   "permissions": {
@@ -45,15 +45,15 @@
     }
   },
   "unknown": [
-    "failed case, SQL and cause of the aggregate formal JSON response timeout",
-    "F01 official 29-case acceptance",
+    "actual failed formal case/SQL/stage/stderr and runtime command",
+    "F02 official acceptance",
     "official performance reference and frozen generator",
     "official Agent evaluation",
     "student technical explanations not yet present"
   ],
   "stop_after_rehearsal": false,
   "continue_same_conversation": true,
-  "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
+  "code_sha256": "52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e",
   "rehearsal": {
     "completed": true,
     "report": "docs/REHEARSAL.md",
@@ -137,6 +137,43 @@
   },
   "best_candidate_role": "retained default-workload performance reference; not current submission runtime",
   "active_submission_candidate": {
+    "id": "F02",
+    "engine": "P07+P02+scratch_namespace_fix",
+    "code_sha256": "52f9997d9c4865d3ee52751b5b98c123f63e3f52fd36d4bc639609ac90d2b97e",
+    "report": "docs/FORMAL_FAILURE_F02.md",
+    "evidence": "docs/evidence/formal-failure-f02/summary.json",
+    "reason": "Fix a reproduced 60-second INSERT hang caused by scratch/table primary-key file aliasing.",
+    "local_timeout_cause_confirmed": true,
+    "formal_root_cause_confirmed": false,
+    "formal_result": "not_run"
+  },
+  "last_triage": {
+    "id": "F02",
+    "tests_and_archive_completed_local": "2026-11-14T10:50:15.862527+08:00",
+    "evidence": "docs/evidence/formal-failure-f02",
+    "decision": "adopt_scratch_namespace_fix_after_reproduced_60s_timeout"
+  },
+  "last_official_feedback": {
+    "record_id": 47253416,
+    "question_id": 600081,
+    "repository": "https://github.com/shironekoalice/seekdb",
+    "branch": "2026-competition-round2",
+    "commit": "3f784f1a089e86d84471a3ac8a48a57b3ec19670",
+    "submitted_local": "2026-11-14T03:19:00+08:00",
+    "submitted_time_precision": "minute from UI",
+    "failed_case_count_in_feedback": 1,
+    "feedback": "正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。",
+    "prompt_evaluation_executed": false,
+    "failed_case_name": null,
+    "timed_out_sql": null,
+    "timeout_phase": null,
+    "source": "Read-only authenticated task record UI and its own queryTaskRecordDetail response. Only aggregate rows exposed; repository credentials omitted.",
+    "started_local": "2026-11-14T03:19:55+08:00",
+    "ended_local": "2026-11-14T03:40:47+08:00",
+    "elapsed_seconds_including_platform_overhead": 1252,
+    "time_source": "Observed queryTestPlatformTaskRecordList own response"
+  },
+  "previous_submission_candidate": {
     "id": "F01",
     "engine": "P07+P02",
     "code_sha256": "4c8d2d8a758b5100f659ba35ba0dcf1b9f7f63cca422d7214a2dbde05fb90dff",
@@ -144,29 +181,12 @@
     "evidence": "docs/evidence/formal-failure-f01/summary.json",
     "reason": "Remove verified full-table PK equality reads after formal aggregate timeout feedback.",
     "formal_root_cause_confirmed": false,
-    "formal_result": "not_run"
+    "formal_result": "failed",
+    "commit": "3f784f1a089e86d84471a3ac8a48a57b3ec19670",
+    "formal_record_id": 47253416
   },
-  "last_triage": {
-    "id": "F01",
-    "tests_completed_local": "2026-11-14T03:09:24.573095+08:00",
-    "evidence": "docs/evidence/formal-failure-f01",
-    "decision": "adopt_PK_equality_path_as_timeout_risk_mitigation_not_verified_formal_fix"
-  },
-  "last_official_feedback": {
-    "record_id": 47253392,
-    "question_id": 600081,
-    "repository": "https://github.com/shironekoalice/seekdb",
-    "branch": "2026-competition-round2",
-    "commit": "81a7935da6ee9f743555551268d8a2edc17f7cd0",
-    "started_local": "2026-11-14T02:04:40+08:00",
-    "ended_local": "2026-11-14T02:25:56+08:00",
-    "failed_case_count_in_feedback": 1,
-    "feedback": "正确性门槛未通过（失败用例数：1）。原因：JSON response timeout（未及时收到JSON响应，请检查换行、flush和程序阻塞） × 1。未执行性能评测。",
-    "prompt_evaluation_executed": false,
-    "failed_case_name": null,
-    "timed_out_sql": null,
-    "other_formal_cases_passed": null,
-    "source": "Read-only authenticated OceanBase task record UI and its own response; credentials and unrelated user identifiers omitted.",
-    "scope": "An aggregate timeout report; does not identify the slow statement or establish its cause."
+  "last_user_feedback": {
+    "verbatim": "JSON 响应超时大概率是准入没过，直接放弃后续步骤",
+    "context": "Admission gating discussion: performance and Agent were skipped; no repeated independent timeout inferred."
   }
 }

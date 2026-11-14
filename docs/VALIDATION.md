@@ -92,6 +92,30 @@ python3 tests/large_point_paths.py --image minivectordb:f01-point-fix --enforce-
 不是正式失败用例的复现或默认性能E。F01报告与原样保留的资源检查失败见
 `docs/FORMAL_FAILURE_F01.md`。
 
+## 正式超时的环境与文件名反例
+
+F02重新从实际提交的git archive在全新Linux目录进行
+`docker build --no-cache --platform=linux/amd64`，再直接运行未改动的公开驱动。
+构建日志、镜像/ELF/依赖身份和有效资源配置见 `FORMAL_FAILURE_F02.md` 及其证据目录。
+新增工具保留默认120秒启动、60秒请求时限：
+
+```bash
+python3 tests/environment_contract.py --image minivectordb:f02-namespace-fix --output artifacts/environment-new
+python3 tests/storage_namespace.py --image minivectordb:f02-namespace-fix --output artifacts/namespace-new
+python3 tests/storage_namespace.py --binary /opt/mvdb-f02-asan/minivectordb --output artifacts/namespace-asan-new
+```
+
+环境工具检查真实默认入口、主动ready、UTF-8分片/CRLF/大报文、事务和重启，
+以及root/非root可写bind挂载；不可写挂载是必须快速失败的负对照。
+它不安装依赖、不修改Dockerfile或主机设置，也不能读取正式主机的配置。
+
+文件名工具用独立字典核对六种表名、同桶键、跨表写入、索引、事务、语句失败原子性、
+重启和kill恢复。旧版本在合法 `statement` 表第三次同桶插入时发生60秒JSON超时，
+实际节点next指向自身；当前把INSERT临时重复键文件改为 `statement_keys.tmp`。
+旧版与新版使用相同工具和配置，没有修改公开断言或增加超时。
+原提交的最小四条SQL反例及修复后继续使用旧数据卷也已实测，记录在F02证据中。
+这确认本地bug，但正式失败SQL依然不可见，不应宣称已复现同一个隐藏输入。
+
 ## 性能
 
 ```bash

@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "scope": "local live-data-over-cgroup-memory test",
+  "tool_sha256": "e11e80669fcdcfe2bbfeef8bc859c584318f7831c0601ce95bfb2f1996d403dc",
+  "logical_payload_bytes": 2415919104,
+  "memory_limit_bytes": 2147483648,
+  "image_id": "sha256:4dd903e8c7f970428c6411d59f68213a89ea0aa29d8744b2210a729a843f128b",
+  "container_swap_max_enforced": 0,
+  "recovery_seconds": 27.158329543002765,
+  "metrics": {
+    "B_bytes": 19588923392,
+    "M_bytes": 2147483648,
+    "io_start": {
+      "8:80": {
+        "rbytes": 36864,
+        "wbytes": 0,
+        "rios": 2,
+        "wios": 0,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "io_end": {
+      "8:80": {
+        "rbytes": 12094390272,
+        "wbytes": 7494569984,
+        "rios": 92664,
+        "wios": 31003,
+        "dbytes": 0,
+        "dios": 0
+      }
+    },
+    "memory_events": {
+      "low": "0",
+      "high": "0",
+      "max": "77390",
+      "oom": "0",
+      "oom_kill": "0",
+      "oom_group_kill": "0"
+    },
+    "memory_limit_bytes": 2147483648,
+    "memory_swap_max": "0",
+    "host_swap_io_delta": {
+      "pswpin": 0,
+      "pswpout": 0
+    }
+  },
+  "seconds": 177.3698089489917
+}

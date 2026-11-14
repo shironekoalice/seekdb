@@ -1,0 +1,16 @@
+{
+  "recorded_at": "2026-11-14T10:46:32.245582+08:00",
+  "reason": "Environment controls passed; legal statement table demonstrably aliases INSERT scratch map and creates a self-cycle. Added targeted correctness and old-data recovery checks.",
+  "runtime_change": "Only INSERT duplicate-key scratch filename changes from statement.pk to statement_keys.tmp. No WAL, memory, query or commit algorithm change.",
+  "completed_before_this_record": [
+    "clean submitted image public20",
+    "both P07 and submitted image default60s timeout counterexample",
+    "candidate namespace six-table Docker and sanitizer",
+    "candidate public20+extended5 Docker",
+    "candidate public20+extended11 sanitizer including6 failpoints",
+    "candidate environment matrix",
+    "four-SQL minimum and old-data recovery"
+  ],
+  "remaining_check": "Fresh candidate full out-of-core 2GiB/2304MiB with no-swap enforcement; then material audit and closure.",
+  "stop_before_local": "2026-11-14T11:06:00+08:00"
+}

@@ -1,0 +1,331 @@
+{
+  "keys": [
+    0,
+    18956,
+    26218,
+    29048
+  ],
+  "config": {
+    "startup_timeout": 120,
+    "request_timeout": 60,
+    "case_timeout": 600,
+    "max_response_bytes": 16777216,
+    "cpus": "2",
+    "memory": "2g",
+    "pids_limit": 128,
+    "abs_tol": 1e-05,
+    "rel_tol": 1e-05,
+    "error_codes": {}
+  },
+  "events": [
+    {
+      "phase": "start_without_input",
+      "sql": null,
+      "status": "PASS",
+      "elapsed_seconds": 1.2874498150049476
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE ordinary_control(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 1,
+        "ok": true
+      },
+      "elapsed_seconds": 0.018760184000711888
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 2,
+        "ok": true
+      },
+      "elapsed_seconds": 0.023760437994496897
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 3,
+        "ok": true
+      },
+      "elapsed_seconds": 0.0307098219927866
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(26218,'row2','[2,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 4,
+        "ok": true
+      },
+      "elapsed_seconds": 0.031805435006390326
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 5,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "row0"
+          ],
+          [
+            18956,
+            "row1"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.019024535999051295
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE VECTOR INDEX vi_ordinary_control ON ordinary_control(v);",
+      "status": "PASS",
+      "response": {
+        "id": 6,
+        "ok": true
+      },
+      "elapsed_seconds": 0.034357158991042525
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE ordinary_control SET body='updated',v='[3,1]' WHERE id=18956;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 7,
+        "ok": true
+      },
+      "elapsed_seconds": 0.022987969001405872
+    },
+    {
+      "phase": "execute",
+      "sql": "DELETE FROM ordinary_control WHERE id=0;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 8,
+        "ok": true
+      },
+      "elapsed_seconds": 0.022372883002390154
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 9,
+        "ok": true
+      },
+      "elapsed_seconds": 0.013598759003798477
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(0,'rolled','[9,9]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 10,
+        "ok": true
+      },
+      "elapsed_seconds": 0.015778564993524924
+    },
+    {
+      "phase": "execute",
+      "sql": "UPDATE ordinary_control SET body='rolled' WHERE id=26218;",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 11,
+        "ok": true
+      },
+      "elapsed_seconds": 0.015385841994429938
+    },
+    {
+      "phase": "execute",
+      "sql": "ROLLBACK;",
+      "status": "PASS",
+      "response": {
+        "id": 12,
+        "ok": true
+      },
+      "elapsed_seconds": 0.015988760002073832
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 13,
+        "ok": true,
+        "rows": [
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.015465631993720308
+    },
+    {
+      "phase": "execute",
+      "sql": "BEGIN;",
+      "status": "PASS",
+      "response": {
+        "id": 14,
+        "ok": true
+      },
+      "elapsed_seconds": 0.015690319007262588
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(0,'committed','[0,0]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 15,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021016074999351986
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO ordinary_control VALUES(29048,'must_not_appear','[8,8]'),(18956,'duplicate','[8,8]');",
+      "status": "PASS",
+      "response": {
+        "error": {
+          "code": "duplicate_key",
+          "message": "duplicate primary key"
+        },
+        "id": 16,
+        "ok": false
+      },
+      "elapsed_seconds": 0.015428761995281093
+    },
+    {
+      "phase": "execute",
+      "sql": "COMMIT;",
+      "status": "PASS",
+      "response": {
+        "id": 17,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021715103997848928
+    },
+    {
+      "phase": "execute",
+      "sql": "SELECT id,body FROM ordinary_control ORDER BY id;",
+      "status": "PASS",
+      "response": {
+        "columns": [
+          "id",
+          "body"
+        ],
+        "id": 18,
+        "ok": true,
+        "rows": [
+          [
+            0,
+            "committed"
+          ],
+          [
+            18956,
+            "updated"
+          ],
+          [
+            26218,
+            "row2"
+          ]
+        ]
+      },
+      "elapsed_seconds": 0.023281239002244547
+    },
+    {
+      "phase": "execute",
+      "sql": "CREATE TABLE statement(id BIGINT PRIMARY KEY,body VARCHAR(40),v VECTOR(2));",
+      "status": "PASS",
+      "response": {
+        "id": 19,
+        "ok": true
+      },
+      "elapsed_seconds": 0.024914360998081975
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(0,'row0','[0,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 20,
+        "ok": true
+      },
+      "elapsed_seconds": 0.021151255001313984
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(18956,'row1','[1,1]');",
+      "status": "PASS",
+      "response": {
+        "affected_rows": 1,
+        "id": 21,
+        "ok": true
+      },
+      "elapsed_seconds": 0.020845829989411868
+    },
+    {
+      "phase": "execute",
+      "sql": "INSERT INTO statement VALUES(26218,'row2','[2,1]');",
+      "status": "FAIL",
+      "exception": "TimeoutError",
+      "message": "JSON response timeout",
+      "elapsed_seconds": 60.07296753699484
+    }
+  ],
+  "passed": false,
+  "scope": "Known local counterexample; not proof of the hidden formal failing input.",
+  "image_id": "sha256:0ca8c955492b8c0ec9c6406b3ed34d1d5f398975036210cfb6066edf5d916ab1",
+  "statement_pk_after_second_insert": [
+    {
+      "offset": 65536,
+      "key": 18956,
+      "value": 1,
+      "next": 0,
+      "self_cycle": false
+    },
+    {
+      "offset": 65560,
+      "key": 18956,
+      "value": 1275,
+      "next": 65560,
+      "self_cycle": true
+    }
+  ],
+  "error": "TimeoutError: JSON response timeout",
+  "test_tool_sha256": "7a7844f7d25ec382ecfceead98b9d7e2409614c933cce2bb36ea615e95e57cb2"
+}

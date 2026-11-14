@@ -1,0 +1,42 @@
+{
+  "checked_at": "2026-11-14T10:26:05.202507+08:00",
+  "upstream_commit": "f4d4e26653af823a7601668802f80e374ad6643c",
+  "files": [
+    {
+      "path": "STDIO_PROTOCOL.md",
+      "upstream_sha256": "ca85bd31ab8dc61df50b44dedfe427764820aa84faa9036b3c00001b40c39f46",
+      "local_sha256": "b71bb1dc4ff34a519653e1406926f6ba9860c275c910627285480b24b8070f3f",
+      "same_lf_content": true
+    },
+    {
+      "path": "protocol_check/config.json",
+      "upstream_sha256": "63fe51cac3aaaf45c3739b53b1de8420e5d001e8abb6cf88532d9f190d72d904",
+      "local_sha256": "22d6504994020264281a3e6770ad2855bf4ffcea8f62386ad18f7bd936fb5441",
+      "same_lf_content": true
+    },
+    {
+      "path": "protocol_check/_transport.py",
+      "upstream_sha256": "fb3a820105e6e94fc348167c7644ce23a270c63f57b026065f4b563d6ef0674f",
+      "local_sha256": "8dbca9b48141e81952749ecef9e68af66ebbdcb1cf051e04870d2b78ed81f44d",
+      "same_lf_content": true
+    },
+    {
+      "path": "protocol_check/run.py",
+      "upstream_sha256": "4e8c6ead177da7f9222b36bc04e819c777507e21f6adbe24eb679e238f02f513",
+      "local_sha256": "fee9f469d59afb764b6ce31f73df8cdd6ffa2f51dba87e7e17c13fc9408deaf7",
+      "same_lf_content": true
+    },
+    {
+      "path": "protocol_check/README.md",
+      "upstream_sha256": "9044224f625f3e5ab2948755aefc624084d70f0d6ebe1c37a7bdb408f799cb3f",
+      "local_sha256": "7e131ea902a0e18292b730f88beb4245703f5bb6f817b5d160010cc2c15bd22b",
+      "same_lf_content": true
+    },
+    {
+      "path": "mysqltest/manifest.json",
+      "upstream_sha256": "a05fc8ff810affb8c899df4a2c1e31c35450178635d62b3efd6ae6ac15056aae",
+      "local_sha256": "549079acfed240abb41b8f62af03e94b6081659483d145ee739f7ecb9feb3949",
+      "same_lf_content": true
+    }
+  ]
+}

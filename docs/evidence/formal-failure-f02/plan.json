@@ -1,0 +1,14 @@
+{
+  "cycle_start_local": "2026-11-14T10:21:00+08:00",
+  "cycle_limit_seconds": 2700,
+  "reserve_closure_seconds": 300,
+  "hypotheses": [
+    "published protocol/environment drift",
+    "clean Docker build or runtime dependency failure",
+    "default entrypoint or stdio buffering mismatch",
+    "permissions, mount or restart mismatch"
+  ],
+  "baseline_commit": "3f784f1a089e86d84471a3ac8a48a57b3ec19670",
+  "official_submission_authorized": false,
+  "no_blind_performance_changes": true
+}
