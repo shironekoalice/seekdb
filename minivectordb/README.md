@@ -88,12 +88,21 @@ CLUSTERS=200 python3 tools/bench.py target/release/mvdb 60000  # 聚类分布
 
 | 场景 | 结果 |
 |---|---|
-| 1,000,000 行 × 128 维（`MVDB_CACHE_MB=32`） | 加载后 RSS **485 MB**，查询后 **205 MB** |
-| 200,000 行（`MVDB_CACHE_MB=16`） | 加载后 **141 MB**，流式 TopK 查询同为 **141 MB**（改造前 214 MB） |
+| 1,000,000 行 × 128 维（`MVDB_CACHE_MB=32`） | 加载后 RSS **77 MB**，查询后 **77 MB**（优化前 485 MB） |
+| 200,000 行（`MVDB_CACHE_MB=16`） | **31 MB**（优化前 141 MB） |
 | 容器 2 CPU / 2 GiB 跑公开题包 | **20/20** |
 
 页缓存默认 64 MB（`MVDB_CACHE_MB` 可调），脏页不换出；提交时 WAL 落盘后回写数据文件，保证
 换出的干净页可安全重读。事务回滚用 undo 前镜像，内存只与「本次事务改动的页数」相关。
+
+## 自测矩阵
+
+| 测试 | 内容 | 结果 |
+|---|---|---|
+| `testcases/protocol_check/run.py` | 官方公开题包 20 例 / 95 条 SQL | 20/20 |
+| `tests/extra_suite.py` | 影子正式用例 22 条（边界/事务/向量/语法变体） | 22/22 |
+| `tests/fuzz.py` | 随机操作 + 参考模型比对 + `kill -9` 注入 | 多 seed 通过 |
+| `tools/bench.py` | ANN vs 精确（随机/聚类两种分布） | 见上表 |
 
 ## 限制（当前实现）
 

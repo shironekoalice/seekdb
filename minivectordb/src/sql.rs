@@ -70,7 +70,7 @@ pub enum Stmt {
         table: String,
         items: Vec<SelectItem>,
         filter: Option<Expr>,
-        order: Option<OrderBy>,
+        orders: Vec<OrderBy>,
         limit: Option<usize>,
     },
     Update {
@@ -474,33 +474,38 @@ impl Parser {
         self.expect_kw("FROM")?;
         let table = self.ident()?;
         let filter = self.opt_where()?;
-        let mut order = None;
+        let mut orders: Vec<OrderBy> = Vec::new();
         if self.eat_kw("ORDER") {
             self.expect_kw("BY")?;
-            let first = self.ident()?;
-            let mut asc = true;
-            let parsed = if first.eq_ignore_ascii_case("L2_DISTANCE") {
-                self.expect_punc('(')?;
-                let vcol = self.ident()?;
-                self.expect_punc(',')?;
-                let target = match self.next() {
-                    Tok::Str(s) => s,
-                    _ => return Err("expected vector literal".into()),
+            loop {
+                let first = self.ident()?;
+                let parsed = if first.eq_ignore_ascii_case("L2_DISTANCE") {
+                    self.expect_punc('(')?;
+                    let vcol = self.ident()?;
+                    self.expect_punc(',')?;
+                    let target = match self.next() {
+                        Tok::Str(s) => s,
+                        _ => return Err("expected vector literal".into()),
+                    };
+                    self.expect_punc(')')?;
+                    OrderBy::L2 { col: vcol, target, asc: true }
+                } else {
+                    OrderBy::Column { name: first, asc: true }
                 };
-                self.expect_punc(')')?;
-                OrderBy::L2 { col: vcol, target, asc: true }
-            } else {
-                OrderBy::Column { name: first, asc: true }
-            };
-            if self.eat_kw("DESC") {
-                asc = false;
-            } else {
-                self.eat_kw("ASC");
+                let asc = if self.eat_kw("DESC") {
+                    false
+                } else {
+                    self.eat_kw("ASC");
+                    true
+                };
+                orders.push(match parsed {
+                    OrderBy::Column { name, .. } => OrderBy::Column { name, asc },
+                    OrderBy::L2 { col, target, .. } => OrderBy::L2 { col, target, asc },
+                });
+                if !self.eat_punc(',') {
+                    break;
+                }
             }
-            order = Some(match parsed {
-                OrderBy::Column { name, .. } => OrderBy::Column { name, asc },
-                OrderBy::L2 { col, target, .. } => OrderBy::L2 { col, target, asc },
-            });
         }
         let mut limit = None;
         if self.eat_kw("LIMIT") {
@@ -509,7 +514,7 @@ impl Parser {
                 _ => return Err("bad limit".into()),
             }
         }
-        Ok(Stmt::Select { table, items, filter, order, limit })
+        Ok(Stmt::Select { table, items, filter, orders, limit })
     }
 
     fn opt_where(&mut self) -> Result<Option<Expr>, String> {

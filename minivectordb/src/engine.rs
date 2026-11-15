@@ -280,6 +280,7 @@ pub struct Db {
     vec_idx: Vec<Option<VecIndex>>,
     undo: Vec<(u32, Vec<u8>)>,
     undone: BTreeSet<u32>,
+    created: BTreeSet<u32>,
     in_txn: bool,
     db_path: String,
     wal_path: String,
@@ -320,6 +321,7 @@ impl Db {
             vec_idx: Vec::new(),
             undo: Vec::new(),
             undone: BTreeSet::new(),
+            created: BTreeSet::new(),
             in_txn: false,
             db_path,
             wal_path,
@@ -444,8 +446,7 @@ impl Db {
             write_u16(page, 2, 8);
             write_u32(page, 4, 0);
         }
-        self.record_undo(id);
-        self.flush_catalog_into_page();
+        self.created.insert(id);
         id
     }
 
@@ -464,7 +465,8 @@ impl Db {
 
     /// 首次修改某页时记录前镜像（用于回滚）
     fn record_undo(&mut self, id: u32) {
-        if self.undone.contains(&id) {
+        // 本事务新建的页不需要前镜像（回滚时直接丢弃）
+        if self.created.contains(&id) || self.undone.contains(&id) {
             return;
         }
         let before = self.pages.snapshot_page(id);
@@ -504,6 +506,9 @@ impl Db {
     // ---------- WAL ----------
 
     fn append_wal_commit(&mut self) -> Result<()> {
+        if !self.tables.is_empty() {
+            self.flush_catalog_into_page();
+        }
         let dirty = self.pages.dirty_ids();
         if dirty.is_empty() {
             return Ok(());
@@ -574,6 +579,7 @@ impl Db {
         self.in_txn = true;
         self.undo.clear();
         self.undone.clear();
+        self.created.clear();
         Ok(())
     }
 
@@ -582,6 +588,7 @@ impl Db {
         self.in_txn = false;
         self.undo.clear();
         self.undone.clear();
+        self.created.clear();
         Ok(())
     }
 
@@ -590,6 +597,7 @@ impl Db {
             self.pages.restore_page(id, &before);
         }
         self.undone.clear();
+        self.created.clear();
         self.in_txn = false;
         self.rebuild_indexes();
         Ok(())
@@ -918,8 +926,8 @@ impl Db {
                 Ok(ExecResult::Ok)
             }
             Stmt::Insert { table, columns, rows } => self.insert(table, columns, rows),
-            Stmt::Select { table, items, filter, order, limit } => {
-                self.select(table, items, filter.as_ref(), order.as_ref(), *limit)
+            Stmt::Select { table, items, filter, orders, limit } => {
+                self.select(table, items, filter.as_ref(), orders, *limit)
             }
             Stmt::Update { table, sets, filter } => self.update(table, sets, filter.as_ref()),
             Stmt::Delete { table, filter } => self.delete(table, filter.as_ref()),
@@ -1121,34 +1129,30 @@ impl Db {
             let bytes = self.encode_row(&t, &row.values)?;
             // rewrite in place is not possible if size changes; append new row and repoint slot
             let appended = self.append_on_page(page_id, &bytes);
-            let new_off = match appended {
-                Some(off) => off,
+            match appended {
+                Some(off) => {
+                    let page = self.pages.page_mut(page_id);
+                    Db::set_slot_off(page, slot, off);
+                }
                 None => {
+                    // 本页放不下：新页写入，旧槽位作废，主键定位改到新页
                     let newp = self.new_page();
-                    if let Some(prev) = Some(self.pages.page_mut(self.tables[ti].last)) {
+                    let last = self.tables[ti].last;
+                    {
+                        let prev = self.pages.page_mut(last);
                         write_u32(prev, 4, newp);
                     }
                     self.tables[ti].last = newp;
                     self.flush_catalog_into_page();
-                    self.append_on_page(newp, &bytes).ok_or_else(|| DbError::new("io_error", "page full"))?
-                }
-            };
-            let page = self.pages.page_mut(page_id);
-            Db::set_slot_off(page, slot, new_off);
-            self.pages.mark_dirty(page_id);
-            if set_cols.iter().any(|(i, _)| Some(*i) == self.tables[ti].vec_index_col) {
-                if let Cell::Int(pk) = row.values[t.pk] {
-                    if let Some(vcol) = self.tables[ti].vec_index_col {
-                        let v = match &row.values[vcol] {
-                            Cell::Vec(v) => Some(v.clone()),
-                            _ => None,
-                        };
-                        if let Some(idx) = self.vec_idx[ti].as_mut() {
-                            idx.remove(pk);
-                            if let Some(v) = v {
-                                idx.add(pk, &v);
-                            }
-                        }
+                    let slot2 = self
+                        .insert_row_into_page(newp, &bytes)
+                        .ok_or_else(|| DbError::new("io_error", "page full"))?;
+                    {
+                        let old = self.pages.page_mut(page_id);
+                        Db::set_slot_off(old, slot, 0);
+                    }
+                    if let Cell::Int(pk) = row.values[t.pk] {
+                        self.pk_maps[ti].insert(pk, (newp, slot2 as u16));
                     }
                 }
             }
@@ -1238,67 +1242,83 @@ impl Db {
         table: &str,
         items: &[SelectItem],
         filter: Option<&Expr>,
-        order: Option<&OrderBy>,
+        orders: &[OrderBy],
         limit: Option<usize>,
     ) -> Result<ExecResult> {
         let ti = self.table_idx(table)?;
         let t = self.tables[ti].clone();
         let t = &t;
-        let mut kept: Vec<(Row, Option<f64>)> = Vec::new();
+        let mut kept: Vec<(Row, Vec<Option<f64>>)> = Vec::new();
         let mut used_ann = false;
-        let order_spec: Option<(OrderKey, bool)> = order.map(|ob| match ob {
-            OrderBy::L2 { col: vcol, target, asc } => {
-                let idx = t
-                    .cols
-                    .iter()
-                    .position(|c| c.name.eq_ignore_ascii_case(vcol))
-                    .unwrap_or(0);
-                let dim = match t.cols[idx].ty {
-                    ColType::Vector(d) => d,
-                    _ => 0,
-                };
-                (OrderKey::L2(idx, parse_vector(target, dim).unwrap_or_default()), *asc)
-            }
-            OrderBy::Column { name: col, asc } => {
-                if let Some(idx) = t.cols.iter().position(|c| c.name.eq_ignore_ascii_case(col)) {
-                    (OrderKey::Column(idx), *asc)
-                } else {
-                    let mut found: Option<OrderKey> = None;
-                    for item in items {
-                        if let SelectItem::L2 { col: vcol, target, alias } = item {
-                            if alias.eq_ignore_ascii_case(col) {
-                                let idx = t
-                                    .cols
-                                    .iter()
-                                    .position(|c| c.name.eq_ignore_ascii_case(vcol))
-                                    .unwrap_or(0);
-                                let dim = match t.cols[idx].ty {
-                                    ColType::Vector(d) => d,
-                                    _ => 0,
-                                };
-                                found = Some(OrderKey::L2(idx, parse_vector(target, dim).unwrap_or_default()));
-                                break;
+        let mut order_specs: Vec<(OrderKey, bool)> = Vec::new();
+        for ob in orders {
+            let spec = match ob {
+                OrderBy::L2 { col: vcol, target, asc } => {
+                    let idx = t
+                        .cols
+                        .iter()
+                        .position(|c| c.name.eq_ignore_ascii_case(vcol))
+                        .unwrap_or(0);
+                    let dim = match t.cols[idx].ty {
+                        ColType::Vector(d) => d,
+                        _ => 0,
+                    };
+                    (OrderKey::L2(idx, parse_vector(target, dim).unwrap_or_default()), *asc)
+                }
+                OrderBy::Column { name: col, asc } => {
+                    if let Some(idx) = t.cols.iter().position(|c| c.name.eq_ignore_ascii_case(col)) {
+                        (OrderKey::Column(idx), *asc)
+                    } else {
+                        let mut found: Option<OrderKey> = None;
+                        for item in items {
+                            if let SelectItem::L2 { col: vcol, target, alias } = item {
+                                if alias.eq_ignore_ascii_case(col) {
+                                    let idx = t
+                                        .cols
+                                        .iter()
+                                        .position(|c| c.name.eq_ignore_ascii_case(vcol))
+                                        .unwrap_or(0);
+                                    let dim = match t.cols[idx].ty {
+                                        ColType::Vector(d) => d,
+                                        _ => 0,
+                                    };
+                                    found = Some(OrderKey::L2(idx, parse_vector(target, dim).unwrap_or_default()));
+                                    break;
+                                }
                             }
                         }
+                        (found.unwrap_or(OrderKey::Column(0)), *asc)
                     }
-                    (found.unwrap_or(OrderKey::Column(0)), *asc)
                 }
+            };
+            order_specs.push(spec);
+        }
+        let single_l2: Option<(usize, Vec<f32>)> = if order_specs.len() == 1 {
+            match &order_specs[0] {
+                (OrderKey::L2(i, tgt), _) => Some((*i, tgt.clone())),
+                _ => None,
             }
-        });
+        } else {
+            None
+        };
         let pk_idx = t.pk;
         // ANN：先用 IVF 剪枝取候选；候选不足时退回精确扫描
         if self.search_mode == "ann" {
-            if let (Some((OrderKey::L2(vcol, target), _)), Some(lim)) = (order_spec.as_ref(), limit) {
+            if let (Some((vcol, target)), Some(lim)) = (single_l2.as_ref(), limit) {
                 const ANN_MIN_ROWS: usize = 2_000;
                 if self.vec_idx[ti].is_some() && lim > 0 && self.pk_maps[ti].len() > ANN_MIN_ROWS {
                     let hits = self.ann_topk(ti, target, (lim.max(10) * 2) as usize);
                     if !hits.is_empty() {
                         let locs: Vec<(u32, u16)> = hits.iter().map(|(_, _, l)| *l).collect();
                         let dists: Vec<f64> = hits.iter().map(|(d, _, _)| *d as f64).collect();
-                        let mut ann_rows: Vec<(Row, Option<f64>)> = Vec::new();
+                        let mut ann_rows: Vec<(Row, Vec<Option<f64>>)> = Vec::new();
                         for (k, (_, _, row)) in self.read_rows_at(t, &locs).into_iter().enumerate() {
                             if self.matches(t, &row, filter)? {
-                                ann_rows.push((row, Some(dists[k])));
+                                let mut keys = vec![None; order_specs.len()];
+                                if !keys.is_empty() {
+                                    keys[0] = Some(dists[k]);
+                                }
+                                ann_rows.push((row, keys));
                             }
                         }
                         if ann_rows.len() >= lim {
@@ -1312,11 +1332,15 @@ impl Db {
         }
         // 精确 TopK 走流式扫描：内存只保留 K 条
         if self.search_mode != "ann" {
-            if let (Some((OrderKey::L2(vcol, target), _)), Some(lim)) = (order_spec.as_ref(), limit) {
+            if let (Some((vcol, target)), Some(lim)) = (single_l2.as_ref(), limit) {
                 if lim > 0 {
                     let hits = self.stream_topk(t, *vcol, &target[..], filter, lim)?;
                     for (row, d) in hits {
-                        kept.push((row, Some(d as f64)));
+                        let mut keys = vec![None; order_specs.len()];
+                        if !keys.is_empty() {
+                            keys[0] = Some(d as f64);
+                        }
+                        kept.push((row, keys));
                     }
                     used_ann = true; // 复用"已取到结果，不再全表扫"的语义
                 }
@@ -1327,13 +1351,17 @@ impl Db {
                 if !self.matches(t, &row, filter)? {
                     continue;
                 }
-                let dist = match order_spec.as_ref() {
-                    Some((OrderKey::L2(vcol, target), _)) => {
-                        self.dist_at(t, page, slot, *vcol, target).map(|d| d as f64)
-                    }
-                    _ => None,
-                };
-                kept.push((row, dist));
+                let mut keys: Vec<Option<f64>> = Vec::with_capacity(order_specs.len());
+                for (spec, _) in &order_specs {
+                    let k = match spec {
+                        OrderKey::L2(vcol, target) => {
+                            self.dist_at(t, page, slot, *vcol, target).map(|d| d as f64)
+                        }
+                        OrderKey::Column(_) => None,
+                    };
+                    keys.push(k);
+                }
+                kept.push((row, keys));
             }
         }
         // build output columns
@@ -1372,33 +1400,36 @@ impl Db {
                 }
             }
         }
-        // ordering
-        // resolve ORDER BY key: table column or L2 alias
-        let mut keyed: Vec<(Option<SortKey>, i64, Row)> = kept
+        // 排序：多键字典序，末位始终按主键升序（并列时）
+        let mut keyed: Vec<(Vec<SortKey>, i64, Row)> = kept
             .into_iter()
-            .map(|(row, dist)| {
-                let key = order_spec.as_ref().map(|(spec, _)| match spec {
-                    OrderKey::Column(idx) => sort_key(&row.values[*idx]),
-                    OrderKey::L2(_, _) => SortKey::Float(dist.unwrap_or(f64::INFINITY)),
-                });
+            .map(|(row, dists)| {
+                let mut keys = Vec::with_capacity(order_specs.len());
+                for (i, (spec, _)) in order_specs.iter().enumerate() {
+                    let k = match spec {
+                        OrderKey::Column(idx) => sort_key(&row.values[*idx]),
+                        OrderKey::L2(_, _) => SortKey::Float(dists.get(i).copied().flatten().unwrap_or(f64::INFINITY)),
+                    };
+                    keys.push(k);
+                }
                 let pk = match row.values[pk_idx] {
-                    Cell::Int(i) => i,
+                    Cell::Int(v) => v,
                     _ => 0,
                 };
-                (key, pk, row)
+                (keys, pk, row)
             })
             .collect();
-        if let Some((_, asc)) = order_spec.as_ref() {
-            let asc = *asc;
+
+        if !order_specs.is_empty() {
             keyed.sort_by(|a, b| {
-                let ord = cmp_keys(a.0.as_ref().unwrap(), b.0.as_ref().unwrap());
-                let ord = if asc { ord } else { ord.reverse() };
-                // ties always break by primary key ascending
-                if ord == std::cmp::Ordering::Equal {
-                    a.1.cmp(&b.1)
-                } else {
-                    ord
+                for (i, (_, asc)) in order_specs.iter().enumerate() {
+                    let ord = cmp_keys(&a.0[i], &b.0[i]);
+                    let ord = if *asc { ord } else { ord.reverse() };
+                    if ord != std::cmp::Ordering::Equal {
+                        return ord;
+                    }
                 }
+                a.1.cmp(&b.1)
             });
         }
         let mut out_rows: Vec<Vec<json::Json>> = Vec::new();
