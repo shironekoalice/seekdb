@@ -167,6 +167,34 @@ def _(db):
     r = db.q("SELECT id, L2_DISTANCE(e,'[0,0]') AS d FROM ix ORDER BY d LIMIT 1;", "ann")
     assert rows(r) == [[1, 0.0]], r
 
+
+@case("表级 PRIMARY KEY 语法")
+def _(db):
+    assert ok(db.q("CREATE TABLE tp (id BIGINT NOT NULL, v VARCHAR(4), PRIMARY KEY (id));"))
+    assert ok(db.q("INSERT INTO tp VALUES (1,'a');"))
+    assert err(db.q("INSERT INTO tp VALUES (1,'b');"), "duplicate_key")
+
+@case("INSERT 指定列名")
+def _(db):
+    db.q("CREATE TABLE ic (id BIGINT PRIMARY KEY, a VARCHAR(4), b VARCHAR(4));")
+    assert ok(db.q("INSERT INTO ic (id, b) VALUES (1,'bbb');"))
+    r = db.q("SELECT id, b FROM ic;")
+    assert rows(r) == [[1, "bbb"]], r
+
+@case("ORDER BY L2_DISTANCE 表达式")
+def _(db):
+    db.q("CREATE TABLE oe (id BIGINT PRIMARY KEY, e VECTOR(2));")
+    db.q("INSERT INTO oe VALUES (1,'[3,4]'),(2,'[0,0]');")
+    r = db.q("SELECT id FROM oe ORDER BY L2_DISTANCE(e, '[0,0]') LIMIT 1;")
+    assert rows(r) == [[2]], r
+
+@case("UPDATE 相同值 affected=0（MySQL 语义）")
+def _(db):
+    db.q("CREATE TABLE ua (id BIGINT PRIMARY KEY, v VARCHAR(4));")
+    db.q("INSERT INTO ua VALUES (1,'a');")
+    assert affected(db.q("UPDATE ua SET v='a' WHERE id=1;")) == 0
+    assert affected(db.q("UPDATE ua SET v='b' WHERE id=1;")) == 1
+
 def main():
     failures = 0
     for name, fn in CASES:

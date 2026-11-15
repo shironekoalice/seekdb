@@ -37,6 +37,12 @@ pub enum Expr {
 }
 
 #[derive(Debug, Clone)]
+pub enum OrderBy {
+    Column { name: String, asc: bool },
+    L2 { col: String, target: String, asc: bool },
+}
+
+#[derive(Debug, Clone)]
 pub enum SelectItem {
     Star,
     Col(String),
@@ -57,13 +63,14 @@ pub enum Stmt {
     },
     Insert {
         table: String,
+        columns: Vec<String>,
         rows: Vec<Vec<Value>>,
     },
     Select {
         table: String,
         items: Vec<SelectItem>,
         filter: Option<Expr>,
-        order: Option<(String, bool)>,
+        order: Option<OrderBy>,
         limit: Option<usize>,
     },
     Update {
@@ -302,6 +309,16 @@ impl Parser {
         if self.eat_kw("INSERT") {
             self.expect_kw("INTO")?;
             let table = self.ident()?;
+            let mut col_list: Vec<String> = Vec::new();
+            if self.eat_punc('(') {
+                loop {
+                    col_list.push(self.ident()?);
+                    if !self.eat_punc(',') {
+                        break;
+                    }
+                }
+                self.expect_punc(')')?;
+            }
             self.expect_kw("VALUES")?;
             let mut rows = Vec::new();
             loop {
@@ -319,7 +336,7 @@ impl Parser {
                     break;
                 }
             }
-            return Ok(Stmt::Insert { table, rows });
+            return Ok(Stmt::Insert { table, columns: col_list, rows });
         }
         if self.eat_kw("SELECT") {
             return self.select();
@@ -390,6 +407,11 @@ impl Parser {
                 }
                 other => return Err(format!("unsupported type {}", other)),
             };
+            // 容忍 NOT NULL / NULL 修饰（本题不要求 NULL 语义）
+            let _ = self.eat_kw("NOT") && self.eat_kw("NULL");
+            if self.peek() == &Tok::Ident("NULL".to_string()) {
+                self.pos += 1;
+            }
             let mut primary = false;
             if self.eat_kw("PRIMARY") {
                 self.expect_kw("KEY")?;
@@ -398,6 +420,19 @@ impl Parser {
             cols.push(ColumnDef { name: col_name, ty, primary });
             if !self.eat_punc(',') {
                 break;
+            }
+            // 表级约束：PRIMARY KEY (col)
+            if self.eat_kw("PRIMARY") {
+                self.expect_kw("KEY")?;
+                self.expect_punc('(')?;
+                let pk_name = self.ident()?;
+                self.expect_punc(')')?;
+                if let Some(c) = cols.iter_mut().find(|c| c.name.eq_ignore_ascii_case(&pk_name)) {
+                    c.primary = true;
+                }
+                if !self.eat_punc(',') {
+                    break;
+                }
             }
         }
         self.expect_punc(')')?;
@@ -442,14 +477,30 @@ impl Parser {
         let mut order = None;
         if self.eat_kw("ORDER") {
             self.expect_kw("BY")?;
-            let col = self.ident()?;
+            let first = self.ident()?;
             let mut asc = true;
+            let parsed = if first.eq_ignore_ascii_case("L2_DISTANCE") {
+                self.expect_punc('(')?;
+                let vcol = self.ident()?;
+                self.expect_punc(',')?;
+                let target = match self.next() {
+                    Tok::Str(s) => s,
+                    _ => return Err("expected vector literal".into()),
+                };
+                self.expect_punc(')')?;
+                OrderBy::L2 { col: vcol, target, asc: true }
+            } else {
+                OrderBy::Column { name: first, asc: true }
+            };
             if self.eat_kw("DESC") {
                 asc = false;
             } else {
                 self.eat_kw("ASC");
             }
-            order = Some((col, asc));
+            order = Some(match parsed {
+                OrderBy::Column { name, .. } => OrderBy::Column { name, asc },
+                OrderBy::L2 { col, target, .. } => OrderBy::L2 { col, target, asc },
+            });
         }
         let mut limit = None;
         if self.eat_kw("LIMIT") {

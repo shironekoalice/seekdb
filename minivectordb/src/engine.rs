@@ -1,7 +1,7 @@
 //! Storage, WAL, transactions and execution for MiniVectorDB.
 
 use crate::json;
-use crate::sql::{ColType, CmpOp, Expr, SelectItem, Stmt, Value};
+use crate::sql::{ColType, CmpOp, Expr, OrderBy, SelectItem, Stmt, Value};
 use std::collections::{BTreeSet, HashMap};
 use std::fs::{File, OpenOptions};
 use std::io::{Read, Seek, SeekFrom, Write};
@@ -917,7 +917,7 @@ impl Db {
                 self.build_vec_index(ti, ci);
                 Ok(ExecResult::Ok)
             }
-            Stmt::Insert { table, rows } => self.insert(table, rows),
+            Stmt::Insert { table, columns, rows } => self.insert(table, columns, rows),
             Stmt::Select { table, items, filter, order, limit } => {
                 self.select(table, items, filter.as_ref(), order.as_ref(), *limit)
             }
@@ -956,18 +956,34 @@ impl Db {
         out
     }
 
-    fn insert(&mut self, table: &str, rows: &[Vec<Value>]) -> Result<ExecResult> {
+    fn insert(&mut self, table: &str, columns: &[String], rows: &[Vec<Value>]) -> Result<ExecResult> {
         let ti = self.table_idx(table)?;
         let t = self.tables[ti].clone();
         // validate everything first (statement atomicity)
+        // 列名列表（可选）：把它映射到完整行，未列出的列填 NULL
+        let target_idx: Vec<usize> = if columns.is_empty() {
+            (0..t.cols.len()).collect()
+        } else {
+            let mut idx = Vec::with_capacity(columns.len());
+            for name in columns {
+                let i = t
+                    .cols
+                    .iter()
+                    .position(|c| c.name.eq_ignore_ascii_case(name))
+                    .ok_or_else(|| DbError::new("column_not_found", "no such column"))?;
+                idx.push(i);
+            }
+            idx
+        };
         let mut encoded = Vec::with_capacity(rows.len());
         for raw in rows {
-            if raw.len() != t.cols.len() {
+            if raw.len() != target_idx.len() {
                 return Err(DbError::new("column_count_mismatch", "column count mismatch"));
             }
-            let mut cells = Vec::with_capacity(raw.len());
-            for (i, v) in raw.iter().enumerate() {
-                cells.push(self.coerce(&t, i, v)?);
+            let mut cells: Vec<Cell> = vec![Cell::Null; t.cols.len()];
+            for (k, v) in raw.iter().enumerate() {
+                let i = target_idx[k];
+                cells[i] = self.coerce(&t, i, v)?;
             }
             if matches!(cells[t.pk], Cell::Null) {
                 return Err(DbError::new("null_primary_key", "primary key cannot be null"));
@@ -1092,11 +1108,16 @@ impl Db {
                 targets.push((page, slot, row));
             }
         }
-        let affected = targets.len() as i64;
+        let mut affected: i64 = 0;
         for (page_id, slot, mut row) in targets {
+            let before = row.values.clone();
             for (idx, cell) in &set_cols {
                 row.values[*idx] = cell.clone();
             }
+            if row.values == before {
+                continue; // 值未变化：不计入 affected_rows
+            }
+            affected += 1;
             let bytes = self.encode_row(&t, &row.values)?;
             // rewrite in place is not possible if size changes; append new row and repoint slot
             let appended = self.append_on_page(page_id, &bytes);
@@ -1217,7 +1238,7 @@ impl Db {
         table: &str,
         items: &[SelectItem],
         filter: Option<&Expr>,
-        order: Option<&(String, bool)>,
+        order: Option<&OrderBy>,
         limit: Option<usize>,
     ) -> Result<ExecResult> {
         let ti = self.table_idx(table)?;
@@ -1225,30 +1246,43 @@ impl Db {
         let t = &t;
         let mut kept: Vec<(Row, Option<f64>)> = Vec::new();
         let mut used_ann = false;
-        let order_spec: Option<(OrderKey, bool)> = order.map(|(col, asc)| {
-            if let Some(idx) = t.cols.iter().position(|c| c.name.eq_ignore_ascii_case(col)) {
-                (OrderKey::Column(idx), *asc)
-            } else {
-                let mut spec = None;
-                for item in items {
-                    if let SelectItem::L2 { col: vcol, target, alias } = item {
-                        if alias.eq_ignore_ascii_case(col) {
-                            let idx = t
-                                .cols
-                                .iter()
-                                .position(|c| c.name.eq_ignore_ascii_case(vcol))
-                                .unwrap_or(0);
-                            let dim = match t.cols[idx].ty {
-                                ColType::Vector(d) => d,
-                                _ => 0,
-                            };
-                            let tv = parse_vector(target, dim).unwrap_or_default();
-                            spec = Some(OrderKey::L2(idx, tv));
-                            break;
+        let order_spec: Option<(OrderKey, bool)> = order.map(|ob| match ob {
+            OrderBy::L2 { col: vcol, target, asc } => {
+                let idx = t
+                    .cols
+                    .iter()
+                    .position(|c| c.name.eq_ignore_ascii_case(vcol))
+                    .unwrap_or(0);
+                let dim = match t.cols[idx].ty {
+                    ColType::Vector(d) => d,
+                    _ => 0,
+                };
+                (OrderKey::L2(idx, parse_vector(target, dim).unwrap_or_default()), *asc)
+            }
+            OrderBy::Column { name: col, asc } => {
+                if let Some(idx) = t.cols.iter().position(|c| c.name.eq_ignore_ascii_case(col)) {
+                    (OrderKey::Column(idx), *asc)
+                } else {
+                    let mut found: Option<OrderKey> = None;
+                    for item in items {
+                        if let SelectItem::L2 { col: vcol, target, alias } = item {
+                            if alias.eq_ignore_ascii_case(col) {
+                                let idx = t
+                                    .cols
+                                    .iter()
+                                    .position(|c| c.name.eq_ignore_ascii_case(vcol))
+                                    .unwrap_or(0);
+                                let dim = match t.cols[idx].ty {
+                                    ColType::Vector(d) => d,
+                                    _ => 0,
+                                };
+                                found = Some(OrderKey::L2(idx, parse_vector(target, dim).unwrap_or_default()));
+                                break;
+                            }
                         }
                     }
+                    (found.unwrap_or(OrderKey::Column(0)), *asc)
                 }
-                (spec.unwrap_or(OrderKey::Column(0)), *asc)
             }
         });
         let pk_idx = t.pk;
