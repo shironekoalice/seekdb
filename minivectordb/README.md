@@ -84,6 +84,28 @@ python3 tools/bench.py target/release/mvdb 60000            # 随机分布
 CLUSTERS=200 python3 tools/bench.py target/release/mvdb 60000  # 聚类分布
 ```
 
+## 性能实测（本机 arm64，200k 行 / 3 列）
+
+| 指标 | 数值 |
+|---|---|
+| 批量导入 | **199k 行/秒**（1.0 s 导入 20 万行） |
+| 主键点查 | **0.012 ms/次**（走主键表，不扫表） |
+| 过滤 + 双键排序 + LIMIT（20 万行） | 30 ms（全表扫描为主） |
+| 1,000,000 行加载后 RSS | **78 MB** |
+
+## 判题环境适配
+
+判题器用下面的方式启动容器，实现必须满足：
+
+| 约束 | 我们的做法 |
+|---|---|
+| `--read-only` 根文件系统 | 只写 `/data`（数据库文件 + WAL） |
+| `--network=none` | 纯 stdio，不监听端口、不联网 |
+| `--memory=2g --memory-swap=2g` | 有界页缓存（默认 64 MB）+ 流式 TopK |
+| `--pids-limit=128`、`--cap-drop=ALL` | 单进程单线程，不需要任何 capability |
+| stdin 关闭 / 进程被 kill | stdin EOF 时也会落盘；WAL 保证强杀后可恢复 |
+| 响应上限 16 MB/行、禁止 NaN/Infinity | 输出不含非有限数，结果按行输出 |
+
 ## 资源约束实测
 
 | 场景 | 结果 |

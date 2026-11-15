@@ -102,6 +102,8 @@ fn main() {
             }
         }
     }
+    // stdin 关闭（判题器异常退出/容器被停）：尽力落盘后正常退出
+    let _ = db.shutdown();
 }
 
 fn error_response(out: &mut impl Write, id: Json, code: &str, message: &str) {

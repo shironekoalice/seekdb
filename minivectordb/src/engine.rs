@@ -1026,14 +1026,13 @@ impl Db {
                 page_id = newp;
                 slot = self.insert_row_into_page(page_id, &bytes);
             }
-            let pk = match &self.decode_row(&t, &bytes).values[t.pk] {
+            let pk = match &cells[t.pk] {
                 Cell::Int(p) => *p,
                 _ => 0,
             };
             self.pk_maps[ti].insert(pk, (page_id, slot.unwrap_or(0) as u16));
             if let Some(vcol) = self.tables[ti].vec_index_col {
-                let cell = self.decode_row(&t, &bytes).values[vcol].clone();
-                if let (Cell::Vec(v), Some(idx)) = (cell, self.vec_idx[ti].as_mut()) {
+                if let (Cell::Vec(v), Some(idx)) = (cells[vcol].clone(), self.vec_idx[ti].as_mut()) {
                     idx.add(pk, &v);
                 }
             }
@@ -1068,7 +1067,10 @@ impl Db {
     fn delete(&mut self, table: &str, filter: Option<&Expr>) -> Result<ExecResult> {
         let ti = self.table_idx(table)?;
         let t = self.tables[ti].clone();
-        let rows = self.scan(&t);
+        let rows = match self.pk_point_lookup(ti, &t, filter) {
+            Some(loc) => self.read_rows_at(&t, &[loc]),
+            None => self.scan(&t),
+        };
         let mut targets = Vec::new();
         for (page, slot, row) in rows {
             if self.matches(&t, &row, filter)? {
@@ -1109,7 +1111,10 @@ impl Db {
             }
             set_cols.push((idx, self.coerce(&t, idx, v)?));
         }
-        let rows = self.scan(&t);
+        let rows = match self.pk_point_lookup(ti, &t, filter) {
+            Some(loc) => self.read_rows_at(&t, &[loc]),
+            None => self.scan(&t),
+        };
         let mut targets = Vec::new();
         for (page, slot, row) in rows {
             if self.matches(&t, &row, filter)? {
@@ -1174,6 +1179,85 @@ impl Db {
     }
 
     /// 流式 TopK：不物化全表，内存只保留 K 条
+    /// 若过滤条件是 `pk = <整数>`，返回该行的物理位置（点查快速路径）
+    fn pk_point_lookup(&self, ti: usize, t: &Table, filter: Option<&Expr>) -> Option<(u32, u16)> {
+        let e = filter?;
+        if let Expr::Cmp { col, op: CmpOp::Eq, value } = e {
+            let idx = t.cols.iter().position(|c| c.name.eq_ignore_ascii_case(col))?;
+            if idx != t.pk {
+                return None;
+            }
+            if let Value::Int(v) = value {
+                return self.pk_maps[ti].get(v).copied();
+            }
+        }
+        None
+    }
+
+    /// 流式 TopK（按普通列排序）：不物化全表
+    fn stream_topk_col(
+        &mut self,
+        t: &Table,
+        col: usize,
+        asc: bool,
+        filter: Option<&Expr>,
+        k: usize,
+    ) -> Result<Vec<Row>> {
+        let mut heap: Vec<(SortKey, i64, Row)> = Vec::with_capacity(k + 1);
+        let pk_idx = t.pk;
+        let mut page_id = t.root;
+        while page_id != 0 {
+            let (slots, next) = {
+                let page = self.pages.page(page_id);
+                (Db::page_slot_count(page), read_u32(page, 4))
+            };
+            for slot in 0..slots {
+                let off = match self.read_row(page_id, slot) {
+                    Some(r) => r.off,
+                    None => continue,
+                };
+                let bytes = {
+                    let page = self.pages.page(page_id);
+                    page[off..].to_vec()
+                };
+                let row = self.decode_row(t, &bytes);
+                if !self.matches(t, &row, filter)? {
+                    continue;
+                }
+                let key = sort_key(&row.values[col]);
+                let pk = match row.values[pk_idx] {
+                    Cell::Int(v) => v,
+                    _ => 0,
+                };
+                let better = |a: &(SortKey, i64, Row), b: &(SortKey, i64, Row)| {
+                    let ord = cmp_keys(&a.0, &b.0);
+                    let ord = if asc { ord } else { ord.reverse() };
+                    if ord == std::cmp::Ordering::Equal { a.1.cmp(&b.1) } else { ord }
+                };
+                if heap.len() < k {
+                    heap.push((key, pk, row));
+                    heap.sort_by(better);
+                } else {
+                    let (worst_key, worst_pk) = (heap[k - 1].0.clone(), heap[k - 1].1);
+                    let ord = cmp_keys(&key, &worst_key);
+                    let ord = if asc { ord } else { ord.reverse() };
+                    let take = if ord == std::cmp::Ordering::Equal {
+                        pk < worst_pk
+                    } else {
+                        ord == std::cmp::Ordering::Less
+                    };
+                    if take {
+                        heap.pop();
+                        heap.push((key, pk, row));
+                        heap.sort_by(better);
+                    }
+                }
+            }
+            page_id = next;
+        }
+        Ok(heap.into_iter().map(|(_, _, r)| r).collect())
+    }
+
     fn stream_topk(
         &mut self,
         t: &Table,
@@ -1331,7 +1415,18 @@ impl Db {
             }
         }
         // 精确 TopK 走流式扫描：内存只保留 K 条
-        if self.search_mode != "ann" {
+        if order_specs.len() == 1 && single_l2.is_none() {
+            if let (Some((OrderKey::Column(col), asc)), Some(lim)) = (order_specs.first(), limit) {
+                if lim > 0 {
+                    let rows = self.stream_topk_col(t, *col, *asc, filter, lim)?;
+                    for r in rows {
+                        kept.push((r, vec![None]));
+                    }
+                    used_ann = true;
+                }
+            }
+        }
+        if !used_ann && self.search_mode != "ann" {
             if let (Some((vcol, target)), Some(lim)) = (single_l2.as_ref(), limit) {
                 if lim > 0 {
                     let hits = self.stream_topk(t, *vcol, &target[..], filter, lim)?;
@@ -1347,7 +1442,11 @@ impl Db {
             }
         }
         if !used_ann {
-            for (page, slot, row) in self.scan(t) {
+            let scanned = match self.pk_point_lookup(ti, t, filter) {
+                Some(loc) => self.read_rows_at(t, &[loc]),
+                None => self.scan(t),
+            };
+            for (page, slot, row) in scanned {
                 if !self.matches(t, &row, filter)? {
                     continue;
                 }
@@ -1479,7 +1578,7 @@ pub enum ExecResult {
     Rows(Vec<String>, Vec<Vec<json::Json>>),
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 enum SortKey {
     Int(i64),
     Str(String),
