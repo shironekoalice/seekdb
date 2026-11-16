@@ -185,6 +185,7 @@ impl PageStore {
 pub struct Column {
     pub name: String,
     pub ty: ColType,
+    pub not_null: bool,
 }
 
 #[derive(Clone, Debug)]
@@ -371,7 +372,7 @@ impl Db {
                                 "vector" => ColType::Vector(c.get("n").and_then(|v| v.as_i64()).unwrap_or(1) as usize),
                                 _ => ColType::Bigint,
                             };
-                            cols.push(Column { name: cname, ty });
+                            cols.push(Column { name: cname, ty, not_null: c.get("nn").and_then(|v| v.as_bool()).unwrap_or(false) });
                         }
                     }
                     tables.push(Table { name, cols, pk, root, last, vec_index_col: vic });
@@ -394,6 +395,7 @@ impl Db {
                 let mut m = vec![
                     ("name".to_string(), json::Json::Str(c.name.clone())),
                     ("ty".to_string(), json::Json::Str(ty)),
+                    ("nn".to_string(), json::Json::Bool(c.not_null)),
                 ];
                 if n > 0 {
                     m.push(("n".to_string(), json::Json::Int(n as i64)));
@@ -896,7 +898,10 @@ impl Db {
                 let root = self.new_page();
                 let table = Table {
                     name: name.clone(),
-                    cols: cols.iter().map(|c| Column { name: c.name.clone(), ty: c.ty.clone() }).collect(),
+                    cols: cols
+                        .iter()
+                        .map(|c| Column { name: c.name.clone(), ty: c.ty.clone(), not_null: c.not_null })
+                        .collect(),
                     pk,
                     root,
                     last: root,
@@ -939,6 +944,37 @@ impl Db {
             self.append_wal_commit()?;
         }
         Ok(())
+    }
+
+    /// 无排序 + LIMIT：扫到够数就停，避免把全表读进内存
+    fn scan_limited(&mut self, t: &Table, filter: Option<&Expr>, n: usize) -> Result<Vec<(u32, usize, Row)>> {
+        let mut out = Vec::with_capacity(n.min(4096));
+        let mut page_id = t.root;
+        while page_id != 0 && out.len() < n {
+            let (slots, next) = {
+                let page = self.pages.page(page_id);
+                (Db::page_slot_count(page), read_u32(page, 4))
+            };
+            for slot in 0..slots {
+                if out.len() >= n {
+                    break;
+                }
+                let off = match self.read_row(page_id, slot) {
+                    Some(r) => r.off,
+                    None => continue,
+                };
+                let bytes = {
+                    let page = self.pages.page(page_id);
+                    page[off..].to_vec()
+                };
+                let row = self.decode_row(t, &bytes);
+                if self.matches(t, &row, filter)? {
+                    out.push((page_id, slot, row));
+                }
+            }
+            page_id = next;
+        }
+        Ok(out)
     }
 
     fn scan(&mut self, t: &Table) -> Vec<(u32, usize, Row)> {
@@ -992,6 +1028,11 @@ impl Db {
             for (k, v) in raw.iter().enumerate() {
                 let i = target_idx[k];
                 cells[i] = self.coerce(&t, i, v)?;
+            }
+            for (i, col) in t.cols.iter().enumerate() {
+                if col.not_null && matches!(cells[i], Cell::Null) {
+                    return Err(DbError::new("not_null_violation", "column declared NOT NULL"));
+                }
             }
             if matches!(cells[t.pk], Cell::Null) {
                 return Err(DbError::new("null_primary_key", "primary key cannot be null"));
@@ -1067,33 +1108,62 @@ impl Db {
     fn delete(&mut self, table: &str, filter: Option<&Expr>) -> Result<ExecResult> {
         let ti = self.table_idx(table)?;
         let t = self.tables[ti].clone();
-        let rows = match self.pk_point_lookup(ti, &t, filter) {
-            Some(loc) => self.read_rows_at(&t, &[loc]),
-            None => self.scan(&t),
+        let mut affected: i64 = 0;
+        let pages: Vec<u32> = match self.pk_point_lookup(ti, &t, filter) {
+            Some((page, _)) => vec![page],
+            None => self.page_chain(&t),
         };
-        let mut targets = Vec::new();
-        for (page, slot, row) in rows {
-            if self.matches(&t, &row, filter)? {
-                let pk = match row.values[t.pk] {
-                    Cell::Int(p) => p,
-                    _ => 0,
+        for page_id in pages {
+            let slots = {
+                let page = self.pages.page(page_id);
+                Db::page_slot_count(page)
+            };
+            let mut hit: Vec<(usize, i64)> = Vec::new();
+            for slot in 0..slots {
+                let off = match self.read_row(page_id, slot) {
+                    Some(r) => r.off,
+                    None => continue,
                 };
-                targets.push((page, slot, pk));
+                let bytes = {
+                    let page = self.pages.page(page_id);
+                    page[off..].to_vec()
+                };
+                let row = self.decode_row(&t, &bytes);
+                if self.matches(&t, &row, filter)? {
+                    let pk = match row.values[t.pk] {
+                        Cell::Int(p) => p,
+                        _ => 0,
+                    };
+                    hit.push((slot, pk));
+                }
             }
-        }
-        for (_, _, pk) in &targets {
-            self.pk_maps[ti].remove(pk);
-            if let Some(idx) = self.vec_idx[ti].as_mut() {
-                idx.remove(*pk);
+            for (slot, pk) in hit {
+                self.record_undo(page_id);
+                let page = self.pages.page_mut(page_id);
+                Db::set_slot_off(page, slot, 0);
+                self.pk_maps[ti].remove(&pk);
+                if let Some(idx) = self.vec_idx[ti].as_mut() {
+                    idx.remove(pk);
+                }
+                affected += 1;
             }
-        }
-        for (page_id, slot, _) in &targets {
-            self.record_undo(*page_id);
-            let page = self.pages.page_mut(*page_id);
-            Db::set_slot_off(page, *slot, 0);
         }
         self.auto_commit()?;
-        Ok(ExecResult::Affected(targets.len() as i64))
+        Ok(ExecResult::Affected(affected))
+    }
+
+    fn page_chain(&mut self, t: &Table) -> Vec<u32> {
+        let mut out = Vec::new();
+        let mut page_id = t.root;
+        while page_id != 0 {
+            out.push(page_id);
+            let next = {
+                let page = self.pages.page(page_id);
+                read_u32(page, 4)
+            };
+            page_id = next;
+        }
+        out
     }
 
     fn update(&mut self, table: &str, sets: &[(String, Value)], filter: Option<&Expr>) -> Result<ExecResult> {
@@ -1111,53 +1181,83 @@ impl Db {
             }
             set_cols.push((idx, self.coerce(&t, idx, v)?));
         }
-        let rows = match self.pk_point_lookup(ti, &t, filter) {
-            Some(loc) => self.read_rows_at(&t, &[loc]),
-            None => self.scan(&t),
-        };
-        let mut targets = Vec::new();
-        for (page, slot, row) in rows {
-            if self.matches(&t, &row, filter)? {
-                targets.push((page, slot, row));
-            }
-        }
         let mut affected: i64 = 0;
-        for (page_id, slot, mut row) in targets {
-            let before = row.values.clone();
-            for (idx, cell) in &set_cols {
-                row.values[*idx] = cell.clone();
-            }
-            if row.values == before {
-                continue; // 值未变化：不计入 affected_rows
-            }
-            affected += 1;
-            let bytes = self.encode_row(&t, &row.values)?;
-            // rewrite in place is not possible if size changes; append new row and repoint slot
-            let appended = self.append_on_page(page_id, &bytes);
-            match appended {
-                Some(off) => {
-                    let page = self.pages.page_mut(page_id);
-                    Db::set_slot_off(page, slot, off);
+        let pages: Vec<u32> = match self.pk_point_lookup(ti, &t, filter) {
+            Some((page, _)) => vec![page],
+            None => self.page_chain(&t),
+        };
+        for page_id in pages {
+            let slots = {
+                let page = self.pages.page(page_id);
+                Db::page_slot_count(page)
+            };
+            // 先挑出本页命中的槽位，再统一改写（避免边遍历边改页）
+            let mut hits: Vec<(usize, Row)> = Vec::new();
+            for slot in 0..slots {
+                let off = match self.read_row(page_id, slot) {
+                    Some(r) => r.off,
+                    None => continue,
+                };
+                let bytes = {
+                    let page = self.pages.page(page_id);
+                    page[off..].to_vec()
+                };
+                let row = self.decode_row(&t, &bytes);
+                if self.matches(&t, &row, filter)? {
+                    hits.push((slot, row));
                 }
-                None => {
-                    // 本页放不下：新页写入，旧槽位作废，主键定位改到新页
-                    let newp = self.new_page();
-                    let last = self.tables[ti].last;
-                    {
-                        let prev = self.pages.page_mut(last);
-                        write_u32(prev, 4, newp);
+            }
+            for (slot, mut row) in hits {
+                let before = row.values.clone();
+                for (idx, cell) in &set_cols {
+                    row.values[*idx] = cell.clone();
+                }
+                if row.values == before {
+                    continue;
+                }
+                affected += 1;
+                let bytes = self.encode_row(&t, &row.values)?;
+                match self.append_on_page(page_id, &bytes) {
+                    Some(off) => {
+                        let page = self.pages.page_mut(page_id);
+                        Db::set_slot_off(page, slot, off);
                     }
-                    self.tables[ti].last = newp;
-                    self.flush_catalog_into_page();
-                    let slot2 = self
-                        .insert_row_into_page(newp, &bytes)
-                        .ok_or_else(|| DbError::new("io_error", "page full"))?;
-                    {
-                        let old = self.pages.page_mut(page_id);
-                        Db::set_slot_off(old, slot, 0);
+                    None => {
+                        // 本页放不下：写到新页，旧槽位作废
+                        let newp = self.new_page();
+                        let last = self.tables[ti].last;
+                        {
+                            let prev = self.pages.page_mut(last);
+                            write_u32(prev, 4, newp);
+                        }
+                        self.tables[ti].last = newp;
+                        self.flush_catalog_into_page();
+                        let slot2 = self
+                            .insert_row_into_page(newp, &bytes)
+                            .ok_or_else(|| DbError::new("io_error", "page full"))?;
+                        {
+                            let old = self.pages.page_mut(page_id);
+                            Db::set_slot_off(old, slot, 0);
+                        }
+                        if let Cell::Int(pk) = row.values[t.pk] {
+                            self.pk_maps[ti].insert(pk, (newp, slot2 as u16));
+                        }
                     }
+                }
+                if set_cols.iter().any(|(i, _)| Some(*i) == self.tables[ti].vec_index_col) {
                     if let Cell::Int(pk) = row.values[t.pk] {
-                        self.pk_maps[ti].insert(pk, (newp, slot2 as u16));
+                        if let Some(vcol) = self.tables[ti].vec_index_col {
+                            let v = match &row.values[vcol] {
+                                Cell::Vec(v) => Some(v.clone()),
+                                _ => None,
+                            };
+                            if let Some(idx) = self.vec_idx[ti].as_mut() {
+                                idx.remove(pk);
+                                if let Some(v) = v {
+                                    idx.add(pk, &v);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1353,6 +1453,7 @@ impl Db {
                     if let Some(idx) = t.cols.iter().position(|c| c.name.eq_ignore_ascii_case(col)) {
                         (OrderKey::Column(idx), *asc)
                     } else {
+                        let mut matched = false;
                         let mut found: Option<OrderKey> = None;
                         for item in items {
                             if let SelectItem::L2 { col: vcol, target, alias } = item {
@@ -1371,7 +1472,12 @@ impl Db {
                                 }
                             }
                         }
-                        (found.unwrap_or(OrderKey::Column(0)), *asc)
+                        if found.is_none() {
+                            return Err(DbError::new("column_not_found", "ORDER BY column not found"));
+                        }
+                        let _ = matched;
+                        matched = true;
+                        (found.unwrap(), *asc)
                     }
                 }
             };
@@ -1444,7 +1550,10 @@ impl Db {
         if !used_ann {
             let scanned = match self.pk_point_lookup(ti, t, filter) {
                 Some(loc) => self.read_rows_at(t, &[loc]),
-                None => self.scan(t),
+                None => match (order_specs.is_empty(), limit) {
+                    (true, Some(n)) if n > 0 => self.scan_limited(t, filter, n)?,
+                    _ => self.scan(t),
+                },
             };
             for (page, slot, row) in scanned {
                 if !self.matches(t, &row, filter)? {

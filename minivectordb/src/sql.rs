@@ -12,6 +12,7 @@ pub struct ColumnDef {
     pub name: String,
     pub ty: ColType,
     pub primary: bool,
+    pub not_null: bool,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -407,17 +408,20 @@ impl Parser {
                 }
                 other => return Err(format!("unsupported type {}", other)),
             };
-            // 容忍 NOT NULL / NULL 修饰（本题不要求 NULL 语义）
-            let _ = self.eat_kw("NOT") && self.eat_kw("NULL");
-            if self.peek() == &Tok::Ident("NULL".to_string()) {
-                self.pos += 1;
+            // NOT NULL 修饰：记录并执行
+            let mut not_null = false;
+            if self.eat_kw("NOT") {
+                self.expect_kw("NULL")?;
+                not_null = true;
+            } else if self.eat_kw("NULL") {
+                not_null = false;
             }
             let mut primary = false;
             if self.eat_kw("PRIMARY") {
                 self.expect_kw("KEY")?;
                 primary = true;
             }
-            cols.push(ColumnDef { name: col_name, ty, primary });
+            cols.push(ColumnDef { name: col_name, ty, primary, not_null });
             if !self.eat_punc(',') {
                 break;
             }
